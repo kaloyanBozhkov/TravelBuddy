@@ -1,0 +1,88 @@
+@import 'scss/variables.scss';
+@import 'scss/mixins.scss';
+
+$headerHeight: 3.875rem;//62px
+
+@keyframes slideIn{
+    0%{
+        opacity: 0;
+        top: -$headerHeight;
+    }
+
+    100%{
+        opacity: 1;
+        top: 0;
+    }
+}
+
+
+@keyframes driveIn{
+    0%{
+        opacity: 0;
+        left: -155px;
+    }
+
+    60%{
+        transform: rotate(0deg);
+    }
+
+    70%{
+        opacity: 1;
+        transform: rotate(-5deg);
+        top:0;
+    }
+
+    100%{
+        opacity: 1;
+        left: 20px;
+        transform: rotate(-5deg);
+        top:-5px;
+    }
+}
+
+.header{
+    position: relative;
+    top: -$headerHeight;
+    opacity:0;
+
+    height: $headerHeight; 
+    border-bottom: 2px solid $orange;
+    background-color:white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    @include boxShadow(0, 4px, 4px, 0, 0.1);
+    @include animate(slideIn, .4s);
+
+
+    .logoArea {
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+
+        left: -155px;
+        opacity: 0;
+
+        @include animate(driveIn, 1s, .3s);
+        
+        > svg {
+            position: relative;
+            transition: .4s;
+            top:0;
+        }
+
+        &:hover {
+            cursor: pointer;
+            > svg{
+                transform: rotate(5deg);
+                top:4px
+            }
+        }
+    }
+
+
+    .buttonArea{
+
+    }
+}
