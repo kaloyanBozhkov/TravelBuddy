@@ -1,3 +1,3 @@
 ## TravelBuddy
 
-Dissertation Project final year university, work in progress.
+Dissertation project final year university, work in progress.
