@@ -2,9 +2,9 @@ import React from 'react'
 
 import styles from './button.module.scss'
 
-import Icon from 'components/UI/Icons/Icon'
+import Icon from 'components/UI/Icon/Icon'
 
-const Button = ({ label, active = false, className = [], iconName = null, onClick=f=>f}) => {
+const Button = ({ label, active = false, className = [], icon = null }) => {
 
     const elementClass = [
         styles.button,
@@ -14,14 +14,10 @@ const Button = ({ label, active = false, className = [], iconName = null, onClic
 
     return (
         <div className={elementClass}>
-            {
-                iconName && <Icon
-                iconName={iconName}
-            />
-            }
-            <button onClick={onClick}>
-                {label}
-            </button>
+            { icon && <Icon icon={icon} /> }
+            <p> {label} </p>
         </div>
     )
 }
+
+export default Button

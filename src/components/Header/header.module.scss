@@ -1,7 +1,7 @@
 @import 'scss/variables.scss';
 @import 'scss/mixins.scss';
 
-$headerHeight: 3.875rem;//62px
+$headerHeight: 6.2rem;//62px
 
 @keyframes slideIn{
     0%{
@@ -60,6 +60,7 @@ $headerHeight: 3.875rem;//62px
         position: relative;
         display: flex;
         align-items: flex-end;
+        height:100%;
 
         left: -155px;
         opacity: 0;
@@ -67,6 +68,7 @@ $headerHeight: 3.875rem;//62px
         @include animate(driveIn, 1s, .3s);
         
         > svg {
+            height:90%;
             position: relative;
             transition: .4s;
             top:0;
@@ -76,13 +78,27 @@ $headerHeight: 3.875rem;//62px
             cursor: pointer;
             > svg{
                 transform: rotate(5deg);
-                top:4px
+                top:0.4rem;
             }
         }
     }
 
 
     .buttonArea{
+        display: flex;
+        flex-direction: row;
 
+        > a  > div {
+            width: 12rem;
+            height: 100%;
+            > div[icon] {
+                font-size:3.6rem;
+            }
+
+            > p{
+                font-family: 'Shwifty';
+                font-size:1.8rem;
+            }
+        }
     }
 }

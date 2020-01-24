@@ -1,12 +1,18 @@
 import React from 'react';
+import { BrowserRouter, Redirect } from 'react-router-dom'
 
-import Header from 'components/Header/Header'
+import Header from './Header'
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <Header />
+
+        {/* redirect to /home if user navigates to / */}
+        <Redirect from="/" to="/home" />
+      </div>
+    </BrowserRouter>
   );
 }
 

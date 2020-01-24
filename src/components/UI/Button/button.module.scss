@@ -1,0 +1,46 @@
+@import 'scss/variables.scss';
+@import 'scss/mixins.scss';
+
+.button{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white; 
+    transition: .3s;
+
+    > p, > div {
+        transition: .3s;
+        color: $orange;
+        cursor:pointer;
+    }
+
+    > div {
+        transform-origin: bottom;
+    }
+    > p {
+        transform-origin: top;
+    }
+    &:hover {
+        > p, > div {
+            transform: scale(0.9);
+        }
+        > p {
+            text-shadow: 0 0 4px rgba(0, 0, 0, .2);
+        }
+        @include insetShadow(0, 0, 4px, 0, .3);
+    }
+
+    &.active{
+        background-color: $light-orange;
+
+        > p, > div {
+            color: white;
+        }
+
+        > p {
+            text-shadow: 0 0 4px rgba(0, 0, 0, .2);
+        }
+        @include insetShadow(0, 0, 4px, 0, .2);
+    }
+}

@@ -1,15 +1,30 @@
+@import './mixins.scss';
+
 * {
     margin: 0;
     padding: 0;
 }
 
 html, body {
-    font-size: 16px;
+    font-size: 8px;
+    @include mediaQuery(xl) {
+        font-size: 10px;
+    }
+
+    @include mediaQuery(lg) {
+        font-size: 10px;
+    }
+}
+
+html {
+    font-family: 'Kanit';
+    font-weight: normal;
 }
 
 button {
     outline: none;
     background: none;
+    border: none;
 }
 
 a {

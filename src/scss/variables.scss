@@ -1,2 +1,27 @@
 $orange: #E8B558;
-$light-orange: lighten($orange, 35%);
+$light-orange: lighten($orange, 27%);
+
+
+@font-face{
+    font-family: 'Shwifty';
+    src: url('../assets/fonts/ChauPhilomeneOne-Regular.ttf');
+    font-style: normal;
+}
+
+@font-face{
+    font-family: 'Kanit';
+    font-weight: lighter;
+    src: url('../assets/fonts/Kanit-Light.ttf');
+}
+
+@font-face{
+    font-family: 'Kanit';
+    font-weight: normal;
+    src: url('../assets/fonts/Kanit-Regular.ttf');
+}
+
+@font-face{
+    font-family: 'Kanit';
+    font-weight: bold;
+    src: url('../assets/fonts/Kanit-Bold.ttf');
+}
