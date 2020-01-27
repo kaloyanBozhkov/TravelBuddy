@@ -25,9 +25,6 @@
         > p, > div {
             transform: scale(0.9);
         }
-        > p {
-            text-shadow: 0 0 4px rgba(0, 0, 0, .2);
-        }
         @include insetShadow(0, 0, 4px, 0, .3);
     }
 

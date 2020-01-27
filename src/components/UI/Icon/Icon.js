@@ -7,7 +7,9 @@ import {
     FaHome,
     FaPlane,
     FaUserCircle,
-
+    FaExpand,
+    FaCompress,
+    
     FaBars, 
     FaSearch, 
     FaTimes, 
@@ -38,7 +40,10 @@ const Icon = (props) => {
                 }}/>
             case 'userCircle':
                 return <FaUserCircle />
-
+            case 'expand':
+                return <FaExpand />
+            case 'compress':
+                return <FaCompress />
 
             case 'bars':
                 return <FaBars />

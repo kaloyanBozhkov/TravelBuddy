@@ -1,0 +1,105 @@
+@import 'scss/mixins.scss';
+@import 'scss/variables.scss';
+
+@keyframes slideInWithOpacity {
+    0%{
+        opacity: 0;
+        height: 100vh;
+        top:-6.2rem;
+        margin-bottom:-6.2rem;
+    }
+    
+    20%{
+        opacity: 1;
+        top:0;
+        margin-bottom:0;
+    }
+    
+    100%{
+        top:0;
+        height:35rem;
+        margin-bottom:0;
+    }
+}
+
+@keyframes globeAdjustInitially {
+    0%{
+        transform: translateY(0)
+    }
+    
+    100%{
+        transform: translateY(28%)
+    }
+}
+
+
+.worldArea{
+    position: relative;
+    width: 100%;
+    height: 35rem;
+    top:0;
+    opacity: 1;
+
+    z-index: 0;
+
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: $soft-blue;
+
+    transition: 4s;
+
+    > div:last-of-type{
+      transition: 4s;
+      transform: translateY(28%)
+    }
+
+    > div:first-of-type {
+        margin-top: 0;
+        transition: 4s;
+    }
+    &:not(.expanded):not(.compressed){//on first load
+        animation-name: slideInWithOpacity;
+        animation-duration: 4s;
+        animation-fill-mode: forwards;
+        > div:last-of-type {
+            animation-name: globeAdjustInitially;
+            animation-duration: 4s;
+        }
+    }
+
+
+    &.compressed {
+
+        top:0;
+        height:35rem;
+        margin-bottom:0;
+
+      //  animation-name: Compress;
+      //worldarea_worldArea__3MZGv worldarea_expanded__2tMSX
+        > div:last-of-type {
+            transform: translateY(28%)
+        }
+
+
+    }
+
+    &.expanded{
+        //animation-name: Expand;
+
+        height: 100vh;
+        top: -6.2rem;
+        margin-bottom:-6.2rem;
+        
+        > div:first-of-type {
+            margin-top: 6.2rem
+        }
+        > div:last-of-type {
+           transform: translateY(0)
+        }
+    }
+    
+
+}

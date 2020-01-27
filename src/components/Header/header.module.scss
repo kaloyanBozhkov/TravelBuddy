@@ -44,7 +44,7 @@ $headerHeight: 6.2rem;//62px
     position: relative;
     top: -$headerHeight;
     opacity:0;
-
+    z-index: 2;
     height: $headerHeight; 
     border-bottom: 2px solid $orange;
     background-color:white;
