@@ -20,8 +20,15 @@ const WorldArea = () => {
 
     return (
         <div className={worldAreaClasses}>
-            <ExpandButton expanded={expanded} onClick={() =>  setExpanded(!expanded)} />
-            <Globe />
+            <div className={styles.content}>
+                {/* if still animating entrance (expanded === null), do now show expanded button */}
+                { expanded !== null && <ExpandButton expanded={expanded} onClick={() =>  setExpanded(!expanded)} /> }
+                <Globe />
+            </div>
+            <div className={styles.backgroundClouds}>
+                <div></div>
+                <div></div>
+            </div>
         </div>
     )
 }

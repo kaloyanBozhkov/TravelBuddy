@@ -11,6 +11,10 @@ const width = 305
 const height = 305
 const scale = 152.5
 
+const countryClicked = (data) => {
+    console.log(data)
+}
+
 const drawWorld = (ref, geoGenerator) => {
     //draws the paths from the world geoJson
     d3.select(ref.current)
@@ -20,6 +24,8 @@ const drawWorld = (ref, geoGenerator) => {
         .enter()
         .append('path')
         .attr('d', geoGenerator)
+        .on('click', countryClicked)
+
 }
 
 const Globe = () => {

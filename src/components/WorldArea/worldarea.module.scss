@@ -32,7 +32,41 @@
     }
 }
 
+@keyframes expandButtonEntrance {
+    0%{
+        transform: scale(0);
+        opacity:0;
+    }
+    
+    100%{
+        transform: scale(1);
+        opacity:1;
+    }
+}
 
+@keyframes backgroundEntrance {
+    0%{
+        opacity:0;
+    }
+    
+    40% {
+        opacity: 0;
+    }
+
+    100%{
+        opacity:1;
+    }
+}
+
+@keyframes backgroundCloudsMove {
+    0%{
+        transform: translateX(0)
+    }
+
+    100%{
+        transform: translateX(-100%)
+    }
+}
 .worldArea{
     position: relative;
     width: 100%;
@@ -51,20 +85,50 @@
 
     transition: 4s;
 
-    > div:last-of-type{
-      transition: 4s;
-      transform: translateY(28%)
+    > .backgroundClouds {
+        width:100%;
+        height:100%;
+        position:absolute;
+        z-index: -1;
+        white-space: nowrap;
+
+        animation-name: backgroundCloudsMove;
+        animation-iteration-count: infinite;
+        animation-duration: 8s;
+        animation-timing-function: linear;
+        > div {
+            width:100%;
+            height:100%;
+            display: inline-block;
+            background-image: url('../../assets/clouds.png');
+            background-repeat: repeat;
+            background-size: cover;
+            
+            animation-name: backgroundEntrance;
+            animation-fill-mode: forwards;
+            animation-duration: 8s;
+        }
+        
     }
 
-    > div:first-of-type {
-        margin-top: 0;
-        transition: 4s;
+    > .content {
+        > div:last-of-type{
+            transition: 4s;
+            transform: translateY(28%)
+          }
+      
+          > div:first-of-type {
+              margin-top: 0;
+              transition: 4s;
+              animation-name: expandButtonEntrance;
+              animation-duration: .4s;
+          }
     }
     &:not(.expanded):not(.compressed){//on first load
         animation-name: slideInWithOpacity;
         animation-duration: 4s;
         animation-fill-mode: forwards;
-        > div:last-of-type {
+        > .content > div:last-of-type {
             animation-name: globeAdjustInitially;
             animation-duration: 4s;
         }
@@ -77,13 +141,11 @@
         height:35rem;
         margin-bottom:0;
 
-      //  animation-name: Compress;
-      //worldarea_worldArea__3MZGv worldarea_expanded__2tMSX
-        > div:last-of-type {
-            transform: translateY(28%)
+        > .content {
+            > div:last-of-type {
+                transform: translateY(28%)
+            }
         }
-
-
     }
 
     &.expanded{
@@ -92,12 +154,13 @@
         height: 100vh;
         top: -6.2rem;
         margin-bottom:-6.2rem;
-        
-        > div:first-of-type {
-            margin-top: 6.2rem
-        }
-        > div:last-of-type {
-           transform: translateY(0)
+        > .content {
+            > div:first-of-type {
+                margin-top: 6.2rem
+            }
+            > div:last-of-type {
+               transform: translateY(0)
+            }
         }
     }
     
