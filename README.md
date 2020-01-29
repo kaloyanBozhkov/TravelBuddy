@@ -1,3 +1,4 @@
 ## TravelBuddy
 
-Travel application written in React JS v16+, work in progress.
+Travel application, work in progress.
+React JS, D3, ES6..
