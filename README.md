@@ -1,3 +1,3 @@
 ## TravelBuddy
 
-Dissertation project final year university, work in progress.
+Travel application written in React JS v16+, work in progress.
