@@ -26,6 +26,14 @@
     -moz-box-shadow: $x $y $blur $spread rgba(0,0,0,$opacity);
     -o-box-shadow: $x $y $blur $spread rgba(0,0,0,$opacity);
 }
+
+@mixin boxShadowMultiple($value...) {
+    box-shadow: $value;
+    -webkit-box-shadow: $value;
+    -moz-box-shadow: $value;
+    -o-box-shadow: $value;
+}
+
 @mixin insetShadow($x, $y, $blur, $spread, $opacity) {
     box-shadow: inset $x $y $blur $spread rgba(0,0,0,$opacity);
     -webkit-box-shadow: inset $x $y $blur $spread rgba(0,0,0,$opacity);

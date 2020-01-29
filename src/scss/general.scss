@@ -6,6 +6,8 @@
 }
 
 html, body {
+    height:100%;
+    width:100%;
     font-size: 8px;
     @include mediaQuery(xl) {
         font-size: 10px;
@@ -30,4 +32,14 @@ button {
 a {
     text-decoration: none;
     color: inherit;
+}
+
+#root {
+    height:100%;
+    width:100%;
+
+    .App {
+        height: 100%;
+        width:100%;
+    }
 }

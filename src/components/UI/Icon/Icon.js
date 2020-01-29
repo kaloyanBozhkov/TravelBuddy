@@ -9,6 +9,11 @@ import {
     FaUserCircle,
     FaExpand,
     FaCompress,
+    FaMapMarkerAlt,
+    FaEnvelope,
+    FaPhone,
+    FaLinkedin,
+    FaGitSquare,
     
     FaBars, 
     FaSearch, 
@@ -44,7 +49,18 @@ const Icon = (props) => {
                 return <FaExpand />
             case 'compress':
                 return <FaCompress />
+            case 'mapMarkerAlt':
+                return <FaMapMarkerAlt />
+            case 'envelope':
+                return <FaEnvelope />
+            case 'phone':
+                return <FaPhone />
+            case 'github':
+                return <FaGitSquare />
+            case 'linkedin':
+                return <FaLinkedin />
 
+                
             case 'bars':
                 return <FaBars />
             case 'search':

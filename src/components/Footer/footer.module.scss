@@ -1,0 +1,46 @@
+@import 'scss/variables.scss';
+@import 'scss/mixins.scss';
+
+.footer {
+    background-color:$orange;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    height:15rem;
+
+
+    > div > div, > a > div {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        flex-direction: column;
+      
+
+        padding: 3rem;
+        max-width: 20rem;
+        height: 100%;
+        box-sizing: border-box;
+
+        > div {
+            font-size: 3.6rem;
+        }
+
+        > p {
+            font-size: 1.4rem;
+            text-align: center;
+        }
+
+        > p, > div {
+            color: white;
+        }
+    }
+
+    @include mediaQuery(xs) {
+        height:auto;
+        flex-direction: column;
+        
+        > div > div, > a > div {
+            max-width: 100%;
+        }
+    }
+}

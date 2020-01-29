@@ -1,0 +1,38 @@
+@import 'scss/mixins.scss';
+
+.bottomArea {
+    flex:1;
+    display:flex;
+    justify-content: center;
+
+    background-image: url('../../assets/seamless.png');
+    background-repeat: repeat;
+    background-size: 10%;
+
+    z-index: -1;
+
+    .container {
+        background-color:white;
+        width: 600px;
+        max-width: 90%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        @include boxShadow(0, 0, 10px, 0, .15);
+        > p {
+            color: rgba(0, 0, 0, 0.55);
+            padding: 4rem;
+            font-size:1.8rem;
+        }
+        > div {
+            font-family: 'Shwifty', 'Kanit';
+            font-size: 3.6rem;
+            width: 38rem;
+            height:6rem;
+            box-sizing: border-box;
+            margin-bottom:4rem;
+        }
+    }
+}

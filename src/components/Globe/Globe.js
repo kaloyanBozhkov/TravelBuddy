@@ -27,7 +27,6 @@ const drawWorld = (ref, geoGenerator) => {
         .append('path')
         .attr('d', geoGenerator)
         .on('click', countryClicked)
-
 }
 
 const Globe = () => {
@@ -46,18 +45,6 @@ const Globe = () => {
     const geoGenerator = d3.geoPath()
         .projection(projection)
 
-    //on rotation update
-    useEffect(() => {
-        //clear paths and re-draw them
-        d3.select(svgDiv.current)
-        .select('svg')
-        .selectAll('path')
-        .remove()
-
-        //draw paths
-        drawWorld(svgDiv, geoGenerator)
-    }, [rotation])
-
     //on update ref from null
     useEffect(() => {
     //create svg for first time
@@ -69,6 +56,18 @@ const Globe = () => {
         //draw paths
         drawWorld(svgDiv, geoGenerator)
     }, [svgDiv])
+
+    //on rotation update
+    useEffect(() => {
+        //clear paths and re-draw them
+        d3.select(svgDiv.current)
+        .select('svg')
+        .selectAll('path')
+        .remove()
+
+        //draw paths
+        drawWorld(svgDiv, geoGenerator)
+    }, [rotation])
 
     //on rotation bool change, enable/disable auto rotating
     useEffect(() => {
@@ -102,7 +101,7 @@ const Globe = () => {
                 /* If dragging the globe, rotate it! */
                 onMouseMove={(e) => {
                     if (rotating) {
-                        //rotate based on mouse movement and what the current zoom is on the globe
+                        //rotate based on mouse movement, slowed down based on what the current zoom is on the globe
                         setRotation([
                             rotation[0] + ((e.movementX * 0.5) / (scaleZoom > 1 ? scaleZoom : 1)), 
                             rotation[1] - ((e.movementY * 0.5) / (scaleZoom > 1 ? scaleZoom : 1))
