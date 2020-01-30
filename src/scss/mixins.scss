@@ -62,5 +62,9 @@
         @media screen and (min-width: 1200px) {
             @content;
         }
+    } @else if $size == mdOrBelow {
+        @media screen and (max-width: 991px) {
+            @content;
+        }
     }
 }

@@ -13,13 +13,13 @@ const Footer = ({ footerSections = [] }) => {
                         case 'link': 
                             return (
                                 <a key={i} href={href}>
-                                    <Button label={text} icon={icon} modifier='defaultInverse' />
+                                    <Button label={text} icon={icon} modifier="defaultInverse" />
                                 </a>
                             )
                         default: 
                             return (
                                 <div key={i}>
-                                    <Button label={text} icon={icon} modifier='defaultInverse' hoverable={false} />
+                                    <Button label={text} icon={icon} modifier="defaultInverse" notHoverable />
                                 </div>
                             )
                     }

@@ -15,11 +15,11 @@ function App() {
         <Header />
 
         <Switch>
-          <Route path='/home' exact component={Home} />
-          <Route path='/new' exact component={NewTrip} />
-          <Route path='/account' exact component={Account} />
+          <Route path="/home" exact component={Home} />
+          <Route path="/new" exact component={NewTrip} />
+          <Route path="/account" exact component={Account} />
           {/* redirect to /home if user navigates to any other page */}
-          <Route path='/' render={() => <Redirect to="/home" />} />
+          <Route path="/" render={() => <Redirect to="/home" />} />
         </Switch>
 
         <Footer/>

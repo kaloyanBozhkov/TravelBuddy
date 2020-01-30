@@ -134,7 +134,7 @@ const Globe = () => {
             />
             
             {/* The rotating decoration behind the globe */}
-            <img src={backgroundWorld} alt='World' className={hovering ? 'hovering' : ''} />
+            <img src={backgroundWorld} alt="World" className={hovering ? 'hovering' : ''} />
         </div>
     )
 }

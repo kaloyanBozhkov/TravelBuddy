@@ -22,12 +22,7 @@ const HeaderContainer = () => {
     ]
 
 
-    return (
-        <Header 
-            buttonDefinitions={buttonDefinitions}
-        />
-    )
-
+    return (<Header buttonDefinitions={buttonDefinitions} />)
 }
 
 export default HeaderContainer

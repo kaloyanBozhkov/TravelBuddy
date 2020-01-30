@@ -1,0 +1,104 @@
+@import 'scss/mixins.scss';
+@import 'scss/variables.scss';
+
+@keyframes animateInLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-100%)
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0)
+    }
+}
+@keyframes animateInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(100%)
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0)
+    }
+}
+.informationSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 100rem;
+    margin: 0 auto;
+    padding: 4rem;
+    box-sizing: border-box;
+    
+    > img {
+        width:30rem;
+        transition: .3s;
+        &:hover{
+            transform: scale(1.1)
+        }
+    }
+    > div {
+        max-width: 50%;
+        font-size: 1.8rem;
+        color: rgba(0, 0, 0, 0.65);
+        > h1 {
+            color: $orange;
+            text-shadow: 1px 1px 2px rgb(10, 10, 10);
+        }
+        > p {
+            font-weight: 100;
+        }
+    }
+
+    &:not(.reverseOrder) {
+        > img {
+            margin-right:2rem;
+        }
+        > div {
+            margin-left:2rem;
+        }
+    }
+
+    &.reverseOrder{
+        flex-direction: row-reverse;
+        > img {
+            margin-left:2rem;
+        }
+        > div {
+            margin-right:2rem;
+        }
+    }
+
+    
+    @include mediaQuery(mdOrBelow) {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        
+        animation-duration: 1s;
+        animation-fill-mode: forwards;
+
+        > div {
+            max-width: 100%;
+            margin-top:4rem;
+        }
+
+        &:not(.reverseOrder){
+            animation-name: animateInRight;
+        }
+
+        &.reverseOrder{
+            flex-direction: column;
+            animation-name: animateInLeft;
+        }
+
+        @for $i from 1 through 4 {
+            &:nth-child(#{$i}){
+                
+            animation-delay: $i * 1s;
+            }
+        }
+    }
+
+}
