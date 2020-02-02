@@ -19,13 +19,14 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-
+        padding: 4rem 0;
         @include boxShadow(0, 0, 10px, 0, .15);
         > p {
             color: rgba(0, 0, 0, 0.55);
             padding: 4rem;
             font-size:1.8rem;
             font-weight: 100;
+            text-align: justify;
         }
         > div {
             font-family: 'Shwifty', 'Kanit';

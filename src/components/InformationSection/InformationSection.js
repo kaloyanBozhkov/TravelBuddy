@@ -2,10 +2,11 @@ import React from 'react'
 
 import styles from './informationsection.module.scss'
 
-const InformationSection = ({ title, text, image, imageAlt, imgFirst = true }) => {
+const InformationSection = ({ title, text, image, imageAlt, imgFirst = true, imageWhiteBackground = false }) => {
     const wrapperClasses = [
         styles.informationSection,
-        ...(imgFirst ? [] : [styles.reverseOrder])
+        ...(imgFirst ? [] : [styles.reverseOrder]),
+        ...(imageWhiteBackground ? [styles.imageWhiteBackground] : [])
     ].join(' ')
 
     return (
