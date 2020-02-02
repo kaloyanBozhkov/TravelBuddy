@@ -17,9 +17,9 @@ const countryClicked = (data) => {
 
 }
 
-const drawWorld = (ref, geoGenerator) => {
+const drawWorld = (div, geoGenerator) => {
     //draws the paths from the world geoJson
-    d3.select(ref.current)
+    d3.select(div)
     .select('svg')
     .selectAll('path')
     .data(WorldJsonData.features)
@@ -36,26 +36,32 @@ const Globe = () => {
     const [rotation, setRotation] = useState([10, -20])
     const [scaleZoom, setScaleZoom] = useState(1)
 
-    //calculate projection & generator
-    const projection = d3.geoOrthographic()
-    .scale(scale)
-    .translate([width / 2, height / 2])
-    .rotate(rotation);
-
-    const geoGenerator = d3.geoPath()
-        .projection(projection)
-
-    //on update ref from null
+    //persistant objects, that should not cause re-render if changed
+    const projection = useRef()
+    const geoGenerator = useRef()
+    
+    //calculate projection & geoGenerator when rotation changes
     useEffect(() => {
-    //create svg for first time
-    d3.select(svgDiv.current)
+        projection.current = (d3.geoOrthographic()
+        .scale(scale)
+        .translate([width / 2, height / 2])
+        .rotate(rotation))
+     
+        geoGenerator.current = (d3.geoPath()
+        .projection(projection.current))
+    }, [rotation])
+
+    //on first render
+    useEffect(() => {
+        //create svg for first time
+        d3.select(svgDiv.current)
         .append('svg')
         .attr('width', width)
         .attr('height', height)
         
         //draw paths
-        drawWorld(svgDiv, geoGenerator)
-    }, [svgDiv])
+        drawWorld(svgDiv.current, geoGenerator.current)
+    }, [])
 
     //on rotation update
     useEffect(() => {
@@ -66,7 +72,7 @@ const Globe = () => {
         .remove()
 
         //draw paths
-        drawWorld(svgDiv, geoGenerator)
+        drawWorld(svgDiv.current, geoGenerator.current)
     }, [rotation])
 
     //on rotation bool change, enable/disable auto rotating

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 
 //improt styles
 import styles from './homepage.module.scss'
