@@ -1,10 +1,10 @@
 import React from 'react'
 
 //import components
-import WorldArea from 'components/WorldArea/WorldArea'
-import Strip from 'components/Strip/Strip'
-import WelcomeArea from 'components/WelcomeArea/WelcomeArea'
-import HomePage from 'components/HomePage/HomePage'
+import WorldArea from '~/components/Home/WorldArea/WorldArea'
+import Strip from '~/components/UI/Strip/Strip'
+import WelcomeArea from '~/components/Home/WelcomeArea/WelcomeArea'
+import HomePage from '~/components/Home/HomePage/HomePage'
 
 
 const Home = () => {

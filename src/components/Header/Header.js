@@ -4,11 +4,11 @@ import CSSTransition from 'react-transition-group/CSSTransition'
 
 import styles from './header.module.scss'
 
-import useWindowWidth from 'hooks/useWindowWidth'
+import useWindowWidth from '~/hooks/useWindowWidth'
 
-import { ReactComponent as LogoSvg } from 'assets/logo.svg'
-import Icon from 'components/UI/Icon/Icon'
-import Button from 'components/UI/Button/Button'
+import { ReactComponent as LogoSvg } from '~/assets/logo.svg'
+import Icon from '~/components/UI/Icon/Icon'
+import Button from '~/components/UI/Button/Button'
 
 const Header = ({ buttonDefinitions, location: { pathname: pathName }}) => {
     const windowWidth = useWindowWidth()

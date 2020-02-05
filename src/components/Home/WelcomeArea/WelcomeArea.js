@@ -4,7 +4,7 @@ import React from 'react'
 import styles from './welcomearea.module.scss'
 
 //import components
-import Button from 'components/UI/Button/Button'
+import Button from '~/components/UI/Button/Button'
 
 const WelcomeArea = () => {
     return ( 

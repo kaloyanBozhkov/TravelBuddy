@@ -4,23 +4,23 @@ import React from 'react'
 import styles from './homepage.module.scss'
 
 //import components
-import InformationSection from 'components/InformationSection/InformationSection'
+import InformationSection from '~/components/Home/InformationSection/InformationSection'
 
 //import hooks
-import useWindowWidth from 'hooks/useWindowWidth'
+import useWindowWidth from '~/hooks/useWindowWidth'
 
 //import images
-import airplaneImg from 'assets/airplane.png'
-import allInOnePlace from 'assets/allInOnePlace.png'
-import cube from 'assets/cube.png'
-import socialSecurity from 'assets/socialSecurity.png'
-import laptop from 'assets/laptop.png'
-import laptopAndLine from 'assets/laptopAndLine.png'
-import {ReactComponent as Line} from 'assets/line.svg'
-import googleLogo from 'assets/googleLogo.png'
-import firebaseLogo from 'assets/firebaseLogo.png'
-import herokuLogo from 'assets/herokuLogo.png'
-import reactLogo from 'assets/reactLogo.png'
+import airplaneImg from '~/assets/airplane.png'
+import allInOnePlace from '~/assets/allInOnePlace.png'
+import cube from '~/assets/cube.png'
+import socialSecurity from '~/assets/socialSecurity.png'
+import laptop from '~/assets/laptop.png'
+import laptopAndLine from '~/assets/laptopAndLine.png'
+import {ReactComponent as Line} from '~/assets/line.svg'
+import googleLogo from '~/assets/googleLogo.png'
+import firebaseLogo from '~/assets/firebaseLogo.png'
+import herokuLogo from '~/assets/herokuLogo.png'
+import reactLogo from '~/assets/reactLogo.png'
 
 const infoSections = [
     {

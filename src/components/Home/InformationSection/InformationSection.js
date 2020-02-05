@@ -25,7 +25,7 @@ export default InformationSection
 
 /*
 
-alternative reverse approach, instead of making use of flexbox powers:
+alternative reverse approach, instead of making use of css flexbox powers:
 
 const InformationSection = ({ title, text, image, imageAlt, imgFirst = true }) => {
 

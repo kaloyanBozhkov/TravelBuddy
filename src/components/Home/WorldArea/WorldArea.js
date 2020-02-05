@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
-import Globe from 'components/Globe/Globe'
-import ExpandButton from 'components/UI/ExpandButton/ExpandButton'
+import Globe from '~/components/Globe/Globe'
+import ExpandButton from '~/components/UI/ExpandButton/ExpandButton'
 
 import styles from './worldarea.module.scss'
 
