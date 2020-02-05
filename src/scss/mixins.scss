@@ -68,3 +68,24 @@
         }
     }
 }
+
+@mixin fancyHeader() {
+    &::after{
+        content: '';
+        background-color: $orange;
+        width: 120%;
+        height: 20%;
+        position: absolute;
+        bottom: 90%;
+        transform: rotate(5deg);
+    }
+    &::before{
+        content: '';
+        background-color: lighten($orange, 15%);
+        width: 120%;
+        height: 20%;
+        position: absolute;
+        bottom: 87%;
+        transform: rotate(7deg);
+    }
+}

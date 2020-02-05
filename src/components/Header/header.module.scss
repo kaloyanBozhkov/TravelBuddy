@@ -40,6 +40,18 @@ $headerHeight: 6.2rem;//62px
     }
 }
 
+@keyframes slideInMobile {
+    0%{
+        right: -65%;
+        opacity:0;
+    }
+
+    100% {
+        right:0;
+        opacity:1;
+    }
+}
+
 .header{
     position: relative;
     top: -$headerHeight;
@@ -54,7 +66,12 @@ $headerHeight: 6.2rem;//62px
 
     @include boxShadow(0, 4px, 4px, 0, 0.1);
     @include animate(slideIn, .4s);
-
+    @include mediaQuery(xs) {
+        position: fixed;
+        top:0;
+        right:0;
+        left:0;
+    }
 
     .logoArea {
         position: relative;
@@ -81,6 +98,29 @@ $headerHeight: 6.2rem;//62px
                 top:0.4rem;
             }
         }
+
+        @include mediaQuery(xs) {
+            > svg {
+                left: -30px;
+                top: -2px;
+            }
+        }
+
+        @include mediaQuery(sm) {
+            > svg {
+                left: -30px;
+                top: -2px;
+            }
+        }
+    }
+
+    .buttonAreaMenuButton {
+        font-size: 3.5rem;
+        padding: 0 1.5rem;
+        transform-origin: center;
+        display: flex;
+        align-items: center;
+        color: $orange;
     }
 
 
@@ -100,5 +140,49 @@ $headerHeight: 6.2rem;//62px
                 font-size:1.8rem;
             }
         }
+
+        @include mediaQuery(xs) {
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+
+            position: fixed;
+            top: 6.35rem;
+            top: calc(6.2rem + 2px);
+            right:0;
+            bottom:0;
+            width:65%;
+            overflow: hidden;
+
+            &.sideMenuIn{
+                animation-name: slideInMobile;
+                animation-duration: .4s;
+                animation-fill-mode: forwards;
+            }
+            
+            &.sideMenuOut{
+                animation-name: slideInMobile;
+                animation-direction: reverse;
+                animation-duration: .4s;
+                animation-fill-mode: forwards;
+            }
+
+            > a {
+                width:100%;
+                > div {
+                    padding:1rem 0;
+                    width: 100%;
+                    align-items: center;
+                    display: flex;
+                    box-sizing: border-box;
+                }
+            }
+
+            @include boxShadow(0, 4px, 10px, 0, .55);
+            @include fancyHeader();
+        }
     }
+
+
 }

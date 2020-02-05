@@ -14,8 +14,8 @@ import {
     FaPhone,
     FaLinkedin,
     FaGitSquare,
-    
     FaBars, 
+    
     FaSearch, 
     FaTimes, 
     FaEdit, 
@@ -59,10 +59,11 @@ const Icon = (props) => {
                 return <FaGitSquare />
             case 'linkedin':
                 return <FaLinkedin />
-
-                
-            case 'bars':
+            case 'menu':
                 return <FaBars />
+                
+
+
             case 'search':
                 return <FaSearch />
             case 'times':
@@ -89,7 +90,7 @@ const Icon = (props) => {
                 return <i>Icon not found</i>
         }
     }
-
+    console.log('props',props)
     return (
         <div className={styles.icon} {...props}>
             {getIcon(icon)}
