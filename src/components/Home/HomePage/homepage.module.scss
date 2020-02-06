@@ -1,111 +1,109 @@
-@import 'scss/variables.scss';
-@import 'scss/mixins.scss';
+@import "scss/variables";
+@import "scss/mixins";
 
 .homePage {
-    background: white;
-    overflow: hidden;
+  background: white;
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
+
+  @include mediaQuery(lgOrAbove) {
+    //white on top, to fade the orange line
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4rem;
+      display: block;
+      z-index: 1;
+      background: linear-gradient(white, #ffffff00);
+    }
+  }
+
+  .laptopArea {
     position: relative;
-    z-index: 0;
+    display: flex;
+    justify-content: center;
+    margin-top: 8rem;
 
-  
+    > img {
+      max-width: 80%;
+    }
+
     @include mediaQuery(lgOrAbove) {
-        //white on top, to fade the orange line
-        &::before{
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4rem;
-            display: block;
-            z-index: 1;
-            background: linear-gradient(white, #ffffff00);
+      height: 70rem;
+      width: 55rem;
+      margin: 0 auto;
+      > img {
+        max-width: 100%;
+      }
+
+      > svg {
+        display: block;
+        position: absolute;
+        z-index: -1;
+
+        &:nth-child(1) {
+          bottom: 215rem;
+          right: 43%;
+          transform: rotate(35deg);
         }
+
+        &:nth-child(2) {
+          bottom: 165rem;
+          left: 46%;
+          transform: rotate(-25deg);
+        }
+
+        &:nth-child(3) {
+          bottom: 117.5rem;
+          right: 46%;
+          transform: rotate(25deg);
+        }
+
+        &:nth-child(4) {
+          bottom: 80.5rem;
+          left: 45%;
+          transform: rotate(-31deg);
+        }
+      }
+
+      > img:first-of-type {
+        display: none;
+      }
+
+      > img:last-of-type {
+        display: block;
+        position: absolute;
+        bottom: 0;
+      }
+    }
+  }
+
+  .logoArea {
+    margin: 6rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    > img {
+      width: 20rem;
+      transition: 0.3s;
+      margin: 4rem 0;
+
+      &:hover {
+        transform: scale(1.1);
+      }
     }
 
-    .laptopArea {
-        position:relative;
-        display: flex;
-        justify-content: center;
-        margin-top: 8rem;
-
-        > img{
-            max-width: 80%;
-        }
-
-        @include mediaQuery(lgOrAbove) {
-            height: 70rem;
-            width:55rem;
-            margin: 0 auto;
-            > img {
-                max-width: 100%;
-            }
-
-            > svg {
-                display: block;
-                position: absolute;
-                z-index: -1;
-
-                &:nth-child(1){
-                    bottom: 215rem;
-                    right: 43%;
-                    transform: rotate(35deg);
-                }
-
-                &:nth-child(2){
-                    bottom: 165rem;
-                    left: 46%;
-                    transform: rotate(-25deg);
-                }
-
-                &:nth-child(3){
-                    bottom: 117.5rem;
-                    right: 46%;
-                    transform: rotate(25deg);
-                }
-
-                &:nth-child(4){
-                    bottom: 80.5rem;
-                    left: 45%;
-                    transform: rotate(-31deg);
-                }
-            }
-
-            > img:first-of-type{
-                display: none;
-            }
-    
-            > img:last-of-type{
-                display: block;
-                position: absolute;
-                bottom:0;
-            }
-        }
+    @include mediaQuery(lgOrAbove) {
+      flex-direction: row;
+      > img {
+        margin: 0 2rem;
+      }
     }
-
-
-    .logoArea {
-        margin: 6rem 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-
-        > img {
-            width: 20rem;
-            transition: .3s;
-            margin: 4rem 0;                
-
-            &:hover{
-                transform: scale(1.1);
-            }
-        }
-
-        @include mediaQuery(lgOrAbove) {
-            flex-direction: row;
-            > img { 
-                margin: 0 2rem;
-            }
-        }
-    }
+  }
 }

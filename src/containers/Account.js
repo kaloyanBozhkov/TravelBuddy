@@ -1,8 +1,15 @@
 import React from 'react'
 
+import SignIn from '~/components/Account/SignIn/SignIn'
+
+const signedIn = false
 const Account = () => {
 
-    return <h1>Account</h1>
+    if (signedIn) {
+        return <h1>Account</h1>
+    }
+    
+    return <SignIn />
 }
 
 export default Account

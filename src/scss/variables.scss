@@ -1,30 +1,29 @@
-$orange: #E8B558;
+$orange: #e8b558;
 $light-orange: lighten($orange, 27%);
-$soft-orange: #F6CB7B;
-
+$soft-orange: #f6cb7b;
 
 $soft-blue: #def7ff;
 
-@font-face{
-    font-family: 'Shwifty';
-    src: url('../assets/fonts/ChauPhilomeneOne-Regular.ttf');
-    font-style: normal;
+@font-face {
+  font-family: "Shwifty";
+  src: url("../assets/fonts/ChauPhilomeneOne-Regular.ttf");
+  font-style: normal;
 }
 
-@font-face{
-    font-family: 'Kanit';
-    font-weight: 100;
-    src: url('../assets/fonts/Kanit-Light.ttf');
+@font-face {
+  font-family: "Kanit";
+  font-weight: 100;
+  src: url("../assets/fonts/Kanit-Light.ttf");
 }
 
-@font-face{
-    font-family: 'Kanit';
-    font-weight: normal;
-    src: url('../assets/fonts/Kanit-Regular.ttf');
+@font-face {
+  font-family: "Kanit";
+  font-weight: normal;
+  src: url("../assets/fonts/Kanit-Regular.ttf");
 }
 
-@font-face{
-    font-family: 'Kanit';
-    font-weight: bold;
-    src: url('../assets/fonts/Kanit-Bold.ttf');
+@font-face {
+  font-family: "Kanit";
+  font-weight: bold;
+  src: url("../assets/fonts/Kanit-Bold.ttf");
 }

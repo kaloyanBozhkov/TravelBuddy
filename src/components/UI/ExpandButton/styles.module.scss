@@ -1,28 +1,29 @@
-@import 'scss/variables.scss';
-.expandBtn{
-    position: absolute;
-    top: 2rem;
-    right: 2rem;
-    color: $orange;
-    font-size: 2.5rem;
-    z-index: 5;
-    cursor:pointer;
+@import "scss/variables";
+.expandBtn {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  color: $orange;
+  font-size: 2.5rem;
+  z-index: 5;
+  cursor: pointer;
+  > p {
+    font-size: 1.4rem;
+  }
+  > div,
+  > p {
+    transition: 0.3s;
+  }
+
+  opacity: 0.7;
+  &:hover {
+    opacity: 1;
+
+    > div {
+      transform: scale(1.2);
+    }
     > p {
-        font-size:1.4rem
+      transform: scale(0.9);
     }
-    > div, > p {
-        transition: .3s;
-    }
-
-    opacity:0.7;
-    &:hover{
-        opacity: 1;
-
-        > div {
-            transform: scale(1.2)
-        }
-        > p {
-            transform: scale(0.9)
-        }
-    }
+  }
 }

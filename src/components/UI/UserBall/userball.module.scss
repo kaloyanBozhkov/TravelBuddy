@@ -1,0 +1,49 @@
+@import "scss/mixins";
+@import "scss/variables";
+
+.userHeader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    font-size: 4.8rem;
+    color: $orange;
+    font-family: Shwifty, Kanit;
+  }
+
+  .userBall {
+    width: 15rem;
+    height: 15rem;
+    border-radius: 50%;
+    border: 3px solid $orange;
+    background-color: white;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    > .head,
+    > .body {
+      background-color: $orange;
+      @include boxShadow(2px, 4px, 4px, 0, 0.2);
+    }
+
+    > .head {
+      border-radius: 50%;
+      width: 5.5rem;
+      height: 5.5rem;
+      margin-bottom: 0.8rem;
+      margin-top: 2rem;
+    }
+
+    > .body {
+      width: 8rem;
+      border-radius: 15px;
+      flex: 1;
+    }
+    @include boxShadow(0, 4px, 4px, 0, 0.2);
+  }
+}

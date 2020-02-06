@@ -1,188 +1,184 @@
-@import 'scss/variables.scss';
-@import 'scss/mixins.scss';
+@import "scss/variables";
+@import "scss/mixins";
 
-$headerHeight: 6.2rem;//62px
+$headerHeight: 6.2rem; //62px
 
-@keyframes slideIn{
-    0%{
-        opacity: 0;
-        top: -$headerHeight;
-    }
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    top: -$headerHeight;
+  }
 
-    100%{
-        opacity: 1;
-        top: 0;
-    }
+  100% {
+    opacity: 1;
+    top: 0;
+  }
 }
 
+@keyframes driveIn {
+  0% {
+    opacity: 0;
+    left: -155px;
+  }
 
-@keyframes driveIn{
-    0%{
-        opacity: 0;
-        left: -155px;
-    }
+  60% {
+    transform: rotate(0deg);
+  }
 
-    60%{
-        transform: rotate(0deg);
-    }
+  70% {
+    opacity: 1;
+    transform: rotate(-5deg);
+    top: 0;
+  }
 
-    70%{
-        opacity: 1;
-        transform: rotate(-5deg);
-        top:0;
-    }
-
-    100%{
-        opacity: 1;
-        left: 20px;
-        transform: rotate(-5deg);
-        top:-5px;
-    }
+  100% {
+    opacity: 1;
+    left: 20px;
+    transform: rotate(-5deg);
+    top: -5px;
+  }
 }
 
 @keyframes slideInMobile {
-    0%{
-        right: -65%;
-        opacity:0;
-    }
+  0% {
+    right: -65%;
+    opacity: 0;
+  }
 
-    100% {
-        right:0;
-        opacity:1;
-    }
+  100% {
+    right: 0;
+    opacity: 1;
+  }
 }
 
-.header{
+.header {
+  position: relative;
+  top: -$headerHeight;
+  opacity: 0;
+  z-index: 2;
+  height: $headerHeight;
+  border-bottom: 2px solid $orange;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  @include boxShadow(0, 4px, 4px, 0, 0.1);
+  @include animate(slideIn, 0.4s);
+  @include mediaQuery(xs) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+  }
+
+  .logoArea {
     position: relative;
-    top: -$headerHeight;
-    opacity:0;
-    z-index: 2;
-    height: $headerHeight; 
-    border-bottom: 2px solid $orange;
-    background-color:white;
+    display: flex;
+    align-items: flex-end;
+    height: 100%;
+
+    left: -155px;
+    opacity: 0;
+
+    @include animate(driveIn, 1s, 0.3s);
+
+    > svg {
+      height: 90%;
+      position: relative;
+      transition: 0.4s;
+      top: 0;
+    }
+
+    &:hover {
+      cursor: pointer;
+      > svg {
+        transform: rotate(5deg);
+        top: 0.4rem;
+      }
+    }
+
+    @include mediaQuery(xs) {
+      > svg {
+        left: -30px;
+        top: -2px;
+      }
+    }
+
+    @include mediaQuery(sm) {
+      > svg {
+        left: -30px;
+        top: -2px;
+      }
+    }
+  }
+
+  .buttonAreaMenuButton {
+    font-size: 3.5rem;
+    padding: 0 1.5rem;
+    transform-origin: center;
+    display: flex;
+    align-items: center;
+    color: $orange;
+  }
+
+  .buttonArea {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
 
-    @include boxShadow(0, 4px, 4px, 0, 0.1);
-    @include animate(slideIn, .4s);
+    > a > div {
+      width: 12rem;
+      height: 100%;
+      > div[icon] {
+        font-size: 3.6rem;
+      }
+
+      > p {
+        font-family: "Shwifty";
+        font-size: 1.8rem;
+      }
+    }
+
     @include mediaQuery(xs) {
-        position: fixed;
-        top:0;
-        right:0;
-        left:0;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: white;
+
+      position: fixed;
+      top: 6.35rem;
+      top: calc(6.2rem + 2px);
+      right: 0;
+      bottom: 0;
+      width: 65%;
+      overflow: hidden;
+
+      &.sideMenuIn {
+        animation-name: slideInMobile;
+        animation-duration: 0.4s;
+        animation-fill-mode: forwards;
+      }
+
+      &.sideMenuOut {
+        animation-name: slideInMobile;
+        animation-direction: reverse;
+        animation-duration: 0.4s;
+        animation-fill-mode: forwards;
+      }
+
+      > a {
+        width: 100%;
+        > div {
+          padding: 1rem 0;
+          width: 100%;
+          align-items: center;
+          display: flex;
+          box-sizing: border-box;
+        }
+      }
+
+      @include boxShadow(0, 4px, 10px, 0, 0.55);
+      @include fancyHeader();
     }
-
-    .logoArea {
-        position: relative;
-        display: flex;
-        align-items: flex-end;
-        height:100%;
-
-        left: -155px;
-        opacity: 0;
-
-        @include animate(driveIn, 1s, .3s);
-        
-        > svg {
-            height:90%;
-            position: relative;
-            transition: .4s;
-            top:0;
-        }
-
-        &:hover {
-            cursor: pointer;
-            > svg{
-                transform: rotate(5deg);
-                top:0.4rem;
-            }
-        }
-
-        @include mediaQuery(xs) {
-            > svg {
-                left: -30px;
-                top: -2px;
-            }
-        }
-
-        @include mediaQuery(sm) {
-            > svg {
-                left: -30px;
-                top: -2px;
-            }
-        }
-    }
-
-    .buttonAreaMenuButton {
-        font-size: 3.5rem;
-        padding: 0 1.5rem;
-        transform-origin: center;
-        display: flex;
-        align-items: center;
-        color: $orange;
-    }
-
-
-    .buttonArea{
-        display: flex;
-        flex-direction: row;
-
-        > a  > div {
-            width: 12rem;
-            height: 100%;
-            > div[icon] {
-                font-size:3.6rem;
-            }
-
-            > p{
-                font-family: 'Shwifty';
-                font-size:1.8rem;
-            }
-        }
-
-        @include mediaQuery(xs) {
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background-color: white;
-
-            position: fixed;
-            top: 6.35rem;
-            top: calc(6.2rem + 2px);
-            right:0;
-            bottom:0;
-            width:65%;
-            overflow: hidden;
-
-            &.sideMenuIn{
-                animation-name: slideInMobile;
-                animation-duration: .4s;
-                animation-fill-mode: forwards;
-            }
-            
-            &.sideMenuOut{
-                animation-name: slideInMobile;
-                animation-direction: reverse;
-                animation-duration: .4s;
-                animation-fill-mode: forwards;
-            }
-
-            > a {
-                width:100%;
-                > div {
-                    padding:1rem 0;
-                    width: 100%;
-                    align-items: center;
-                    display: flex;
-                    box-sizing: border-box;
-                }
-            }
-
-            @include boxShadow(0, 4px, 10px, 0, .55);
-            @include fancyHeader();
-        }
-    }
-
-
+  }
 }

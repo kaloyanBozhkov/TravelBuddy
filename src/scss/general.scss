@@ -1,45 +1,47 @@
-@import './mixins.scss';
+@import "./mixins";
 
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
-html, body {
-    height:100%;
-    width:100%;
-    font-size: 8px;
-    @include mediaQuery(xl) {
-        font-size: 10px;
-    }
+html,
+body {
+  height: 100%;
+  width: 100%;
+  font-size: 8px;
+  @include mediaQuery(xl) {
+    font-size: 10px;
+  }
 
-    @include mediaQuery(lg) {
-        font-size: 10px;
-    }
+  @include mediaQuery(lg) {
+    font-size: 10px;
+  }
 }
 
 html {
-    font-family: 'Kanit';
-    font-weight: normal;
+  font-family: "Kanit";
+  font-weight: normal;
 }
 
 button {
-    outline: none;
-    background: none;
-    border: none;
+  outline: none;
+  background: none;
+  border: none;
+}
+
+input {
+  border: none;
+  outline: none;
 }
 
 a {
-    text-decoration: none;
-    color: inherit;
+  text-decoration: none;
+  color: inherit;
 }
 
-#root {
-    height:100%;
-    width:100%;
-
-    .App {
-        min-height: 100%;
-        width:100%;
-    }
+#root,
+#root .App {
+  height: 100%;
+  width: 100%;
 }

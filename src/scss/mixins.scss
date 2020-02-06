@@ -1,91 +1,126 @@
-@mixin animate($animationName, $duration, $delay: 0s, $fillMode: forwards, ){
-    animation-name: $animationName;
-    animation-duration: $duration;
-    animation-fill-mode: $fillMode;
-    animation-delay: $delay;
+@mixin animate($animationName, $duration, $delay: 0s, $fillMode: forwards) {
+  animation-name: $animationName;
+  animation-duration: $duration;
+  animation-fill-mode: $fillMode;
+  animation-delay: $delay;
 
-    -webkit-animation-name: $animationName;
-    -webkit-animation-duration: $duration;
-    -webkit-animation-fill-mode: $fillMode;
-    -webkit-animation-delay: $delay;
+  -webkit-animation-name: $animationName;
+  -webkit-animation-duration: $duration;
+  -webkit-animation-fill-mode: $fillMode;
+  -webkit-animation-delay: $delay;
 
-    -moz-animation-name: $animationName;
-    -moz-animation-duration: $duration;
-    -moz-animation-fill-mode: $fillMode;
-    -moz-animation-delay: $delay;
+  -moz-animation-name: $animationName;
+  -moz-animation-duration: $duration;
+  -moz-animation-fill-mode: $fillMode;
+  -moz-animation-delay: $delay;
 
-    -o-animation-name: $animationName;
-    -o-animation-duration: $duration;
-    -o-animation-fill-mode: $fillMode;
-    -o-animation-delay: $delay;
+  -o-animation-name: $animationName;
+  -o-animation-duration: $duration;
+  -o-animation-fill-mode: $fillMode;
+  -o-animation-delay: $delay;
 }
 
 @mixin boxShadow($x, $y, $blur, $spread, $opacity) {
-    box-shadow: $x $y $blur $spread rgba(0,0,0,$opacity);
-    -webkit-box-shadow: $x $y $blur $spread rgba(0,0,0,$opacity);
-    -moz-box-shadow: $x $y $blur $spread rgba(0,0,0,$opacity);
-    -o-box-shadow: $x $y $blur $spread rgba(0,0,0,$opacity);
+  box-shadow: $x $y $blur $spread rgba(0, 0, 0, $opacity);
+  -webkit-box-shadow: $x $y $blur $spread rgba(0, 0, 0, $opacity);
+  -moz-box-shadow: $x $y $blur $spread rgba(0, 0, 0, $opacity);
+  -o-box-shadow: $x $y $blur $spread rgba(0, 0, 0, $opacity);
 }
 
 @mixin boxShadowMultiple($value...) {
-    box-shadow: $value;
-    -webkit-box-shadow: $value;
-    -moz-box-shadow: $value;
-    -o-box-shadow: $value;
+  box-shadow: $value;
+  -webkit-box-shadow: $value;
+  -moz-box-shadow: $value;
+  -o-box-shadow: $value;
 }
 
 @mixin insetShadow($x, $y, $blur, $spread, $opacity) {
-    box-shadow: inset $x $y $blur $spread rgba(0,0,0,$opacity);
-    -webkit-box-shadow: inset $x $y $blur $spread rgba(0,0,0,$opacity);
-    -moz-box-shadow: inset $x $y $blur $spread rgba(0,0,0,$opacity);
-    -o-box-shadow: inset $x $y $blur $spread rgba(0,0,0,$opacity);
+  box-shadow: inset $x $y $blur $spread rgba(0, 0, 0, $opacity);
+  -webkit-box-shadow: inset $x $y $blur $spread rgba(0, 0, 0, $opacity);
+  -moz-box-shadow: inset $x $y $blur $spread rgba(0, 0, 0, $opacity);
+  -o-box-shadow: inset $x $y $blur $spread rgba(0, 0, 0, $opacity);
 }
 
 @mixin mediaQuery($size) {
-    @if $size == xs {
-        @media screen and (max-width: 575px) {
-            @content;
-        }
-    } @else if $size == sm {
-        @media screen and (min-width: 576px) and (max-width: 767px) {
-            @content;
-        }
-    } @else if $size == md {
-        @media screen and (min-width: 768px) and (max-width: 991px) {
-            @content;
-        }
-    } @else if $size == lg {
-        @media screen and (min-width: 992px) and (max-width: 1199px) {
-            @content;
-        }
-    } @else if $size == xl {
-        @media screen and (min-width: 1200px) {
-            @content;
-        }
-    } @else if $size == lgOrAbove {
-        @media screen and (min-width: 992px) {
-            @content;
-        }
+  @if $size == xs {
+    @media screen and (max-width: 575px) {
+      @content;
     }
+  } @else if $size == sm {
+    @media screen and (min-width: 576px) and (max-width: 767px) {
+      @content;
+    }
+  } @else if $size == md {
+    @media screen and (min-width: 768px) and (max-width: 991px) {
+      @content;
+    }
+  } @else if $size == lg {
+    @media screen and (min-width: 992px) and (max-width: 1199px) {
+      @content;
+    }
+  } @else if $size == xl {
+    @media screen and (min-width: 1200px) {
+      @content;
+    }
+  } @else if $size == lgOrAbove {
+    @media screen and (min-width: 992px) {
+      @content;
+    }
+  }
 }
 
-@mixin fancyHeader() {
-    &::after{
-        content: '';
-        background-color: $orange;
-        width: 120%;
-        height: 20%;
-        position: absolute;
+@mixin fancyHeader($withAnimation: false) {
+  &::after {
+    content: "";
+    background-color: $orange;
+    width: 120%;
+    height: 20%;
+    position: absolute;
+    bottom: 90%;
+    transform: rotate(5deg);
+  }
+  &::before {
+    content: "";
+    background-color: lighten($orange, 15%);
+    width: 120%;
+    height: 20%;
+    position: absolute;
+    bottom: 87%;
+    transform: rotate(7deg);
+  }
+
+  @if ($withAnimation == true) {
+    @keyframes fallIn {
+      0% {
+        bottom: 120%;
+      }
+      100% {
+        bottom: 85%;
+      }
+    }
+    @keyframes fallIn2 {
+      0% {
+        bottom: 120%;
+      }
+      100% {
         bottom: 90%;
-        transform: rotate(5deg);
+      }
     }
-    &::before{
-        content: '';
-        background-color: lighten($orange, 15%);
-        width: 120%;
-        height: 20%;
-        position: absolute;
-        bottom: 87%;
-        transform: rotate(7deg);
+
+    &::before,
+    &::after {
+      bottom: 120%;
+      animation-fill-mode: forwards;
+      animation-duration: 0.5s;
     }
+    &::before {
+      animation-name: fallIn;
+      animation-delay: 0.2s;
+    }
+
+    &::after {
+      animation-name: fallIn2;
+      animation-delay: 0.3s;
+    }
+  }
 }

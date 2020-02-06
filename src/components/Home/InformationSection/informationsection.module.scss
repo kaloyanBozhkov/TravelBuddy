@@ -1,146 +1,145 @@
-@import 'scss/mixins.scss';
-@import 'scss/variables.scss';
+@import "scss/mixins";
+@import "scss/variables";
 
 @keyframes animateInLeft {
-    0% {
-        opacity: 0;
-        transform: translateX(-100%)
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0)
-    }
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 @keyframes animateInRight {
-    0% {
-        opacity: 0;
-        transform: translateX(100%)
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0)
-    }
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 .informationSection {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    
-    animation-duration: 1s;
-    animation-fill-mode: forwards;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-    width: 100%;
-    max-width: 100rem;
-    margin: 0 auto;
-    margin-top:4rem;
-    padding: 4rem;
-    box-sizing: border-box;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
 
-    &.imageWhiteBackground > img {
-        background: white;
+  width: 100%;
+  max-width: 100rem;
+  margin: 0 auto;
+  margin-top: 4rem;
+  padding: 4rem;
+  box-sizing: border-box;
+
+  &.imageWhiteBackground > img {
+    background: white;
+  }
+
+  > img {
+    max-width: 50rem;
+    transition: 0.3s;
+    &:hover {
+      transform: scale(1.1);
     }
+  }
 
+  > div {
+    max-width: 100%;
+    margin-top: 6rem;
+    color: rgba(0, 0, 0, 0.65);
+    > h1 {
+      color: $orange;
+      font-size: 3rem;
+      line-height: 3rem;
+      text-shadow: 1px 1px 2px rgb(10, 10, 10);
+      margin-bottom: 2rem;
+    }
+    > p {
+      font-weight: 100;
+      font-size: 1.6rem;
+      text-align: justify;
+    }
+  }
+
+  &:not(.reverseOrder) {
+    &.animate {
+      animation-name: animateInRight;
+    }
+  }
+
+  &.reverseOrder {
+    flex-direction: column;
+    &.animate {
+      animation-name: animateInLeft;
+    }
+  }
+
+  @include mediaQuery(md) {
+    justify-content: space-between;
+    flex-direction: row;
     > img {
-        max-width:50rem;
-        transition: .3s;
-        &:hover{
-            transform: scale(1.1)
-        }
+      width: 30rem;
     }
 
     > div {
-        max-width: 100%;
-        margin-top:6rem;
-        color: rgba(0, 0, 0, 0.65);
-        > h1 {
-            color: $orange;
-            font-size: 3rem;
-            line-height: 3rem;
-            text-shadow: 1px 1px 2px rgb(10, 10, 10);
-            margin-bottom:2rem;
-        }
-        > p {
-            font-weight: 100;
-            font-size: 1.6rem;
-            text-align: justify;
-        }
+      margin-top: 0;
+      max-width: 40%;
     }
 
-    &:not(.reverseOrder){
-        &.animate{
-            animation-name: animateInRight;
-        }
+    &:not(.reverseOrder) {
+      > img {
+        margin-right: 2rem;
+      }
+      > div {
+        margin-left: 2rem;
+      }
     }
 
-    &.reverseOrder{
-        flex-direction: column;
-        &.animate{
-            animation-name: animateInLeft;
-        }
+    &.reverseOrder {
+      flex-direction: row-reverse;
+      > img {
+        margin-left: 2rem;
+      }
+      > div {
+        margin-right: 2rem;
+      }
     }
-    
-    @include mediaQuery(md) {
-        justify-content: space-between;
-        flex-direction: row;
-        > img {
-            width:30rem;
-        }
-
-        > div {
-            margin-top:0;
-            max-width: 40%;
-        }
-
-        &:not(.reverseOrder) {
-            > img {
-                margin-right:2rem;
-            }
-            > div {
-                margin-left:2rem;
-            }
-        }
-
-        &.reverseOrder{
-            flex-direction: row-reverse;
-            > img {
-                margin-left:2rem;
-            }
-            > div {
-                margin-right:2rem;
-            }
-        }
-    }
-    @include mediaQuery(lgOrAbove) {
-        justify-content: space-between;
-        flex-direction: row;
-        > img {
-            width:30rem;
-        }
-
-        > div {
-            margin-top:0;
-            max-width: 40%;
-        }
-
-        &:not(.reverseOrder) {
-            > img {
-                margin-right:2rem;
-            }
-            > div {
-                margin-left:2rem;
-            }
-        }
-
-        &.reverseOrder{
-            flex-direction: row-reverse;
-            > img {
-                margin-left:2rem;
-            }
-            > div {
-                margin-right:2rem;
-            }
-        }
+  }
+  @include mediaQuery(lgOrAbove) {
+    justify-content: space-between;
+    flex-direction: row;
+    > img {
+      width: 30rem;
     }
 
+    > div {
+      margin-top: 0;
+      max-width: 40%;
+    }
+
+    &:not(.reverseOrder) {
+      > img {
+        margin-right: 2rem;
+      }
+      > div {
+        margin-left: 2rem;
+      }
+    }
+
+    &.reverseOrder {
+      flex-direction: row-reverse;
+      > img {
+        margin-left: 2rem;
+      }
+      > div {
+        margin-right: 2rem;
+      }
+    }
+  }
 }

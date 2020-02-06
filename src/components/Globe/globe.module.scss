@@ -1,70 +1,69 @@
-@import 'scss/mixins.scss';
-@import 'scss/variables.scss';
+@import "scss/mixins";
+@import "scss/variables";
 @keyframes rotateWorld {
-    0%{
-        transform: rotate(0);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
+.globe {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  width: 570px;
+  height: 570px;
+  margin: 0 auto;
 
-.globe{
+  > .svgDiv {
+    position: absolute;
+    top: 23.2%;
+
+    border-radius: 50%;
+    overflow: hidden;
+
     display: flex;
     justify-content: center;
+    z-index: 1;
+
+    &.dragging {
+      > svg {
+        cursor: grab;
+      }
+    }
+
+    > svg {
+      position: relative;
+      background: #23b2e8;
+      transition: 0.3s;
+
+      path {
+        fill: #aee8c1;
+        transition: 0.3s;
+        &:hover {
+          fill: darken(#aee8c1, 15%);
+        }
+      }
+    }
+  }
+
+  > img {
+    &.hovering {
+      animation-play-state: paused;
+    }
     position: relative;
-    width: 570px;
-    height: 570px;
-    margin: 0 auto;
-
-    > .svgDiv {
-        position: absolute;
-        top: 23.2%;
-
-        border-radius: 50%;
-        overflow: hidden;
-
-        display:flex;
-        justify-content: center;
-        z-index: 1;
-
-        &.dragging{
-            > svg {
-                cursor: grab;
-            }
-        }
-
-        > svg {
-            position: relative;
-            background: #23b2e8;
-            transition: .3s;
-
-            path {
-                fill: #aee8c1;
-                transition: .3s;
-                &:hover{
-                    fill: darken(#aee8c1, 15%);
-                }
-            }
-        }
-    }
-
-    > img {
-        &.hovering{
-            animation-play-state: paused;
-        }
-        position: relative;
-        transform-origin: center;
-        @include animate(rotateWorld, 15s);
-        animation-timing-function: linear;
-        animation-iteration-count: infinite;
-        animation-play-state:running;
-        //make image non draggable
-        user-select: none;
-        -moz-user-select: none;
-        -webkit-user-drag: none;
-        -webkit-user-select: none;
-        -ms-user-select: none
-    }
+    transform-origin: center;
+    @include animate(rotateWorld, 15s);
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-play-state: running;
+    //make image non draggable
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
 }

@@ -15,7 +15,8 @@ import {
     FaLinkedin,
     FaGitSquare,
     FaBars, 
-    
+    FaLock,
+
     FaSearch, 
     FaTimes, 
     FaEdit, 
@@ -61,7 +62,8 @@ const Icon = (props) => {
                 return <FaLinkedin />
             case 'menu':
                 return <FaBars />
-                
+            case 'lock':
+                return <FaLock />    
 
 
             case 'search':
