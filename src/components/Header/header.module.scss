@@ -153,17 +153,13 @@ $headerHeight: 6.2rem; //62px
       width: 65%;
       overflow: hidden;
 
-      &.sideMenuIn {
-        animation-name: slideInMobile;
-        animation-duration: 0.4s;
-        animation-fill-mode: forwards;
+      &.sideMenuIn,
+      &.sideMenuOut {
+        @include animate(slideInMobile, 0.4s);
       }
 
       &.sideMenuOut {
-        animation-name: slideInMobile;
         animation-direction: reverse;
-        animation-duration: 0.4s;
-        animation-fill-mode: forwards;
       }
 
       > a {

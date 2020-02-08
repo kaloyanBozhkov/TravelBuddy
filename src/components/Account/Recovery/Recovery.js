@@ -1,15 +1,14 @@
 import React, { useRef } from 'react'
 
-import styles from './signin.module.scss'
+import styles from './recovery.module.scss'
 import AccountPageAnimation from '~/components/HOCs/AccountPageAnimation'
 
 import Input from '~/components/UI/Input/Input'
 import Button from '~/components/UI/Button/Button'
 import UserBall from '~/components/UI/UserBall/UserBall'
 
-const SignIn = () => {
-    const usernameRef = useRef(null)
-    const passwordRef = useRef(null)
+const Recovery = () => {
+    const emailRef = useRef(null)
 
     const {
         redirectHandler,
@@ -17,16 +16,14 @@ const SignIn = () => {
     } = AccountPageAnimation(styles.exiting)
 
     wrapperGenerator.props.children = (
-        <div className={styles.signIn}>
+        <div className={styles.recovery}>
             <div className={styles.container}>
-                <UserBall label="Sign in" />
+                <UserBall label="Recovery" />
                 <div className={styles.inputArea}>
-                    <Input label="Username" icon="userCircle" ref={usernameRef} />
-                    <Input label="Password" icon="lock" comment="Forgot your password?" commentOnClick={() => redirectHandler('recovery')} ref={passwordRef} />
+                    <Input label="Email" icon="userCircle" ref={emailRef} />
                 </div>
-                <Button label="Sign in" modifier="filled" className={styles.buttons} />
-                <Button label="Sign in with Google" modifier="filled" className={[styles.buttons, styles.googleBtn].join(' ')} icon="google" iconOnLeftSide />
-
+                <Button label="Send recovery email " modifier="filled" className={styles.buttons} />
+                <button className={styles.actionLink} onClick={() => redirectHandler('signin')}>Know your account details? Click here to sign in!</button>
                 <button className={styles.actionLink} onClick={() => redirectHandler('register')}>No accout yet? Click here to register!</button>
             </div>
         </div>
@@ -35,4 +32,4 @@ const SignIn = () => {
     return wrapperGenerator.wrapper()
 }
 
-export default SignIn
+export default Recovery

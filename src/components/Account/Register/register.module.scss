@@ -1,0 +1,23 @@
+@import "scss/mixins";
+@import "scss/variables";
+
+.register {
+  @include accountArea() {
+    .inputArea {
+      margin-bottom: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 3rem;
+      @include mediaQuery(xs) {
+        grid-template-columns: 1fr;
+        column-gap: 0;
+      }
+    }
+    .buttons {
+      max-width: 50%;
+      @include mediaQuery(xs) {
+        max-width: 100%;
+      }
+    }
+  }
+}

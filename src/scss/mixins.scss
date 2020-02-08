@@ -69,6 +69,42 @@
   }
 }
 
+@keyframes fallIn {
+  0% {
+    transform: translateY(-150%) rotate(7deg)
+  }
+  100% {
+    transform: translateY(-20%) rotate(7deg)
+  }
+}
+
+@keyframes fallIn2 {
+  0% {
+    transform: translateY(-150%) rotate(5deg)
+  }
+  100% {
+    transform: translateY(-50%) rotate(5deg);
+  }
+}
+
+//not reversing these animation with animation-reverse due to needing a new animation name to overwrite
+@keyframes fallOut {
+  0% {
+    transform: translateY(-20%) rotate(7deg)
+  }
+  100% {
+    transform: translateY(-150%) rotate(7deg)
+  }
+}
+
+@keyframes fallOut2 {
+  0% {
+    transform: translateY(-50%) rotate(5deg);
+  }
+  100% {
+    transform: translateY(-150%) rotate(5deg)
+  }
+}
 @mixin fancyHeader($withAnimation: false) {
   &::after {
     content: "";
@@ -76,8 +112,8 @@
     width: 120%;
     height: 20%;
     position: absolute;
-    bottom: 90%;
     transform: rotate(5deg);
+    bottom:90%;
   }
   &::before {
     content: "";
@@ -85,42 +121,101 @@
     width: 120%;
     height: 20%;
     position: absolute;
-    bottom: 87%;
     transform: rotate(7deg);
+    bottom:87%;
   }
 
   @if ($withAnimation == true) {
-    @keyframes fallIn {
-      0% {
-        bottom: 120%;
-      }
-      100% {
-        bottom: 85%;
-      }
-    }
-    @keyframes fallIn2 {
-      0% {
-        bottom: 120%;
-      }
-      100% {
-        bottom: 90%;
-      }
-    }
-
     &::before,
     &::after {
-      bottom: 120%;
+      bottom: 80%;
       animation-fill-mode: forwards;
       animation-duration: 0.5s;
     }
     &::before {
       animation-name: fallIn;
       animation-delay: 0.2s;
+      transform: translateY(-150%) rotate(7deg);
     }
 
     &::after {
       animation-name: fallIn2;
       animation-delay: 0.3s;
+      transform: translateY(-150%) rotate(5deg);
     }
   }
+}
+
+@mixin accountArea() {
+  width: 100%;
+  position: relative;
+  overflow-x: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 5rem;
+  @include mediaQuery(xs) {
+    margin-top: 5rem;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20rem;
+
+    > div,
+    > .inputArea > div {
+      margin-bottom: 2rem;
+    }
+
+    > .inputArea {
+      margin-bottom: 2rem;
+      width: 100%;
+    }
+
+    > .buttons {
+      width: 100%;
+      margin-bottom: 2.5rem;
+      height: 4.4rem;
+      font-size: 2.2rem;
+      &.googleBtn {
+        background-color: $google;
+      }
+
+      @include mediaQuery(xs) {
+        height: 5.4rem;
+      }
+    }
+    > .actionLink {
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: rgba(0, 0, 0, 0.6);
+      &:hover {
+        color: rgba(0, 0, 0, 0.75);
+      }
+    }
+    @include mediaQuery(xs) {
+      width: 80%;
+    }
+  }
+
+  @include fancyHeader(true);
+
+  &.exiting{
+    &::before {
+      transform: translateY(-20%) rotate(7deg);
+      animation-name: fallOut;
+      animation-duration: .4s;
+    }
+    &::after {
+      transform: translateY(-50%) rotate(5deg);
+      animation-name: fallOut2;
+      animation-duration: .3s;
+      animation-delay: .1s;
+    }
+  }
+
+  @content;
 }

@@ -1,0 +1,11 @@
+@import "scss/mixins";
+@import "scss/variables";
+
+.recovery {
+  @include accountArea();
+  .actionLink {
+    &:first-of-type{
+      margin-bottom: 1rem;
+    }
+  }
+}

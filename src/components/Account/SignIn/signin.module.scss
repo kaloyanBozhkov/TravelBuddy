@@ -2,20 +2,5 @@
 @import "scss/variables";
 
 .signIn {
-  height: 100%;
-  width: 100%;
-  position: relative;
-  overflow-x: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  @include fancyHeader(true);
+  @include accountArea()
 }

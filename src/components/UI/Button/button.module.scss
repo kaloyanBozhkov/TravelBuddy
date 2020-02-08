@@ -13,22 +13,38 @@
         cursor:pointer;
     }
 
+    &.iconOnLeftSide,
+    &.iconOnRightSide {
+        > p {
+            padding: 0 2rem;
+        }
+    }
+
+    &.iconOnLeftSide {
+        flex-direction: row;
+    }
+
+    &.iconOnRightSide {
+        flex-direction: row-reverse;
+    }
+
     &.button--filled{
         transition: .3s;
         background-color: $orange;
         border-radius:3px;
-        > p {
+        > p,
+        > div[icon] {
             color:white;
         }
 
         &.hoverable:hover{
             background-color: darken($orange, 20%);
-            transform: translateY(5px);
+            transform: translateY(2px);
             > p {
                 color: white
             }
             
-            @include boxShadowMultiple(0px 1px 4px rgba(0, 0, 0, 0.2), 0px 4px 5px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.14))
+            @include boxShadowMultiple(none);
         }
 
         @include boxShadowMultiple(0px 1px 10px rgba(0, 0, 0, 0.2), 0px 4px 5px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.14))
@@ -39,18 +55,19 @@
         background-color: white;
         border:2px solid $orange;
         border-radius:3px;
-        > p {
+        > p,
+        > div[icon]  {
             color:$orange;
         }
 
         &.hoverable:hover{
             background-color: $orange;
-            transform: translateY(5px);
+            transform: translateY(2px);
             > p {
                 color: white
             }
 
-            @include boxShadowMultiple(0px 1px 4px rgba(0, 0, 0, 0.2), 0px 4px 5px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.14))
+            @include boxShadowMultiple(none);
         }
 
         @include boxShadowMultiple(0px 1px 10px rgba(0, 0, 0, 0.2), 0px 4px 5px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.14))

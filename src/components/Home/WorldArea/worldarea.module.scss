@@ -90,9 +90,8 @@
     z-index: -1;
     white-space: nowrap;
 
-    animation-name: backgroundCloudsMove;
+    @include animate(backgroundCloudsMove, 8s);
     animation-iteration-count: infinite;
-    animation-duration: 8s;
     animation-timing-function: linear;
     > div {
       width: 100%;
@@ -102,9 +101,7 @@
       background-repeat: repeat;
       background-size: cover;
 
-      animation-name: backgroundEntrance;
-      animation-fill-mode: forwards;
-      animation-duration: 8s;
+      @include animate(backgroundEntrance, 8s);
     }
   }
 
@@ -117,18 +114,14 @@
     > div:first-of-type {
       margin-top: 0;
       transition: 4s;
-      animation-name: expandButtonEntrance;
-      animation-duration: 0.4s;
+      @include animate(expandButtonEntrance, .4s);
     }
   }
   &:not(.expanded):not(.compressed) {
     //on first load
-    animation-name: slideInWithOpacity;
-    animation-duration: 4s;
-    animation-fill-mode: forwards;
+    @include animate(slideInWithOpacity, 4s);
     > .content > div:last-of-type {
-      animation-name: globeAdjustInitially;
-      animation-duration: 4s;
+      @include animate(globeAdjustInitially, 4s);
     }
   }
 
@@ -145,8 +138,6 @@
   }
 
   &.expanded {
-    //animation-name: Expand;
-
     height: 100vh;
     top: -6.2rem;
     margin-bottom: -6.2rem;

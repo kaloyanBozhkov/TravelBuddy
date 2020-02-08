@@ -6,12 +6,14 @@ import styles from './button.module.scss'
 import Icon from 'components/UI/Icon/Icon'
 
 const Button = (props) => {
-    const { label, active = false, modifier = 'default', className = [], icon = null, notHoverable = false } = props
+    const { label, active = false, modifier = 'default', className = [], icon = null, notHoverable = false, iconOnLeftSide = false, iconOnRightSide = false } = props
     const elementClass = [
         styles.button,
         styles['button--'+modifier],
         ...(active ? [styles.active] : []),
         ...(notHoverable ? [] : [styles.hoverable]),
+        ...(iconOnLeftSide ? [styles.iconOnLeftSide] : []),
+        ...(iconOnRightSide ? [styles.iconOnRightSide] : []),
         ...(typeof className === 'string' ? [className] : className),
     ].join(' ')
 

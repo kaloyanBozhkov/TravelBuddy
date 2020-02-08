@@ -13,7 +13,8 @@ const Input = forwardRef((props, ref) => {
         label, 
         icon,
         comment, 
-        commentOnClick = null 
+        commentOnClick = null,
+        ...remainingProps
     } = props
 
     //classes of wrapper
@@ -26,12 +27,12 @@ const Input = forwardRef((props, ref) => {
     //handle state of impout. Does it have content? Then set it to active styles!
     const focusHandler = () => setFocused(true)
     const blurHandler = () => setFocused(ref.current.value !== '')
-
+    
     return (
         <div className={classes} data-label={label}>
-            <input {...props} ref={ref} onFocus={focusHandler} onBlur={blurHandler}/>
+            <input {...remainingProps} ref={ref} onFocus={focusHandler} onBlur={blurHandler}/>
             {icon && <Icon icon={icon} />}
-            {comment && <span onClick={commentOnClick !== null ? commentOnClick : null} className={commentOnClick !== null ? styles.withAction : ''}>{comment}</span>}
+            {comment && <span onClick={commentOnClick} className={commentOnClick !== null ? styles.withAction : ''}>{comment}</span>}
         </div>
     )
 })

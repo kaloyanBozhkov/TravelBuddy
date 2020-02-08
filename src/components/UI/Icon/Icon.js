@@ -16,6 +16,7 @@ import {
     FaGitSquare,
     FaBars, 
     FaLock,
+    FaGoogle,
 
     FaSearch, 
     FaTimes, 
@@ -64,7 +65,8 @@ const Icon = (props) => {
                 return <FaBars />
             case 'lock':
                 return <FaLock />    
-
+            case 'google':
+                return <FaGoogle />
 
             case 'search':
                 return <FaSearch />
@@ -92,7 +94,7 @@ const Icon = (props) => {
                 return <i>Icon not found</i>
         }
     }
-    console.log('props',props)
+
     return (
         <div className={styles.icon} {...props}>
             {getIcon(icon)}
