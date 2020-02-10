@@ -16,7 +16,7 @@
     0 2px 4px rgba(0, 0, 0, 0.14)
   );
 
-  &::before {
+  &::before {     
     content: attr(data-label);
     position: absolute;
     top: 0;
@@ -39,6 +39,15 @@
     font-size: 2rem;
     background-color: none;
     background: none;
+
+    /* get rid of chrome's background color change of auto fill ;) */
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover, 
+    &:-webkit-autofill:focus, 
+    &:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
   }
 
   //icon
@@ -68,15 +77,38 @@
   }
 
   &.inputFocused {
+    border: 2px solid $orange;
+    &::before,
+    > div[icon] {
+      color: $orange;
+    }
+    @include boxShadow(0, 0, 0, 0, 0);
+  }
+
+  &.error {
+    border-color: $error;
+    color: $error;
+    &::before,
+    > div[icon] {
+      color: $error;
+    }
+  }
+
+  &.error,
+  &.inputFocused {
     &::before {
       content: attr(data-label);
       position: absolute;
       transform: translateY(-0.75rem);
       font-size: 1.4rem;
       line-height: 1.4rem;
+      z-index: 1;
     }
-
-    border: 2px solid $orange;
-    @include boxShadow(0, 0, 0, 0, 0);
+  }
+  
+  &.isOptional:not(.inputFocused) {
+    &::before {
+      content: attr(data-label) ' - optional';
+    }
   }
 }

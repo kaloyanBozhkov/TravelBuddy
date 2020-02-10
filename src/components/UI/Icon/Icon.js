@@ -17,6 +17,8 @@ import {
     FaBars, 
     FaLock,
     FaGoogle,
+    FaAt,
+    FaSignature,
 
     FaSearch, 
     FaTimes, 
@@ -29,6 +31,7 @@ import {
     FaUsers, 
     FaSpinner, 
     FaShoppingBasket,
+    FaSignal,
  } from 'react-icons/fa'
 
 //import styles
@@ -67,6 +70,11 @@ const Icon = (props) => {
                 return <FaLock />    
             case 'google':
                 return <FaGoogle />
+            case 'at':
+                return <FaAt />
+            case 'signature':
+                return <FaSignature />
+
 
             case 'search':
                 return <FaSearch />

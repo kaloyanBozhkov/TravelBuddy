@@ -7,14 +7,18 @@ import Input from '~/components/UI/Input/Input'
 import Button from '~/components/UI/Button/Button'
 import UserBall from '~/components/UI/UserBall/UserBall'
 
-const SignIn = () => {
+
+const SignIn = ({ googleSignInHandler }) => {
     const usernameRef = useRef(null)
     const passwordRef = useRef(null)
-
     const {
         redirectHandler,
         ...wrapperGenerator
     } = AccountPageAnimation(styles.exiting)
+
+    const signInHandler = () => {
+        
+    }
 
     wrapperGenerator.props.children = (
         <div className={styles.signIn}>
@@ -24,8 +28,15 @@ const SignIn = () => {
                     <Input label="Username" icon="userCircle" ref={usernameRef} />
                     <Input label="Password" icon="lock" comment="Forgot your password?" commentOnClick={() => redirectHandler('recovery')} ref={passwordRef} />
                 </div>
-                <Button label="Sign in" modifier="filled" className={styles.buttons} />
-                <Button label="Sign in with Google" modifier="filled" className={[styles.buttons, styles.googleBtn].join(' ')} icon="google" iconOnLeftSide />
+                <Button label="Sign in" modifier="filled" className={styles.buttons} onClick={signInHandler}/>
+                <Button 
+                    label="Sign in with Google" 
+                    modifier="filled" 
+                    className={[styles.buttons, styles.googleBtn].join(' ')} 
+                    icon="google" 
+                    iconOnLeftSide 
+                    onClick={googleSignInHandler}
+                />
 
                 <button className={styles.actionLink} onClick={() => redirectHandler('register')}>No accout yet? Click here to register!</button>
             </div>
