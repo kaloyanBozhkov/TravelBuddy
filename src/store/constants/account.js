@@ -1,5 +1,6 @@
 export const SIGN_IN = 'SIGN_IN'
 export const GOOGLE_SIGN_IN = 'GOOGLE_SIGN_IN'
+export const SIGN_OUT = 'SIGN_OUT'
 export const REGISTER = 'REGISTER'
 export const CONTINUE_WITH_GOOGLE = 'CONTINUE_WITH_GOOGLE'
 export const SEND_RECOVERY_EMAIL = 'SEND_RECOVERY_EMAIL'

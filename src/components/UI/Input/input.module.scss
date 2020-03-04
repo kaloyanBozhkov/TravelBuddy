@@ -92,6 +92,7 @@
     > div[icon] {
       color: $error;
     }
+    @include boxShadowMultiple(none);
   }
 
   &.error,

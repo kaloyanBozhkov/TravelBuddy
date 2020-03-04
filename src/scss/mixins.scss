@@ -157,7 +157,8 @@
   @include mediaQuery(xs) {
     margin-top: 5rem;
   }
-
+  min-height:100%;
+  
   .container {
     display: flex;
     flex-direction: column;

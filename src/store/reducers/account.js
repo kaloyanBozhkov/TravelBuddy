@@ -1,11 +1,17 @@
+import {
+    SIGN_IN
+} from '../constants/account'
+
 const initialState = {
     currentUser: null,
 }
 
-const reducer = (state = initialState, action) => {
-    switch (action.type) {
-        case 1:
-            return state
+const signIn = (state, user) => ({ ...state, currentUser: user }) 
+
+const reducer = (state = initialState, { type, payload }) => {
+    switch (type) {
+        case SIGN_IN:
+            return signIn(state, payload)
         default:
             return state
     }

@@ -15,7 +15,9 @@ const Input = forwardRef((props, ref) => {
         commentOnClick = null,
 
         //function to invoke to clear the error state, if any
-        errorHandler = null, 
+        invalidInputHandler = null, 
+        //function to call when an error is displayed (e.g. short password msg) and we want to remove it on click of input
+        errorMsgHandler = null,
         isOptional = false,
 
         //props to spread on input element
@@ -25,7 +27,7 @@ const Input = forwardRef((props, ref) => {
     //classes of wrapper
     const classes = [
         styles.input,
-        errorHandler ? styles.error : '',
+        invalidInputHandler ? styles.error : '',
         isOptional ? styles.isOptional : '',
         focused ? styles.inputFocused : '',
         ...(Array.prototype.isPrototypeOf(classNames) ? classNames : [classNames])
@@ -36,8 +38,13 @@ const Input = forwardRef((props, ref) => {
         setFocused(true)
 
         //clear error style if any set
-        if (errorHandler) {
-            errorHandler()
+        if (invalidInputHandler) {
+            invalidInputHandler()
+        }
+
+        //clear any error msg 
+        if (errorMsgHandler) {
+            errorMsgHandler()
         }
     }
     const blurHandler = () => setFocused(ref.current.value !== '')

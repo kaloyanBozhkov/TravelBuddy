@@ -14,23 +14,19 @@ const config = {
     measurementId: "G-CRCVK79CCN"
 }
 
-export const createUserProfileDocument = (userAuth, callbackWithUserData) => {
-    if (!userAuth) return
-   
+export const createUserProfileDocument = (userAuth) => {
+
     const userDocRef = firestore.doc(`users/${userAuth.uid}`)
     userDocRef.get()
     .then((docSnapshot) => {
-        console.log('docSnapshot', docSnapshot)
-        console.log('docSnapshot.data()', docSnapshot.data())
         //if user does not exist, create one!
         if (!docSnapshot.exists) {
             const { email, displayName, photoURL, phoneNumber, emailVerified, uid } = userAuth
-            const [firstName, lastName] = displayName.split(' ')
+            
             docSnapshot.ref.set({
                 dateCreated: new Date(),
                 email,
-                firstName,
-                lastName,
+                displayName,
                 emailVerified,
                 phoneNumber,
                 photoURL,
