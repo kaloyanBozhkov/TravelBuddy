@@ -1,0 +1,8 @@
+export const SIGN_UP_PENDING = 'SIGN_UP_PENDING'
+export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS'
+export const SIGN_UP_FAIL = 'SIGN_UP_FAIL'
+export const SIGN_UP_CLEAR_ERROR_MSG = 'SIGN_UP_CLEAR_ERROR_MSG'
+
+// export const SIGN_UP_PENDING = 'SIGN_UP_PENDING'
+// export const SIGN_UP_PENDING = 'SIGN_UP_PENDING'
+// export const SIGN_UP_PENDING = 'SIGN_UP_PENDING'

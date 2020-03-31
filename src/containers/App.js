@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from 'react'
 import { Redirect, Route } from 'react-router-dom'
 import { Switch } from 'react-router'
 
@@ -15,27 +15,25 @@ function App() {
   useResumeSession()
 
   return (
-      <div className="App">
-        <Header />
+    <div className="App">
+      <Header />
 
-        <Switch>
-          <Route path="/home" exact component={Home} />
-          <Route path="/new" exact component={NewTrip} />
-          
-          
-          <Route path="/account/signin" exact component={() => <Account page="signin" />} />
-          <Route path="/account/register" exact component={() => <Account page="register" />} />
-          <Route path="/account/recovery" exact component={() => <Account page="recovery" />} />
-          <Route path="/account" exact component={Account} />
+      <Switch>
+        <Route path="/home" exact component={Home} />
+        <Route path="/new" exact component={NewTrip} />
 
-          {/* redirect to /home if user navigates to any other page */}
-          <Route path="/" render={() => <Redirect to="/home" />} />
-        </Switch>
+        <Route path="/account/signin" exact component={() => <Account page="signin" />} />
+        <Route path="/account/register" exact component={() => <Account page="register" />} />
+        <Route path="/account/recovery" exact component={() => <Account page="recovery" />} />
+        <Route path="/account" exact component={Account} />
 
-        <Footer/>
-     
-      </div>
-  );
+        {/* redirect to /home if user navigates to any other page */}
+        <Route path="/" render={() => <Redirect to="/home" />} />
+      </Switch>
+
+      <Footer />
+    </div>
+  )
 }
 
-export default App;
+export default App
