@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 
-import { auth, createUserProfileDocument } from '~/firebase/firebase.utils'
-
 import { validateEmail } from '~/helpers/validation'
 
 import styles from './register.module.scss'
@@ -14,8 +12,11 @@ import usePersistantFields from '~/hooks/usePersistantFields'
 
 //redux
 import { useDispatch, useSelector } from 'react-redux'
-import { signInPending } from '~/store/login/login.actions'
-import { signUpPending, signUpClearErrorMsg } from '~/store/signup/signup.actions'
+import {
+  signUpPending,
+  signUpClearErrorMsg,
+  signUpGooglePending,
+} from '~/store/signup/signup.actions'
 
 import Input from '~/components/UI/Input/Input'
 import Button from '~/components/UI/Button/Button'
@@ -76,6 +77,35 @@ const inputDefinitions = [
   },
 ]
 
+const register = (fields, setInvalidInputs, dispatch) => {
+  //if field is not optional and has no value or has a custom check for it that fails, add field to error fields
+  const invalidInput = fields
+    .getFields()
+    .filter(
+      (field) =>
+        (!field.isOptional && field.ref.current.value.length === 0) ||
+        (field.check && !field.check())
+    )
+
+  if (invalidInput.length) {
+    //gotta fill in the missing mandatory fields fam
+    setInvalidInputs(invalidInput.map(({ name }) => name))
+
+    //do not continue further
+    return
+  }
+
+  dispatch(
+    signUpPending(
+      fields.email.ref.current.value,
+      fields.password.ref.current.value,
+      fields.firstName.ref.current.value,
+      fields.lastName.ref.current.value,
+      fields.phone.ref.current.value
+    )
+  )
+}
+
 // sign in input is controlled, register is uncontrolled. Why? for the fun of it!
 const Register = ({ googleSignInHandler }) => {
   const dispatch = useDispatch()
@@ -89,34 +119,7 @@ const Register = ({ googleSignInHandler }) => {
 
   const { redirectHandler, ...wrapperGenerator } = AccountPageAnimation(styles.exiting)
 
-  const registerHandler = () => {
-    //if field is not optional and has no value or has a custom check for it that fails, add field to error fields
-    const invalidInput = fields
-      .getFields()
-      .filter(
-        (field) =>
-          (!field.isOptional && field.ref.current.value.length === 0) ||
-          (field.check && !field.check())
-      )
-
-    if (invalidInput.length) {
-      //gotta fill in the missing mandatory fields fam
-      setInvalidInputs(invalidInput.map(({ name }) => name))
-
-      //do not continue further
-      return
-    }
-
-    dispatch(
-      signUpPending(
-        fields.email.ref.current.value,
-        fields.password.ref.current.value,
-        fields.firstName.ref.current.value,
-        fields.lastName.ref.current.value,
-        fields.phone.ref.current.value
-      )
-    )
-  }
+  const registerHandler = () => register(fields, setInvalidInputs, dispatch)
 
   const invalidInputHandler = (fieldName) =>
     setInvalidInputs((invalidInput) =>
@@ -130,6 +133,8 @@ const Register = ({ googleSignInHandler }) => {
     )
 
   const errorMsgHandler = () => dispatch(signUpClearErrorMsg())
+
+  const googleRegisterHandler = () => dispatch(signUpGooglePending())
 
   wrapperGenerator.props.children = (
     <div className={styles.register}>
@@ -166,7 +171,7 @@ const Register = ({ googleSignInHandler }) => {
           className={[styles.buttons, styles.googleBtn].join(' ')}
           icon="google"
           iconOnLeftSide
-          onClick={googleSignInHandler}
+          onClick={googleRegisterHandler}
         />
 
         <button className={styles.actionLink} onClick={() => redirectHandler('signin')}>

@@ -2,6 +2,9 @@ import {
   SIGN_UP_PENDING,
   SIGN_UP_SUCCESS,
   SIGN_UP_FAIL,
+  SIGN_UP_GOOGLE_FAIL,
+  SIGN_UP_GOOGLE_PENDING,
+  SIGN_UP_GOOGLE_SUCCESS,
   SIGN_UP_CLEAR_ERROR_MSG,
 } from './signup.constants'
 
@@ -33,11 +36,11 @@ const signUpClearErrorMsg = (state) => ({
 
 const signUpReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SIGN_UP_PENDING:
+    case SIGN_UP_PENDING || SIGN_UP_GOOGLE_PENDING:
       return signUpPending(state)
-    case SIGN_UP_SUCCESS:
+    case SIGN_UP_SUCCESS || SIGN_UP_GOOGLE_SUCCESS:
       return signUpSuccess(state, action.payload)
-    case SIGN_UP_FAIL:
+    case SIGN_UP_FAIL || SIGN_UP_GOOGLE_FAIL:
       return signUpFail(state, action.payload)
     case SIGN_UP_CLEAR_ERROR_MSG:
       return signUpClearErrorMsg(state)

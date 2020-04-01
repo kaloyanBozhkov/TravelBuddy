@@ -5,20 +5,16 @@ import Register from '~/components/Account/Register/Register'
 import Recovery from '~/components/Account/Recovery/Recovery'
 import { Redirect } from 'react-router'
 
-import { signInWithGoogle } from '~/firebase/providers'
 const signedIn = false
 
 const Account = ({ page }) => {
-  const googleSignInHandler = () =>
-    signInWithGoogle().catch(({ message }) => console.log('Sign in with google aborted', message))
-
   console.log(signedIn)
 
   switch (page) {
     case 'signin':
-      return <SignIn googleSignInHandler={googleSignInHandler} />
+      return <SignIn />
     case 'register':
-      return <Register googleSignInHandler={googleSignInHandler} />
+      return <Register />
     case 'recovery':
       return <Recovery />
     default:
