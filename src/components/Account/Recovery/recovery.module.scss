@@ -3,6 +3,10 @@
 
 .recovery {
   @include accountArea();
+  
+  .container {
+    width: 40rem;
+  }
   .actionLink {
     &:first-of-type{
       margin-bottom: 1rem;

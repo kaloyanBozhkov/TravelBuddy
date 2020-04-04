@@ -107,7 +107,7 @@ const register = (fields, setInvalidInputs, dispatch) => {
 }
 
 // sign in input is controlled, register is uncontrolled. Why? for the fun of it!
-const Register = ({ googleSignInHandler }) => {
+const Register = () => {
   const dispatch = useDispatch()
   //setup fields' refs dynamically. Use createRef instead of useRef hook since hooks cannot be invoked in callbacks
   const persistantFields = usePersistantFields(inputDefinitions)

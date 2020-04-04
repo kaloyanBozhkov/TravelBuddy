@@ -1,31 +1,21 @@
-import {
-  SIGN_IN_PENDING,
-  SIGN_IN_SUCCESS,
-  SIGN_IN_FAIL,
-  GOOGLE_SIGN_IN_FAIL,
-  GOOGLE_SIGN_IN_SUCCESS,
-  GOOGLE_SIGN_IN_PENDING,
-} from './login.constants'
+import { SIGN_IN_PENDING, SIGN_IN_SUCCESS, SIGN_IN_FAIL } from './login.constants'
 
 const initialState = {
-  currentUser: null,
   isPending: false,
   error: null,
 }
 
-const signInPending = (state) => ({
-  ...state,
+const signInPending = () => ({
+  error: null,
   isPending: true,
 })
 
-const signInSuccess = (state, user) => ({
-  ...state,
-  currentUser: user,
+const signInSuccess = () => ({
+  error: null,
   isPending: false,
 })
 
-const signInFail = (state, err) => ({
-  ...state,
+const signInFail = (err) => ({
   error: err,
   isPending: false,
 })
@@ -33,17 +23,11 @@ const signInFail = (state, err) => ({
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case SIGN_IN_PENDING:
-      return signInPending(state, payload)
+      return signInPending()
     case SIGN_IN_SUCCESS:
-      return signInSuccess(state, payload)
+      return signInSuccess()
     case SIGN_IN_FAIL:
-      return signInFail(state, payload)
-    case GOOGLE_SIGN_IN_PENDING:
-      return signInPending(state, payload)
-    case GOOGLE_SIGN_IN_SUCCESS:
-      return signInSuccess(state, payload)
-    case GOOGLE_SIGN_IN_FAIL:
-      return signInFail(state, payload)
+      return signInFail()
     default:
       return state
   }

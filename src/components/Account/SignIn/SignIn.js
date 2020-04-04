@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import useInputHandler from '~/hooks/useInputHandler'
 
@@ -15,18 +15,20 @@ import { signInPending } from '~/store/login/login.actions'
 // sign in input is controlled, register is uncontrolled. Why? for the fun of it!
 const SignIn = ({ googleSignInHandler }) => {
   const dispatch = useDispatch()
+  const errorMsg = useSelector(({ loginReducer: { error } }) => error && error.message)
   const [accState, onInputChangeHandler] = useInputHandler({ username: '', password: '' })
   const { redirectHandler, ...wrapperGenerator } = AccountPageAnimation(styles.exiting)
   const canProceed = accState.username.length > 0 && accState.password.length > 0
 
-  const signInHandler = () => {
-    dispatch(signInPending(accState.username, accState.password))
-  }
+  const signInHandler = () => dispatch(signInPending(accState.username, accState.password))
 
   wrapperGenerator.props.children = (
     <div className={styles.signIn}>
       <div className={styles.container}>
         <UserBall label="Sign in" />
+
+        {errorMsg && <p>{errorMsg}</p>}
+
         <div className={styles.inputArea}>
           <Input
             label="Username"

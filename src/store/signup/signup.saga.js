@@ -6,7 +6,24 @@ import { setUser } from '../user/user.actions'
 import { signInWithGoogle } from '~/firebase/providers'
 import { auth, firestore } from '~/firebase/firebase.utils'
 
-// SIGN IN
+import user from '~/classes/user'
+
+// create document for user, if not existing
+export function* createUserProfileDocument(userData, onSuccess) {
+  const userDocRef = firestore.doc(`users/${userData.uid}`)
+
+  const docSnapshot = yield userDocRef.get()
+
+  if (!docSnapshot.exists) {
+    // @TODO check return value?
+    const data = yield docSnapshot.ref.set(userData.getUser())
+
+    yield put(onSuccess())
+    yield put(setUser(userData))
+  }
+}
+
+// SIGN UP & login
 export function* signUpAsync({
   payload: { email, password, firstName, lastName, phone: phoneNumber },
 }) {
@@ -20,30 +37,32 @@ export function* signUpAsync({
       metadata: { creationTime: dateCreated, lastSignInTime: dateLastSignedIn },
     } = responseUserData.user
 
-    const userDocRef = firestore.doc(`users/${uid}`)
-
-    const docSnapshot = yield userDocRef.get()
-
-    if (!docSnapshot.exists) {
-      const userData = {
-        dateCreated,
-        dateLastSignedIn,
-        email,
-        displayName: `${firstName} ${lastName}`,
-        emailVerified,
-        phoneNumber,
-        photoURL,
-        uid,
-      }
-
-      // @TODO check return value?
-      const data = yield docSnapshot.ref.set(userData)
-
-      yield put(signUpSuccess())
-      yield put(setUser(userData))
+    const userData = {
+      dateCreated,
+      dateLastSignedIn,
+      email,
+      displayName: `${firstName} ${lastName}`,
+      emailVerified,
+      phoneNumber,
+      photoURL,
+      uid,
     }
+
+    yield call(createUserProfileDocument, new user(userData), signUpSuccess)
+
+    // since this is normal register process, send confirmation email to verify email address
+    yield responseUserData.user.sendEmailVerification()
   } catch (err) {
-    yield put(signUpFail(err))
+    const error =
+      typeof err === 'object' && err.hasOwnProperty('message')
+        ? err
+        : { message: 'Oops, something went wrong!' }
+
+    if (process.env.NODE_ENV === 'development') {
+      console.log(error)
+    }
+
+    yield put(signUpFail(error))
   }
 }
 
@@ -52,7 +71,7 @@ export function* signUpStart() {
   yield takeLeading(SIGN_UP_PENDING, signUpAsync)
 }
 
-// SIGN IN WITH GOOGLE PROVIDER
+// SIGN UP WITH GOOGLE PROVIDER & login
 export function* signUpGoogleAsync() {
   try {
     const response = yield signInWithGoogle()
@@ -80,31 +99,17 @@ export function* signUpGoogleAsync() {
       uid,
     }
 
-    // create document for user, if does not exist
-    const userDocRef = firestore.doc(`users/${uid}`)
-
-    const docSnapshot = yield userDocRef.get()
-
-    if (!docSnapshot.exists) {
-      const userData = {
-        dateCreated,
-        dateLastSignedIn,
-        email,
-        displayName,
-        emailVerified,
-        phoneNumber,
-        photoURL,
-        uid,
-      }
-
-      // @TODO check return value?
-      const data = yield docSnapshot.ref.set(userData)
-    }
-
-    yield put(signUpGoogleSuccess())
-    yield put(setUser(userData))
+    yield call(createUserProfileDocument, new user(userData), signUpGoogleSuccess)
   } catch (err) {
-    yield put(signUpGoogleFail(err))
+    const error =
+      typeof err === 'object' && err.hasOwnProperty('message')
+        ? err
+        : { message: 'Oops, something went wrong!' }
+
+    if (process.env.NODE_ENV === 'development') {
+      console.log(error)
+    }
+    yield put(signUpGoogleFail(error))
   }
 }
 

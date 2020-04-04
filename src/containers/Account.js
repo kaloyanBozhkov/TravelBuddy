@@ -8,8 +8,6 @@ import { Redirect } from 'react-router'
 const signedIn = false
 
 const Account = ({ page }) => {
-  console.log(signedIn)
-
   switch (page) {
     case 'signin':
       return <SignIn />

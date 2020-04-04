@@ -13,37 +13,36 @@ const initialState = {
   error: null,
 }
 
-const signUpPending = (state) => ({
-  ...state,
+const signUpPending = () => ({
+  error: null,
   isPending: true,
 })
 
-const signUpSuccess = (state) => ({
-  ...state,
+const signUpSuccess = () => ({
+  error: null,
   isPending: false,
 })
 
-const signUpFail = (state, error) => ({
-  ...state,
+const signUpFail = (error) => ({
   isPending: false,
   error,
 })
 
-const signUpClearErrorMsg = (state) => ({
-  ...state,
+const signUpClearErrorMsg = () => ({
+  isPending: false,
   error: null,
 })
 
 const signUpReducer = (state = initialState, action) => {
   switch (action.type) {
     case SIGN_UP_PENDING || SIGN_UP_GOOGLE_PENDING:
-      return signUpPending(state)
+      return signUpPending()
     case SIGN_UP_SUCCESS || SIGN_UP_GOOGLE_SUCCESS:
-      return signUpSuccess(state, action.payload)
+      return signUpSuccess(action.payload)
     case SIGN_UP_FAIL || SIGN_UP_GOOGLE_FAIL:
-      return signUpFail(state, action.payload)
+      return signUpFail(action.payload)
     case SIGN_UP_CLEAR_ERROR_MSG:
-      return signUpClearErrorMsg(state)
+      return signUpClearErrorMsg()
     default:
       return state
   }
