@@ -11,12 +11,20 @@ import Button from '~/components/UI/Button/Button'
 import UserBall from '~/components/UI/UserBall/UserBall'
 import ErrorMsg from '~/components/UI/ErrorMsg/ErrorMsg'
 
-import { signInPending, clearErrorMsg, signInFail } from '~/store/login/login.actions'
+import {
+  signInPending,
+  clearErrorMsg,
+  signInFail,
+  providerSignInPending,
+} from '~/store/login/login.actions'
 
 // sign in input is controlled, register is uncontrolled. Why? for the fun of it!
-const SignIn = ({ googleSignInHandler }) => {
+const SignIn = () => {
   const dispatch = useDispatch()
   const errorMsg = useSelector(({ loginReducer: { error } }) => error && error.message)
+  const providerSigningInPending = useSelector(
+    ({ loginReducer: { providerPending } }) => providerPending
+  )
   const [accState, onInputChangeHandler] = useInputHandler({ username: '', password: '' })
   const clearError = () => errorMsg && dispatch(clearErrorMsg())
 
@@ -26,6 +34,12 @@ const SignIn = ({ googleSignInHandler }) => {
   const passwordProvided = accState.password.length > 0
   const canProceed = emailProvided && passwordProvided
 
+  // clear erorr msg and show popup
+  const googleSignInHandler = () => {
+    clearError()
+    dispatch(providerSignInPending('google'))
+  }
+  const signInHandler = () => dispatch(signInPending(accState.username, accState.password))
   const cannotProceedHandler = () =>
     dispatch(
       signInFail({
@@ -38,7 +52,7 @@ const SignIn = ({ googleSignInHandler }) => {
         } before continuing.`,
       })
     )
-  const signInHandler = () => dispatch(signInPending(accState.username, accState.password))
+
   wrapperGenerator.props.children = (
     <div className={styles.signIn}>
       <div className={styles.container}>
@@ -73,12 +87,17 @@ const SignIn = ({ googleSignInHandler }) => {
           disabled={!canProceed}
         />
         <Button
-          label="Sign in with Google"
+          label={
+            providerSigningInPending === 'google'
+              ? 'Signing in with google...'
+              : 'Sign in with Google'
+          }
           modifier="filled"
           className={[styles.buttons, styles.googleBtn].join(' ')}
           icon="google"
           iconOnLeftSide
-          onClick={googleSignInHandler}
+          onClick={providerSigningInPending === 'google' ? undefined : googleSignInHandler}
+          isLoading={providerSigningInPending === 'google'}
         />
 
         <button className={styles.actionLink} onClick={() => redirectHandler('register')}>

@@ -1,11 +1,18 @@
-import { all, call, put, takeLeading, takeLatest, select } from 'redux-saga/effects'
+import { all, call, put, takeLeading } from 'redux-saga/effects'
 
-import { signInSuccess, signInFail, googleSignInSuccess, googleSignInFail } from './login.actions'
-import { SIGN_IN_PENDING, GOOGLE_SIGN_IN_PENDING } from './login.constants'
+import {
+  signInSuccess,
+  signInFail,
+  providerSignInSuccess,
+  providerSignInFail,
+} from './login.actions'
+import { SIGN_IN_PENDING, PROVIDER_SIGN_IN_PENDING } from './login.constants'
 import { setUser } from '../user/user.actions'
 
 import { auth, firestore } from '~/firebase/firebase.utils'
-import user from '~/classes/user'
+import { signInWithGoogle } from '~/firebase/providers'
+import User from '~/classes/user'
+import formatError from '~/helpers/formatError'
 
 // SIGN IN
 export function* signInAsync({ payload: { username, password } }) {
@@ -23,9 +30,9 @@ export function* signInAsync({ payload: { username, password } }) {
     const userData = docSnapshot.data()
 
     yield put(signInSuccess())
-    yield put(setUser(new user(userData)))
+    yield put(setUser(new User(userData)))
   } catch (err) {
-    yield put(signInFail(err))
+    yield put(signInFail(formatError(err)))
   }
 }
 
@@ -34,21 +41,41 @@ export function* signInStart() {
   yield takeLeading(SIGN_IN_PENDING, signInAsync)
 }
 
-// GOOGLE SIGN IN
-export function* googleSignInAsync(user) {
+// PROVIDER SIGN IN
+export function* providerSignInAsync({ payload: provider }) {
   try {
-    yield put(googleSignInSuccess(user))
+    const response = yield (() => {
+      switch (provider) {
+        case 'google':
+          return signInWithGoogle()
+        default:
+          return signInWithGoogle()
+      }
+    })()
+
+    const {
+      user: { uid },
+    } = response
+
+    const userDocRef = firestore.doc(`users/${uid}`)
+
+    const docSnapshot = yield userDocRef.get()
+
+    const userData = docSnapshot.data()
+
+    yield put(providerSignInSuccess())
+    yield put(setUser(new User(userData)))
   } catch (err) {
-    yield put(googleSignInFail(err))
+    yield put(providerSignInFail({ ...formatError(err), provider }))
   }
 }
 
 // listener
-export function* googleSignInStart() {
-  yield takeLeading(GOOGLE_SIGN_IN_PENDING, signInAsync)
+export function* providerSignInStart() {
+  yield takeLeading(PROVIDER_SIGN_IN_PENDING, providerSignInAsync)
 }
 
 // export sagas
 export function* loginSagas() {
-  yield all([call(signInStart), call(googleSignInStart)])
+  yield all([call(signInStart), call(providerSignInStart)])
 }

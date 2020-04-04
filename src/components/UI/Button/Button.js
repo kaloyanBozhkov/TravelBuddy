@@ -15,6 +15,7 @@ const Button = ({
   iconOnLeftSide = false,
   iconOnRightSide = false,
   disabled = false,
+  isLoading = false,
   ...buttonProps
 }) => {
   const elementClass = [
@@ -34,6 +35,7 @@ const Button = ({
     <div className={elementClass} {...buttonProps}>
       {icon && <Icon icon={icon} />}
       <p>{label}</p>
+      {isLoading && <Icon icon="spinner--cog" />}
     </div>
   )
 }

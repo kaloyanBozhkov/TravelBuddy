@@ -2,9 +2,9 @@ import {
   SIGN_IN_PENDING,
   SIGN_IN_SUCCESS,
   SIGN_IN_FAIL,
-  GOOGLE_SIGN_IN_PENDING,
-  GOOGLE_SIGN_IN_SUCCESS,
-  GOOGLE_SIGN_IN_FAIL,
+  PROVIDER_SIGN_IN_PENDING,
+  PROVIDER_SIGN_IN_SUCCESS,
+  PROVIDER_SIGN_IN_FAIL,
   SIGN_OUT,
   SIGN_IN_CLEAR_ERORR,
 } from './login.constants'
@@ -14,9 +14,8 @@ export const signInPending = (username, password) => ({
   payload: { username, password },
 })
 
-export const signInSuccess = (user) => ({
+export const signInSuccess = () => ({
   type: SIGN_IN_SUCCESS,
-  payload: user,
 })
 
 export const signInFail = (error) => ({
@@ -24,22 +23,18 @@ export const signInFail = (error) => ({
   payload: error,
 })
 
-export const googleSignInPending = () => ({
-  type: GOOGLE_SIGN_IN_PENDING,
+export const providerSignInPending = (provider) => ({
+  type: PROVIDER_SIGN_IN_PENDING,
+  payload: provider,
 })
 
-export const googleSignInSuccess = (user) => ({
-  type: GOOGLE_SIGN_IN_SUCCESS,
-  payload: user,
+export const providerSignInSuccess = () => ({
+  type: PROVIDER_SIGN_IN_SUCCESS,
 })
 
-export const googleSignInFail = (error) => ({
-  type: GOOGLE_SIGN_IN_FAIL,
+export const providerSignInFail = (error) => ({
+  type: PROVIDER_SIGN_IN_FAIL,
   payload: error,
-})
-
-export const signOut = () => ({
-  type: SIGN_OUT,
 })
 
 export const clearErrorMsg = () => ({

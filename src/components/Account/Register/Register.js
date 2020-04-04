@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   signUpPending,
   signUpClearErrorMsg,
-  signUpGooglePending,
+  signUpProviderPending,
 } from '~/store/signup/signup.actions'
 
 import Input from '~/components/UI/Input/Input'
@@ -117,7 +117,9 @@ const Register = () => {
 
   const [errInputs, setInvalidInputs] = useState([])
   const errorMsg = useSelector(({ signUpReducer: { error } }) => error && error.message)
-
+  const providerSignUpPending = useSelector(
+    ({ signUpReducer: { providerPending } }) => providerPending
+  )
   const { redirectHandler, ...wrapperGenerator } = AccountPageAnimation(styles.exiting)
 
   const registerHandler = () => register(fields, setInvalidInputs, dispatch)
@@ -135,7 +137,7 @@ const Register = () => {
 
   const errorMsgHandler = () => dispatch(signUpClearErrorMsg())
 
-  const googleRegisterHandler = () => dispatch(signUpGooglePending())
+  const googleRegisterHandler = () => dispatch(signUpProviderPending('google'))
 
   wrapperGenerator.props.children = (
     <div className={styles.register}>
@@ -166,12 +168,13 @@ const Register = () => {
         />
 
         <Button
-          label="Continue with Google"
+          label={providerSignUpPending === 'google' ? 'In Progress...' : 'Continue with Google'}
           modifier="filled"
           className={[styles.buttons, styles.googleBtn].join(' ')}
           icon="google"
           iconOnLeftSide
           onClick={googleRegisterHandler}
+          isLoading={providerSignUpPending === 'google'}
         />
 
         <button className={styles.actionLink} onClick={() => redirectHandler('signin')}>

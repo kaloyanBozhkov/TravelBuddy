@@ -1,12 +1,18 @@
 import { all, call, put, takeLeading, select } from 'redux-saga/effects'
-import { signUpFail, signUpSuccess, signUpGoogleFail, signUpGoogleSuccess } from './signup.actions'
-import { SIGN_UP_PENDING, SIGN_UP_GOOGLE_PENDING } from './signup.constants'
+import {
+  signUpFail,
+  signUpSuccess,
+  signUpProviderFail,
+  signUpProviderSuccess,
+} from './signup.actions'
+import { providerSignInSuccess } from '~/store/login/login.actions'
+import { SIGN_UP_PENDING, SIGN_UP_PROVIDER_PENDING } from './signup.constants'
 import { setUser } from '../user/user.actions'
 
 import { signInWithGoogle } from '~/firebase/providers'
 import { auth, firestore } from '~/firebase/firebase.utils'
-
-import user from '~/classes/user'
+import formatError from '~/helpers/formatError'
+import User from '~/classes/user'
 
 // create document for user, if not existing
 export function* createUserProfileDocument(userData, onSuccess) {
@@ -20,6 +26,12 @@ export function* createUserProfileDocument(userData, onSuccess) {
 
     yield put(onSuccess())
     yield put(setUser(userData))
+  } else {
+    // if user exists already, just sign them in
+
+    const userData = docSnapshot.data()
+
+    yield all([put(onSuccess()), put(providerSignInSuccess()), put(setUser(userData))])
   }
 }
 
@@ -48,21 +60,12 @@ export function* signUpAsync({
       uid,
     }
 
-    yield call(createUserProfileDocument, new user(userData), signUpSuccess)
+    yield call(createUserProfileDocument, new User(userData), signUpSuccess)
 
     // since this is normal register process, send confirmation email to verify email address
     yield responseUserData.user.sendEmailVerification()
   } catch (err) {
-    const error =
-      typeof err === 'object' && err.hasOwnProperty('message')
-        ? err
-        : { message: 'Oops, something went wrong!' }
-
-    if (process.env.NODE_ENV === 'development') {
-      console.log(error)
-    }
-
-    yield put(signUpFail(error))
+    yield put(signUpFail(formatError(err)))
   }
 }
 
@@ -71,10 +74,17 @@ export function* signUpStart() {
   yield takeLeading(SIGN_UP_PENDING, signUpAsync)
 }
 
-// SIGN UP WITH GOOGLE PROVIDER & login
-export function* signUpGoogleAsync() {
+// SIGN UP WITH PROVIDER PROVIDER & login
+export function* signUpProviderAsync({ payload: provider }) {
   try {
-    const response = yield signInWithGoogle()
+    const response = yield (() => {
+      switch (provider) {
+        case 'google':
+          return signInWithGoogle()
+        default:
+          return signInWithGoogle()
+      }
+    })()
 
     const {
       user: {
@@ -99,26 +109,18 @@ export function* signUpGoogleAsync() {
       uid,
     }
 
-    yield call(createUserProfileDocument, new user(userData), signUpGoogleSuccess)
+    yield call(createUserProfileDocument, new User(userData), signUpProviderSuccess)
   } catch (err) {
-    const error =
-      typeof err === 'object' && err.hasOwnProperty('message')
-        ? err
-        : { message: 'Oops, something went wrong!' }
-
-    if (process.env.NODE_ENV === 'development') {
-      console.log(error)
-    }
-    yield put(signUpGoogleFail(error))
+    yield put(signUpProviderFail({ ...formatError(err), provider }))
   }
 }
 
 // listener
-export function* signUpGoogleStart() {
-  yield takeLeading(SIGN_UP_GOOGLE_PENDING, signUpGoogleAsync)
+export function* signUpProviderStart() {
+  yield takeLeading(SIGN_UP_PROVIDER_PENDING, signUpProviderAsync)
 }
 
 // export sagas
 export function* signUpSagas() {
-  yield all([call(signUpStart), call(signUpGoogleStart)])
+  yield all([call(signUpStart), call(signUpProviderStart)])
 }

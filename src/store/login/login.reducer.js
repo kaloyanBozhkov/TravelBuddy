@@ -3,25 +3,51 @@ import {
   SIGN_IN_SUCCESS,
   SIGN_IN_FAIL,
   SIGN_IN_CLEAR_ERORR,
+  PROVIDER_SIGN_IN_PENDING,
+  PROVIDER_SIGN_IN_SUCCESS,
+  PROVIDER_SIGN_IN_FAIL,
 } from './login.constants'
 
 const initialState = {
   isPending: false,
   error: null,
+  providerPending: false,
 }
 
-const signInPending = () => ({
+const signInPending = (state) => ({
+  ...state,
   error: null,
   isPending: true,
 })
 
-const signInSuccess = () => ({
+const signInProviderPending = (state, provider) => ({
+  ...state,
+  isPending: true,
+  providerPending: provider,
+})
+
+const signInSuccess = (state) => ({
+  ...state,
   error: null,
   isPending: false,
 })
 
-const signInFail = (err) => ({
-  error: err,
+const signInFail = (state, error) => ({
+  ...state,
+  isPending: false,
+  error,
+})
+
+const signInProviderFail = (state, error) => ({
+  ...state,
+  providerPending: null,
+  isPending: false,
+  error,
+})
+
+const signInProviderSuccess = (state) => ({
+  ...state,
+  providerPending: null,
   isPending: false,
 })
 
@@ -30,11 +56,17 @@ const clearError = () => initialState
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case SIGN_IN_PENDING:
-      return signInPending()
+      return signInPending(state)
     case SIGN_IN_SUCCESS:
-      return signInSuccess()
+      return signInSuccess(state)
     case SIGN_IN_FAIL:
-      return signInFail(payload)
+      return signInFail(state, payload)
+    case PROVIDER_SIGN_IN_PENDING:
+      return signInProviderPending(state, payload)
+    case PROVIDER_SIGN_IN_SUCCESS:
+      return signInProviderSuccess(state)
+    case PROVIDER_SIGN_IN_FAIL:
+      return signInProviderFail(state, payload)
     case SIGN_IN_CLEAR_ERORR:
       return clearError()
     default:
