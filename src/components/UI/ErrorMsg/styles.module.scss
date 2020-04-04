@@ -1,0 +1,26 @@
+@import 'scss/variables';
+@import 'scss/mixins';
+@import 'scss/keyframes';
+.errorMsg {
+  min-height: 2.4rem;
+
+  > p {
+    line-height: 2.4rem;
+    color: $error;
+    text-align: center;
+    max-width: 50rem;
+    font-size: 1.6rem;
+    transition: 400ms;
+  }
+  &:not(.exiting) {
+    > p {
+      @include animate(scaleOpacityIn, 0.3s);
+    }
+  }
+  &.exiting {
+    > p {
+      @include animate(scaleOpacityIn, 0.4s);
+      animation-direction: reverse;
+    }
+  }
+}

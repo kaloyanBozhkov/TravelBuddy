@@ -6,6 +6,7 @@ import {
   GOOGLE_SIGN_IN_SUCCESS,
   GOOGLE_SIGN_IN_FAIL,
   SIGN_OUT,
+  SIGN_IN_CLEAR_ERORR,
 } from './login.constants'
 
 export const signInPending = (username, password) => ({
@@ -39,4 +40,8 @@ export const googleSignInFail = (error) => ({
 
 export const signOut = () => ({
   type: SIGN_OUT,
+})
+
+export const clearErrorMsg = () => ({
+  type: SIGN_IN_CLEAR_ERORR,
 })

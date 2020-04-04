@@ -1,0 +1,71 @@
+
+@keyframes fallIn {
+    0% {
+      transform: translateY(-150%) rotate(7deg);
+    }
+    100% {
+      transform: translateY(-20%) rotate(7deg);
+    }
+  }
+  
+  @keyframes fallIn2 {
+    0% {
+      transform: translateY(-150%) rotate(5deg);
+    }
+    100% {
+      transform: translateY(-50%) rotate(5deg);
+    }
+  }
+  
+  //not reversing these animation with animation-reverse due to needing a new animation name to overwrite
+  @keyframes fallOut {
+    0% {
+      transform: translateY(-20%) rotate(7deg);
+    }
+    100% {
+      transform: translateY(-150%) rotate(7deg);
+    }
+  }
+  
+  @keyframes fallOut2 {
+    0% {
+      transform: translateY(-50%) rotate(5deg);
+    }
+    100% {
+      transform: translateY(-150%) rotate(5deg);
+    }
+  }
+  
+  @keyframes slideHalfDownFadeOut {
+    0% {
+      transform: translateY(0%);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(50%);
+      opacity: 0;
+    }
+  }
+
+  
+  @keyframes slideHalfUpFadeIn {
+    0% {
+      transform: translateY(59%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0%);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes scaleOpacityIn {
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }

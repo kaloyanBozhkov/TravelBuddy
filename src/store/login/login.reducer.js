@@ -1,4 +1,9 @@
-import { SIGN_IN_PENDING, SIGN_IN_SUCCESS, SIGN_IN_FAIL } from './login.constants'
+import {
+  SIGN_IN_PENDING,
+  SIGN_IN_SUCCESS,
+  SIGN_IN_FAIL,
+  SIGN_IN_CLEAR_ERORR,
+} from './login.constants'
 
 const initialState = {
   isPending: false,
@@ -20,6 +25,8 @@ const signInFail = (err) => ({
   isPending: false,
 })
 
+const clearError = () => initialState
+
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case SIGN_IN_PENDING:
@@ -27,7 +34,9 @@ const reducer = (state = initialState, { type, payload }) => {
     case SIGN_IN_SUCCESS:
       return signInSuccess()
     case SIGN_IN_FAIL:
-      return signInFail()
+      return signInFail(payload)
+    case SIGN_IN_CLEAR_ERORR:
+      return clearError()
     default:
       return state
   }

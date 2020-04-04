@@ -1,9 +1,7 @@
 @import "scss/mixins";
 @import "scss/variables";
-
 .recovery {
   @include accountArea();
-  
   .container {
     width: 40rem;
   }

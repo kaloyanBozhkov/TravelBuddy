@@ -1,3 +1,4 @@
+@import './keyframes.scss';
 @mixin animate($animationName, $duration, $delay: 0s, $fillMode: forwards) {
   animation-name: $animationName;
   animation-duration: $duration;
@@ -69,60 +70,24 @@
   }
 }
 
-@keyframes fallIn {
-  0% {
-    transform: translateY(-150%) rotate(7deg)
-  }
-  100% {
-    transform: translateY(-20%) rotate(7deg)
-  }
-}
-
-@keyframes fallIn2 {
-  0% {
-    transform: translateY(-150%) rotate(5deg)
-  }
-  100% {
-    transform: translateY(-50%) rotate(5deg);
-  }
-}
-
-//not reversing these animation with animation-reverse due to needing a new animation name to overwrite
-@keyframes fallOut {
-  0% {
-    transform: translateY(-20%) rotate(7deg)
-  }
-  100% {
-    transform: translateY(-150%) rotate(7deg)
-  }
-}
-
-@keyframes fallOut2 {
-  0% {
-    transform: translateY(-50%) rotate(5deg);
-  }
-  100% {
-    transform: translateY(-150%) rotate(5deg)
-  }
-}
 @mixin fancyHeader($withAnimation: false) {
   &::after {
-    content: "";
+    content: '';
     background-color: $orange;
     width: 120%;
     height: 20%;
     position: absolute;
     transform: rotate(5deg);
-    bottom:90%;
+    bottom: 90%;
   }
   &::before {
-    content: "";
+    content: '';
     background-color: lighten($orange, 15%);
     width: 120%;
     height: 20%;
     position: absolute;
     transform: rotate(7deg);
-    bottom:87%;
+    bottom: 87%;
   }
 
   @if ($withAnimation == true) {
@@ -157,8 +122,8 @@
   @include mediaQuery(xs) {
     margin-top: 5rem;
   }
-  min-height:100%;
-  
+  min-height: 100%;
+
   .container {
     display: flex;
     flex-direction: column;
@@ -204,17 +169,23 @@
 
   @include fancyHeader(true);
 
-  &.exiting{
+  &.exiting {
     &::before {
       transform: translateY(-20%) rotate(7deg);
-      animation-name: fallOut;
-      animation-duration: .4s;
+      @include animate(fallOut, 400ms);
     }
     &::after {
       transform: translateY(-50%) rotate(5deg);
-      animation-name: fallOut2;
-      animation-duration: .3s;
-      animation-delay: .1s;
+      @include animate(fallOut2, 300ms, 100ms);
+    }
+    .container {
+      @include animate(slideHalfDownFadeOut, 400ms);
+    }
+  }
+
+  &:not(.exiting) {
+    .container {
+      @include animate(slideHalfUpFadeIn, 400ms);
     }
   }
 

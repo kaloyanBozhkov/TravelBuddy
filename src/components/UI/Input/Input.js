@@ -13,20 +13,20 @@ const Input = forwardRef(
       comment,
       commentOnClick = null,
 
-      //function to invoke to clear the error state, if any
+      // function to invoke to clear the error state, if any
       invalidInputHandler = null,
-      //function to call when an error is displayed (e.g. short password msg) and we want to remove it on click of input
+      // function to call when an error is displayed (e.g. short password msg) and we want to remove it on click of input
       errorMsgHandler = null,
       isOptional = false,
 
-      //props to spread on input element
+      // props to spread on input element
       ...remainingProps
     },
     ref
   ) => {
     const [focused, setFocused] = useState(false)
 
-    //classes of wrapper
+    // classes of wrapper
     const classes = [
       styles.input,
       invalidInputHandler ? styles.error : '',
@@ -37,16 +37,16 @@ const Input = forwardRef(
       .join(' ')
       .replace(/ +/g, ' ')
 
-    //handle state of impout. Does it have content? Then set it to active styles!
+    // handle state of input. Does it have content? Then set it to active styles!
     const focusHandler = () => {
       setFocused(true)
 
-      //clear error style if any set
-      if (invalidInputHandler) {
+      // clear error style if any set
+      if (invalidInputHandler && typeof invalidInputHandler === 'function') {
         invalidInputHandler()
       }
 
-      //clear any error msg
+      // clear any error msg
       if (errorMsgHandler) {
         errorMsgHandler()
       }

@@ -9,32 +9,49 @@ import AccountPageAnimation from '~/components/HOCs/AccountPageAnimation'
 import Input from '~/components/UI/Input/Input'
 import Button from '~/components/UI/Button/Button'
 import UserBall from '~/components/UI/UserBall/UserBall'
+import ErrorMsg from '~/components/UI/ErrorMsg/ErrorMsg'
 
-import { signInPending } from '~/store/login/login.actions'
+import { signInPending, clearErrorMsg, signInFail } from '~/store/login/login.actions'
 
 // sign in input is controlled, register is uncontrolled. Why? for the fun of it!
 const SignIn = ({ googleSignInHandler }) => {
   const dispatch = useDispatch()
   const errorMsg = useSelector(({ loginReducer: { error } }) => error && error.message)
   const [accState, onInputChangeHandler] = useInputHandler({ username: '', password: '' })
+  const clearError = () => errorMsg && dispatch(clearErrorMsg())
+
   const { redirectHandler, ...wrapperGenerator } = AccountPageAnimation(styles.exiting)
-  const canProceed = accState.username.length > 0 && accState.password.length > 0
 
+  const emailProvided = accState.username.length > 0
+  const passwordProvided = accState.password.length > 0
+  const canProceed = emailProvided && passwordProvided
+
+  const cannotProceedHandler = () =>
+    dispatch(
+      signInFail({
+        message: `Must fill in the ${
+          !emailProvided && !passwordProvided
+            ? 'fields'
+            : emailProvided
+            ? 'password field'
+            : 'email field'
+        } before continuing.`,
+      })
+    )
   const signInHandler = () => dispatch(signInPending(accState.username, accState.password))
-
   wrapperGenerator.props.children = (
     <div className={styles.signIn}>
       <div className={styles.container}>
         <UserBall label="Sign in" />
-
-        {errorMsg && <p>{errorMsg}</p>}
-
+        <ErrorMsg errorMsg={errorMsg} />
         <div className={styles.inputArea}>
           <Input
-            label="Username"
+            label="Email"
             icon="userCircle"
             name="username"
             onChange={onInputChangeHandler}
+            errorMsgHandler={clearError}
+            invalidInputHandler={errorMsg && !!~errorMsg.indexOf('email')}
           />
           <Input
             label="Password"
@@ -44,13 +61,15 @@ const SignIn = ({ googleSignInHandler }) => {
             comment="Forgot your password?"
             commentOnClick={() => redirectHandler('recovery')}
             onChange={onInputChangeHandler}
+            errorMsgHandler={clearError}
+            invalidInputHandler={errorMsg && !!~errorMsg.indexOf('password')}
           />
         </div>
         <Button
           label="Sign in"
           modifier="filled"
           className={styles.buttons}
-          onClick={canProceed ? signInHandler : undefined}
+          onClick={canProceed ? signInHandler : cannotProceedHandler}
           disabled={!canProceed}
         />
         <Button

@@ -1,7 +1,4 @@
 import React, { useState } from 'react'
-
-import { validateEmail } from '~/helpers/validation'
-
 import styles from './register.module.scss'
 
 //HOCs
@@ -12,6 +9,7 @@ import usePersistantFields from '~/hooks/usePersistantFields'
 
 //redux
 import { useDispatch, useSelector } from 'react-redux'
+
 import {
   signUpPending,
   signUpClearErrorMsg,
@@ -21,6 +19,9 @@ import {
 import Input from '~/components/UI/Input/Input'
 import Button from '~/components/UI/Button/Button'
 import UserBall from '~/components/UI/UserBall/UserBall'
+import ErrorMsg from '~/components/UI/ErrorMsg/ErrorMsg'
+
+import { validateEmail } from '~/helpers/validation'
 /*
     check: custom check for validation besides empty
     onErrorClear: what other field to remove from errors state when this one is cleared? (password & repeatPassword will both clear error state on click of either one)
@@ -140,8 +141,7 @@ const Register = () => {
     <div className={styles.register}>
       <div className={styles.container}>
         <UserBall label="Register" />
-
-        {errorMsg && <p>{errorMsg}</p>}
+        <ErrorMsg errorMsg={errorMsg} />
 
         <div className={styles.inputArea}>
           {fields.getFormatted().map((fieldAttributes) => (

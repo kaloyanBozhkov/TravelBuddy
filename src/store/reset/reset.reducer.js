@@ -2,6 +2,7 @@ import {
   RESET_PASSWORD_PENDING,
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAIL,
+  RESET_PASSWORD_CLEAR_ERROR,
 } from './reset.constants'
 
 const initialState = {
@@ -24,6 +25,8 @@ const setFail = (error) => ({
   error,
 })
 
+const clearError = () => initialState
+
 const resetPasswordReducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case RESET_PASSWORD_PENDING:
@@ -32,6 +35,8 @@ const resetPasswordReducer = (state = initialState, action = {}) => {
       return setSuccess()
     case RESET_PASSWORD_FAIL:
       return setFail(action.payload)
+    case RESET_PASSWORD_CLEAR_ERROR:
+      return clearError()
     default:
       return state
   }
