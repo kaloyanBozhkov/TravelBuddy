@@ -1,22 +1,21 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { auth, createUserProfileDocument } from '~/firebase/firebase.utils'
+import { auth } from '~/firebase/firebase.utils'
 
 // import actions
-import { googleSignInPending, signOut } from '~/store/login/login.actions'
-import { useSelector } from 'react-redux'
+import { signInSuccess } from '~/store/login/login.actions'
+import { setUser } from '~/store/user/user.actions'
+import User from '~/classes/user'
 
 const useResumeSession = () => {
   const dispatch = useDispatch()
-  const currentUser = useSelector(({ userReducer: { userData } }) => userData)
 
   // if signed in already, resume session
   useEffect(() => {
     const unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
       if (user) {
-        console.log('user signed in', user, currentUser)
-      } else {
-        console.log('user not signed in', user, currentUser)
+        dispatch(signInSuccess())
+        dispatch(setUser(new User(user)))
       }
     })
 

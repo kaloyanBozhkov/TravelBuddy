@@ -40,3 +40,7 @@ export const providerSignInFail = (error) => ({
 export const clearErrorMsg = () => ({
   type: SIGN_IN_CLEAR_ERORR,
 })
+
+export const signOut = () => ({
+  type: SIGN_OUT,
+})

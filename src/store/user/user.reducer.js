@@ -1,15 +1,7 @@
 import { SET_USER } from './user.constants'
 
 const initialState = {
-  userData: {
-    dateCreated: null,
-    email: null,
-    displayName: null,
-    emailVerified: null,
-    phoneNumber: null,
-    photoURL: null,
-    uid: null,
-  },
+  userData: null,
 }
 
 const setUser = (state, userData) => ({

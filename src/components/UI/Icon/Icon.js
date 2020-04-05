@@ -17,6 +17,7 @@ import {
   FaBars,
   FaLock,
   FaGoogle,
+  FaFacebook,
   FaAt,
   FaSignature,
   FaCog,
@@ -63,6 +64,8 @@ const Icon = (props) => {
         return <FaLock />
       case 'google':
         return <FaGoogle />
+      case 'facebook':
+        return <FaFacebook />
       case 'at':
         return <FaAt />
       case 'signature':

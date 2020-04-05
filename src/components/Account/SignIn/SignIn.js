@@ -35,9 +35,9 @@ const SignIn = () => {
   const canProceed = emailProvided && passwordProvided
 
   // clear erorr msg and show popup
-  const googleSignInHandler = () => {
+  const providerSignInHandler = (provider) => {
     clearError()
-    dispatch(providerSignInPending('google'))
+    dispatch(providerSignInPending(provider))
   }
   const signInHandler = () => dispatch(signInPending(accState.username, accState.password))
   const cannotProceedHandler = () =>
@@ -96,8 +96,28 @@ const SignIn = () => {
           className={[styles.buttons, styles.googleBtn].join(' ')}
           icon="google"
           iconOnLeftSide
-          onClick={providerSigningInPending === 'google' ? undefined : googleSignInHandler}
+          onClick={
+            providerSigningInPending === 'google'
+              ? undefined
+              : () => providerSignInHandler('google')
+          }
           isLoading={providerSigningInPending === 'google'}
+        />
+
+        <Button
+          label={
+            providerSigningInPending === 'facebook' ? 'In Progress...' : 'Signing in with Facebook'
+          }
+          modifier="filled"
+          className={[styles.buttons, styles.facebookBtn].join(' ')}
+          icon="facebook"
+          iconOnLeftSide
+          onClick={
+            providerSigningInPending === 'facebook'
+              ? undefined
+              : () => providerSignInHandler('facebook')
+          }
+          isLoading={providerSigningInPending === 'facebook'}
         />
 
         <button className={styles.actionLink} onClick={() => redirectHandler('register')}>

@@ -10,9 +10,10 @@ import { SIGN_IN_PENDING, PROVIDER_SIGN_IN_PENDING } from './login.constants'
 import { setUser } from '../user/user.actions'
 
 import { auth, firestore } from '~/firebase/firebase.utils'
-import { signInWithGoogle } from '~/firebase/providers'
+import { signInWithGoogle, signInWithFacebook } from '~/firebase/providers'
 import User from '~/classes/user'
 import formatError from '~/helpers/formatError'
+import { createUserProfileDocumentAndSignIn } from '~/store/signup/signup.saga'
 
 // SIGN IN
 export function* signInAsync({ payload: { username, password } }) {
@@ -48,23 +49,35 @@ export function* providerSignInAsync({ payload: provider }) {
       switch (provider) {
         case 'google':
           return signInWithGoogle()
+        case 'facebook':
+          return signInWithFacebook()
         default:
           return signInWithGoogle()
       }
     })()
 
     const {
-      user: { uid },
+      user: {
+        displayName,
+        uid,
+        photoURL,
+        email,
+        emailVerified,
+        phoneNumber,
+        metadata: { creationTime: dateCreated, lastSignInTime: dateLastSignedIn },
+      },
     } = response
-
-    const userDocRef = firestore.doc(`users/${uid}`)
-
-    const docSnapshot = yield userDocRef.get()
-
-    const userData = docSnapshot.data()
-
-    yield put(providerSignInSuccess())
-    yield put(setUser(new User(userData)))
+    const userData = {
+      dateCreated,
+      dateLastSignedIn,
+      email,
+      displayName,
+      emailVerified,
+      phoneNumber,
+      photoURL,
+      uid,
+    }
+    yield createUserProfileDocumentAndSignIn(new User(userData), providerSignInSuccess)
   } catch (err) {
     yield put(providerSignInFail({ ...formatError(err), provider }))
   }

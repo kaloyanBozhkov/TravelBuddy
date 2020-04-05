@@ -150,6 +150,10 @@
         background-color: $google;
       }
 
+      &.facebookBtn {
+        background-color: $facebook;
+      }
+
       @include mediaQuery(xs) {
         height: 5.4rem;
       }

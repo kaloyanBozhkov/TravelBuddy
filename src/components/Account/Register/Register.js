@@ -138,6 +138,7 @@ const Register = () => {
   const errorMsgHandler = () => dispatch(signUpClearErrorMsg())
 
   const googleRegisterHandler = () => dispatch(signUpProviderPending('google'))
+  const facebookRegisterHandler = () => dispatch(signUpProviderPending('facebook'))
 
   wrapperGenerator.props.children = (
     <div className={styles.register}>
@@ -175,6 +176,16 @@ const Register = () => {
           iconOnLeftSide
           onClick={googleRegisterHandler}
           isLoading={providerSignUpPending === 'google'}
+        />
+
+        <Button
+          label={providerSignUpPending === 'facebook' ? 'In Progress...' : 'Continue with Facebook'}
+          modifier="filled"
+          className={[styles.buttons, styles.facebookBtn].join(' ')}
+          icon="facebook"
+          iconOnLeftSide
+          onClick={facebookRegisterHandler}
+          isLoading={providerSignUpPending === 'facebook'}
         />
 
         <button className={styles.actionLink} onClick={() => redirectHandler('signin')}>

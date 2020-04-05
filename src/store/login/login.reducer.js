@@ -6,6 +6,7 @@ import {
   PROVIDER_SIGN_IN_PENDING,
   PROVIDER_SIGN_IN_SUCCESS,
   PROVIDER_SIGN_IN_FAIL,
+  SIGN_OUT,
 } from './login.constants'
 
 const initialState = {
@@ -53,6 +54,8 @@ const signInProviderSuccess = (state) => ({
 
 const clearError = () => initialState
 
+const signOut = () => initialState
+
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case SIGN_IN_PENDING:
@@ -69,6 +72,8 @@ const reducer = (state = initialState, { type, payload }) => {
       return signInProviderFail(state, payload)
     case SIGN_IN_CLEAR_ERORR:
       return clearError()
+    case SIGN_OUT:
+      return signOut()
     default:
       return state
   }
