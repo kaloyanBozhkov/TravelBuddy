@@ -5,10 +5,10 @@ import {
   PROVIDER_SIGN_IN_PENDING,
   PROVIDER_SIGN_IN_SUCCESS,
   PROVIDER_SIGN_IN_FAIL,
-  SIGN_OUT,
   SIGN_IN_CLEAR_ERORR,
 } from './login.constants'
 
+// callBack is function to run
 export const signInPending = (username, password) => ({
   type: SIGN_IN_PENDING,
   payload: { username, password },
@@ -39,8 +39,4 @@ export const providerSignInFail = (error) => ({
 
 export const clearErrorMsg = () => ({
   type: SIGN_IN_CLEAR_ERORR,
-})
-
-export const signOut = () => ({
-  type: SIGN_OUT,
 })

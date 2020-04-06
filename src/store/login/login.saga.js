@@ -30,8 +30,7 @@ export function* signInAsync({ payload: { username, password } }) {
 
     const userData = docSnapshot.data()
 
-    yield put(signInSuccess())
-    yield put(setUser(new User(userData)))
+    yield all([put(signInSuccess()), put(setUser(new User(userData)))])
   } catch (err) {
     yield put(signInFail(formatError(err)))
   }
@@ -62,7 +61,7 @@ export function* providerSignInAsync({ payload: provider }) {
         uid,
         photoURL,
         email,
-        emailVerified,
+        // emailVerified, Email will always be "verified" when signing in with a provider, no need to double check that
         phoneNumber,
         metadata: { creationTime: dateCreated, lastSignInTime: dateLastSignedIn },
       },
@@ -72,7 +71,7 @@ export function* providerSignInAsync({ payload: provider }) {
       dateLastSignedIn,
       email,
       displayName,
-      emailVerified,
+      emailVerified: true,
       phoneNumber,
       photoURL,
       uid,

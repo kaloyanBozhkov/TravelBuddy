@@ -104,7 +104,7 @@ export function* signUpProviderAsync({ payload: provider }) {
         uid,
         photoURL,
         email,
-        emailVerified,
+        // emailVerified, Email will always be "verified" when signing in with a provider, no need to double check that
         phoneNumber,
         metadata: { creationTime: dateCreated, lastSignInTime: dateLastSignedIn },
       },
@@ -115,7 +115,7 @@ export function* signUpProviderAsync({ payload: provider }) {
       dateLastSignedIn,
       email,
       displayName,
-      emailVerified,
+      emailVerified: true,
       phoneNumber,
       photoURL,
       uid,

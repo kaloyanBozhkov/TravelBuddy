@@ -1,0 +1,23 @@
+@import 'scss/mixins';
+@import 'scss/variables';
+.accountDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  flex-basis: 35rem;
+  border-left: 2px solid $orange;
+  padding-top: 22rem;
+
+  h1 {
+    color: $orange;
+    font-size: 2.4rem;
+    text-align: center;
+  }
+
+  .buttons {
+    height: 4.5rem;
+    width: 60%;
+    font-size: 2rem;
+  }
+}

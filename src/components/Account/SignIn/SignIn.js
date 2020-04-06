@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-
+import { pageSwitchStart } from '~/store/pageSwitch/pageSwitch.actions'
 import useInputHandler from '~/hooks/useInputHandler'
 
 import styles from './signin.module.scss'
-import AccountPageAnimation from '~/components/HOCs/AccountPageAnimation'
+import withPageAnimation from '~/components/HOCs/withPageAnimation'
 
 import Input from '~/components/UI/Input/Input'
 import Button from '~/components/UI/Button/Button'
@@ -19,16 +19,28 @@ import {
 } from '~/store/login/login.actions'
 
 // sign in input is controlled, register is uncontrolled. Why? for the fun of it!
-const SignIn = () => {
+const SignIn = ({ isSignedInButNotVerifiedEmail }) => {
   const dispatch = useDispatch()
+
   const errorMsg = useSelector(({ loginReducer: { error } }) => error && error.message)
+
+  // show error msg for unverified users, instead of letting them continue with the sign in process
+  useLayoutEffect(() => {
+    if (isSignedInButNotVerifiedEmail) {
+      dispatch(
+        signInFail({
+          message:
+            'Your account has been created but not verified yet. A verification email has been sent to you, please confirm your email address and then sign in!',
+        })
+      )
+    }
+  }, [isSignedInButNotVerifiedEmail])
+
   const providerSigningInPending = useSelector(
     ({ loginReducer: { providerPending } }) => providerPending
   )
   const [accState, onInputChangeHandler] = useInputHandler({ username: '', password: '' })
   const clearError = () => errorMsg && dispatch(clearErrorMsg())
-
-  const { redirectHandler, ...wrapperGenerator } = AccountPageAnimation(styles.exiting)
 
   const emailProvided = accState.username.length > 0
   const passwordProvided = accState.password.length > 0
@@ -52,8 +64,9 @@ const SignIn = () => {
         } before continuing.`,
       })
     )
+  const redirectTo = (path) => dispatch(pageSwitchStart(path))
 
-  wrapperGenerator.props.children = (
+  return (
     <div className={styles.signIn}>
       <div className={styles.container}>
         <UserBall label="Sign in" />
@@ -73,7 +86,7 @@ const SignIn = () => {
             name="password"
             type="password"
             comment="Forgot your password?"
-            commentOnClick={() => redirectHandler('recovery')}
+            commentOnClick={() => redirectTo('/account/recovery')}
             onChange={onInputChangeHandler}
             errorMsgHandler={clearError}
             invalidInputHandler={errorMsg && !!~errorMsg.indexOf('password')}
@@ -120,14 +133,12 @@ const SignIn = () => {
           isLoading={providerSigningInPending === 'facebook'}
         />
 
-        <button className={styles.actionLink} onClick={() => redirectHandler('register')}>
+        <button className={styles.actionLink} onClick={() => redirectTo('/account/register')}>
           No accout yet? Click here to register!
         </button>
       </div>
     </div>
   )
-
-  return wrapperGenerator.wrapper()
 }
 
-export default SignIn
+export default withPageAnimation(SignIn)(styles.exiting)

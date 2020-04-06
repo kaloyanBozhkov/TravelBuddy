@@ -2,8 +2,6 @@ import React from 'react'
 import { Redirect, Route } from 'react-router-dom'
 import { Switch } from 'react-router'
 
-import useResumeSession from '~/hooks/useResumeSession'
-
 //import containers
 import Header from './Header'
 import Home from './Home'
@@ -12,8 +10,6 @@ import Account from './Account'
 import Footer from './Footer'
 
 function App() {
-  useResumeSession()
-
   return (
     <div className="App">
       <Header />

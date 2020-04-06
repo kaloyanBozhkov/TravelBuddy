@@ -22,6 +22,9 @@ import {
   FaSignature,
   FaCog,
   FaSpinner,
+  FaTimes,
+  FaCamera,
+  FaSignOutAlt,
 } from 'react-icons/fa'
 
 //import styles
@@ -76,6 +79,12 @@ const Icon = (props) => {
         return <FaCog className={styles.icon_spinner} />
       case 'spinner':
         return <FaSpinner className={styles.icon_spinner} />
+      case 'times':
+        return <FaTimes />
+      case 'camera':
+        return <FaCamera />
+      case 'signout':
+        return <FaSignOutAlt />
       default:
         return <i>Icon not found</i>
     }

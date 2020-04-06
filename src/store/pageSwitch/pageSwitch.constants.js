@@ -1,0 +1,2 @@
+export const SWITCH_PAGE_START = 'SWITCH_PAGE_START'
+export const SWITCH_PAGE_END = 'SWITCH_PAGE_END'

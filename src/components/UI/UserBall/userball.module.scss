@@ -1,13 +1,13 @@
-@import "scss/mixins";
-@import "scss/variables";
+@import 'scss/mixins';
+@import 'scss/variables';
 @keyframes slideIn {
   0% {
     transform: translateY(250%);
-    opacity:0;
+    opacity: 0;
   }
   100% {
     transform: translateY(0);
-    opacity:1;
+    opacity: 1;
   }
 }
 .userHeader {
@@ -16,7 +16,7 @@
   justify-content: center;
   align-items: center;
   z-index: 1;
-  
+
   p {
     font-size: 4.8rem;
     color: $orange;
@@ -34,12 +34,49 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
+    > .overlay {
+      opacity: 0;
+      background-color: rgba(0, 0, 0, 0.45);
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.4rem;
+      transition: 0.4s;
+      cursor: pointer;
+      > div {
+        transition: 0.4s;
+        transform: scale(0);
+      }
+    }
 
+    &:hover {
+      > .overlay {
+        opacity: 1;
+        > div {
+          transform: scale(1);
+        }
+      }
+    }
+    &.withPhoto {
+      width: 10rem;
+      height: 10rem;
+    }
+    > img {
+      width: 100%;
+    }
     > .head,
     > .body {
       background-color: $orange;
       @include boxShadow(2px, 4px, 4px, 0, 0.2);
-      @include animate(slideIn, .6s);
+      @include animate(slideIn, 0.6s);
     }
 
     > .head {
@@ -55,11 +92,8 @@
       border-radius: 15px;
       flex: 1;
       transform: translateY(250%);
-      animation-delay:.1s;
+      animation-delay: 0.1s;
     }
     @include boxShadow(0, 4px, 4px, 0, 0.2);
   }
-
-  
-
 }

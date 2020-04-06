@@ -1,9 +1,6 @@
 import React, { useState } from 'react'
 import styles from './register.module.scss'
 
-//HOCs
-import AccountPageAnimation from '~/components/HOCs/AccountPageAnimation'
-
 //Hooks
 import usePersistantFields from '~/hooks/usePersistantFields'
 
@@ -15,6 +12,7 @@ import {
   signUpClearErrorMsg,
   signUpProviderPending,
 } from '~/store/signup/signup.actions'
+import { pageSwitchStart } from '~/store/pageSwitch/pageSwitch.actions'
 
 import Input from '~/components/UI/Input/Input'
 import Button from '~/components/UI/Button/Button'
@@ -22,6 +20,7 @@ import UserBall from '~/components/UI/UserBall/UserBall'
 import ErrorMsg from '~/components/UI/ErrorMsg/ErrorMsg'
 
 import { validateEmail } from '~/helpers/validation'
+import withPageAnimation from '~/components/HOCs/withPageAnimation'
 /*
     check: custom check for validation besides empty
     onErrorClear: what other field to remove from errors state when this one is cleared? (password & repeatPassword will both clear error state on click of either one)
@@ -120,8 +119,8 @@ const Register = () => {
   const providerSignUpPending = useSelector(
     ({ signUpReducer: { providerPending } }) => providerPending
   )
-  const { redirectHandler, ...wrapperGenerator } = AccountPageAnimation(styles.exiting)
 
+  const redirectTo = (path) => dispatch(pageSwitchStart(path))
   const registerHandler = () => register(fields, setInvalidInputs, dispatch)
 
   const invalidInputHandler = (fieldName) =>
@@ -140,7 +139,7 @@ const Register = () => {
   const googleRegisterHandler = () => dispatch(signUpProviderPending('google'))
   const facebookRegisterHandler = () => dispatch(signUpProviderPending('facebook'))
 
-  wrapperGenerator.props.children = (
+  return (
     <div className={styles.register}>
       <div className={styles.container}>
         <UserBall label="Register" />
@@ -188,14 +187,12 @@ const Register = () => {
           isLoading={providerSignUpPending === 'facebook'}
         />
 
-        <button className={styles.actionLink} onClick={() => redirectHandler('signin')}>
+        <button className={styles.actionLink} onClick={() => redirectTo('/account/signin')}>
           Already have an account? Click here to sign in!
         </button>
       </div>
     </div>
   )
-
-  return wrapperGenerator.wrapper()
 }
 
-export default Register
+export default withPageAnimation(Register)(styles.exiting)

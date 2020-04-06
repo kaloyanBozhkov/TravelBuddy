@@ -1,0 +1,3 @@
+export const SIGN_OUT_PENDING = 'SIGN_OUT_PENDING'
+export const SIGN_OUT_SUCCESS = 'SIGN_OUT_SUCCESS'
+export const SIGN_OUT_FAIL = 'SIGN_OUT_FAIL'
