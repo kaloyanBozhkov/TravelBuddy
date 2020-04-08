@@ -5,7 +5,7 @@ import styles from './register.module.scss'
 import usePersistantFields from '~/hooks/usePersistantFields'
 
 //redux
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import {
   signUpPending,
@@ -107,8 +107,7 @@ const register = (fields, setInvalidInputs, dispatch) => {
 }
 
 // sign in input is controlled, register is uncontrolled. Why? for the fun of it!
-const Register = () => {
-  const dispatch = useDispatch()
+const Register = ({ dispatch }) => {
   //setup fields' refs dynamically. Use createRef instead of useRef hook since hooks cannot be invoked in callbacks
   const persistantFields = usePersistantFields(inputDefinitions)
 

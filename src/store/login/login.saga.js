@@ -13,7 +13,8 @@ import { auth, firestore } from '~/firebase/firebase.utils'
 import { signInWithGoogle, signInWithFacebook } from '~/firebase/providers'
 import User from '~/classes/user'
 import formatError from '~/helpers/formatError'
-import { createUserProfileDocumentAndSignIn } from '~/store/signup/signup.saga'
+import { createUserProfileDocument } from '~/store/signup/signup.saga'
+import { pageSwitchStart } from '../pageSwitch/pageSwitch.actions'
 
 // SIGN IN
 export function* signInAsync({ payload: { username, password } }) {
@@ -21,16 +22,19 @@ export function* signInAsync({ payload: { username, password } }) {
     const response = yield auth.signInWithEmailAndPassword(username, password)
 
     const {
-      user: { uid },
+      user: { uid, emailVerified },
     } = response
 
     const userDocRef = firestore.doc(`users/${uid}`)
 
     const docSnapshot = yield userDocRef.get()
 
-    const userData = docSnapshot.data()
+    const userData = {
+      ...(docSnapshot.data() || {}),
+      emailVerified,
+    }
 
-    yield all([put(signInSuccess()), put(setUser(new User(userData)))])
+    yield all([put(pageSwitchStart('/account/area')), put(signInSuccess(new User(userData)))])
   } catch (err) {
     yield put(signInFail(formatError(err)))
   }
@@ -76,7 +80,7 @@ export function* providerSignInAsync({ payload: provider }) {
       photoURL,
       uid,
     }
-    yield createUserProfileDocumentAndSignIn(new User(userData), providerSignInSuccess)
+    yield createUserProfileDocument(new User(userData), providerSignInSuccess)
   } catch (err) {
     yield put(providerSignInFail({ ...formatError(err), provider }))
   }

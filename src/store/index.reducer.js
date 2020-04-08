@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage'
 
 // load reducers
 import loginReducer from './login/login.reducer'
+import logoutReducer from './logout/logout.reducer'
 import signUpReducer from './signup/signup.reducer'
 import userReducer from './user/user.reducer'
 import resetPasswordReducer from './reset/reset.reducer'
@@ -18,6 +19,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   loginReducer,
+  logoutReducer,
   signUpReducer,
   userReducer,
   resetPasswordReducer,

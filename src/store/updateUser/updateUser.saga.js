@@ -4,9 +4,9 @@ import {
   signUpSuccess,
   signUpProviderFail,
   signUpProviderSuccess,
-} from './signup.actions'
-import { providerSignInSuccess, signInSuccess } from '~/store/login/login.actions'
-import { SIGN_UP_PENDING, SIGN_UP_PROVIDER_PENDING } from './signup.constants'
+} from './updateUserData.actions'
+import { providerSignInSuccess } from '~/store/login/login.actions'
+import { SIGN_UP_PENDING, SIGN_UP_PROVIDER_PENDING } from './updateUser.constants'
 import { setUser } from '../user/user.actions'
 import { pageSwitchStart } from '../pageSwitch/pageSwitch.actions'
 
@@ -20,26 +20,33 @@ import User from '~/classes/user'
  * @param  {User class} userData
  * @param  {callback fn to run before setting user} onSuccess
  */
-export function* createUserProfileDocument(userData, ...onSuccess) {
+export function* createUserProfileDocumentAndSignIn(userData, onSuccess) {
   const userDocRef = firestore.doc(`users/${userData.uid}`)
 
   const docSnapshot = yield userDocRef.get()
-
-  let user = userData
+  const puts = [put(setUser(userData))]
 
   if (!docSnapshot.exists) {
     // if user document never created, create one!
     yield docSnapshot.ref.set(userData.getUser())
   } else {
-    // if user exists already, set user to existing user data
+    puts.unshift(put(providerSignInSuccess()))
+    // if user exists already, just sign them in
     const userData = docSnapshot.data()
-    user = new User(userData)
+
+    // do this by replacing serData with new userData fetched
+    puts[puts.length - 1] = put(setUser(new User(userData)))
   }
 
-  // run on success functions, pass user object
-  if (onSuccess.length > 0) {
-    yield all(onSuccess.map((action) => put(action(user))))
+  // if success fn is passed, then run it first
+  if (onSuccess) {
+    puts.unshift(put(onSuccess()))
+
+    // user is sisnged in so let's redirect to account area, with animated transition!
+    puts.unshift(put(pageSwitchStart('/account/area')))
   }
+
+  yield all(puts)
 }
 
 // SIGN UP & login
@@ -67,7 +74,7 @@ export function* signUpAsync({
       uid,
     }
 
-    yield call(createUserProfileDocument, new User(userData), signUpSuccess, signInSuccess)
+    yield call(createUserProfileDocumentAndSignIn, new User(userData), signUpSuccess)
 
     // since this is normal register process, send confirmation email to verify email address
     yield responseUserData.user.sendEmailVerification()
@@ -118,12 +125,7 @@ export function* signUpProviderAsync({ payload: provider }) {
       uid,
     }
 
-    yield call(
-      createUserProfileDocument,
-      new User(userData),
-      signUpProviderSuccess,
-      providerSignInSuccess
-    )
+    yield call(createUserProfileDocumentAndSignIn, new User(userData), signUpProviderSuccess)
   } catch (err) {
     yield put(signUpProviderFail({ ...formatError(err), provider }))
   }

@@ -1,5 +1,5 @@
 import React, { useLayoutEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { pageSwitchStart } from '~/store/pageSwitch/pageSwitch.actions'
 import useInputHandler from '~/hooks/useInputHandler'
 
@@ -19,9 +19,7 @@ import {
 } from '~/store/login/login.actions'
 
 // sign in input is controlled, register is uncontrolled. Why? for the fun of it!
-const SignIn = ({ isSignedInButNotVerifiedEmail }) => {
-  const dispatch = useDispatch()
-
+const SignIn = ({ dispatch, isSignedInButNotVerifiedEmail }) => {
   const errorMsg = useSelector(({ loginReducer: { error } }) => error && error.message)
 
   // show error msg for unverified users, instead of letting them continue with the sign in process

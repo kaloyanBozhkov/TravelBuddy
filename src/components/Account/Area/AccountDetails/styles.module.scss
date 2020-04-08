@@ -1,5 +1,7 @@
 @import 'scss/mixins';
 @import 'scss/variables';
+@import 'scss/media';
+@import 'scss/keyframes';
 .accountDetails {
   display: flex;
   flex-direction: column;
@@ -8,7 +10,9 @@
   flex-basis: 35rem;
   border-left: 2px solid $orange;
   padding-top: 22rem;
-
+  @include breakpoint(big-desktop) {
+    padding-top: 26rem;
+  }
   h1 {
     color: $orange;
     font-size: 2.4rem;
@@ -19,5 +23,22 @@
     height: 4.5rem;
     width: 60%;
     font-size: 2rem;
+  }
+
+  .personalDetails{
+    padding: 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
+    > div {
+      margin-bottom: 1rem;
+      transition: .4s;
+      &:hover {
+        transform: translateX(5px)
+      }
+    }
+  }
+
+  @include breakpoint(tablet-portrait) {
+    flex-basis:100%;
   }
 }

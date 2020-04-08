@@ -22,34 +22,44 @@ const Account = ({ page }) => {
     isSwitching,
     path,
   }))
+  const isLogoutPending = useSelector(({ logoutReducer: { isPending } }) => isPending)
 
   // handles redirect at end of exiting animation for pages
   const onExitedHandler = () => {
-    //scroll to top
+    // scroll to top
     scrollIt(0, 400, 'easeInOutQuad')
 
     history.push(path)
-
     dispatch(pageSwitchEnd())
   }
 
   const animationConfig = { isSwitching, onExitedHandler }
+  const pageConfig = { ...animationConfig, dispatch }
 
-  if (userData && userData.emailVerified) {
-    return <Area userData={userData} {...animationConfig} />
-  } else if (userData && !userData.emailVerified) {
-    return <SignIn isSignedInButNotVerifiedEmail {...animationConfig} />
-  } else {
-    switch (page) {
-      case 'signin':
-        return <SignIn {...animationConfig} />
-      case 'register':
-        return <Register {...animationConfig} />
-      case 'recovery':
-        return <Recovery {...animationConfig} />
-      default:
-        return <Redirect to="/account/signin" />
+  // if user signed in, show account area. Make sure to keep account area rendered while switching pages
+  if (userData && userData.emailVerified && (!isSwitching || isLogoutPending)) {
+    if (page === 'area') {
+      return <Area userData={userData} {...pageConfig} />
     }
+
+    // user is signed in
+    return <Redirect to="/account/area" />
+  }
+
+  switch (page) {
+    case 'signin':
+      return (
+        <SignIn
+          isSignedInButNotVerifiedEmail={userData && !userData.emailVerified}
+          {...pageConfig}
+        />
+      )
+    case 'register':
+      return <Register {...pageConfig} />
+    case 'recovery':
+      return <Recovery {...pageConfig} />
+    default:
+      return <Redirect to="/account/signin" />
   }
 }
 

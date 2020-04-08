@@ -14,8 +14,9 @@ export const signInPending = (username, password) => ({
   payload: { username, password },
 })
 
-export const signInSuccess = () => ({
+export const signInSuccess = (user) => ({
   type: SIGN_IN_SUCCESS,
+  payload: user,
 })
 
 export const signInFail = (error) => ({
@@ -28,8 +29,9 @@ export const providerSignInPending = (provider) => ({
   payload: provider,
 })
 
-export const providerSignInSuccess = () => ({
+export const providerSignInSuccess = (user) => ({
   type: PROVIDER_SIGN_IN_SUCCESS,
+  payload: user,
 })
 
 export const providerSignInFail = (error) => ({

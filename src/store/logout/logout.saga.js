@@ -1,11 +1,18 @@
-import { all, call, put, takeLeading } from 'redux-saga/effects'
+import { all, call, put, takeLeading, delay } from 'redux-saga/effects'
 
-import { signOutSuccess, signOutFail } from './logout.actions'
+import { signOutSuccess } from './logout.actions'
 import { SIGN_OUT_PENDING } from './logout.constants'
 import { setUser } from '../user/user.actions'
+import { pageSwitchStart } from '../pageSwitch/pageSwitch.actions'
 
 // SIGN IN
 export function* signOut() {
+  // start page switch for signout process
+  yield put(pageSwitchStart('/account/signin'))
+
+  // wait for switch to end
+  yield delay(450)
+
   yield all([put(setUser(null)), put(signOutSuccess())])
 }
 

@@ -1,0 +1,16 @@
+@import 'scss/variables';
+.singleDetail {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  h1 {
+    font-size: 1.8rem;
+    font-weight: normal;
+  }
+  p {
+    font-size: 2rem;
+    color: $primary-black;
+  }
+}

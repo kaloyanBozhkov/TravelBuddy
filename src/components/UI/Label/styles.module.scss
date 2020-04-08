@@ -1,0 +1,15 @@
+@import 'scss/variables';
+
+.label {
+    font-size: 1.4rem;
+    line-height: 1.7rem;
+    border-left: 3px solid $orange;
+    padding: 0 .5rem;
+}
+
+.warning {
+    font-size: 1.4rem;
+    line-height: 1.7rem;
+    border-left: 3px solid $orange;
+    padding: 0 .5rem;
+}

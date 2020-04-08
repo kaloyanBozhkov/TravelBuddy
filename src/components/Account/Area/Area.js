@@ -6,17 +6,20 @@ import UserBall from '~/components/UI/UserBall/UserBall'
 
 import withPageAnimation from '~/components/HOCs/withPageAnimation'
 
-const Area = ({ userData: { displayName, email, photoURL } }) => {
+const Area = ({ userData, dispatch }) => {
   return (
     <div className={styles.area}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <UserBall photoURL={photoURL} updatePhotoClick={() => alert('updating!')} />
-          <h1>{displayName}</h1>
+          <UserBall photoURL={userData.photoURL} updatePhotoClick={() => alert('updating!')} />
+          <div>
+            <h1>{userData.displayName}</h1>
+            <p>{userData.email}</p>
+          </div>
         </div>
-        <div className={styles.trip}></div>
+        <div className={styles.tripsContainer}></div>
       </div>
-      <AccountDetals />
+      <AccountDetals dispatch={dispatch} userData={userData} />
     </div>
   )
 }

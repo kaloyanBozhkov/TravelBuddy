@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import styles from './recovery.module.scss'
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { resetPasswordPending, clearErrorMsg, resetPasswordFail } from '~/store/reset/reset.actions'
 import { pageSwitchStart } from '~/store/pageSwitch/pageSwitch.actions'
 
@@ -14,9 +14,8 @@ import useInputHandler from '~/hooks/useInputHandler'
 import { validateEmail } from '~/helpers/validation'
 import withPageAnimation from '~/components/HOCs/withPageAnimation'
 
-const Recovery = () => {
+const Recovery = ({ dispatch }) => {
   const [email, onInputChangeHandler] = useInputHandler({ email: '' })
-  const dispatch = useDispatch()
   const sendResetEmail = useCallback((email) => dispatch(resetPasswordPending(email)), [dispatch])
   const errorMsg = useSelector(({ resetPasswordReducer: { error } }) => error && error.message)
   const clearError = () => errorMsg && dispatch(clearErrorMsg())

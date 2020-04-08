@@ -21,7 +21,8 @@ function App() {
         <Route path="/account/signin" exact component={() => <Account page="signin" />} />
         <Route path="/account/register" exact component={() => <Account page="register" />} />
         <Route path="/account/recovery" exact component={() => <Account page="recovery" />} />
-        <Route path="/account" exact component={Account} />
+        <Route path="/account/area" exact component={() => <Account page="area" />} />
+        <Redirect from="/account/" to="/account/signin" />
 
         {/* redirect to /home if user navigates to any other page */}
         <Route path="/" render={() => <Redirect to="/home" />} />
