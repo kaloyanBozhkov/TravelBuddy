@@ -5,9 +5,12 @@ import {
   UPDATE_USER_CLEAR_ERROR_MSG,
 } from './updateUser.constants'
 
-export const updateUserPending = (updateArr) => ({
+export const updateUserPending = (updateID, updateData) => ({
   type: UPDATE_USER_PENDING,
-  payload: updateArr,
+  payload: {
+    updateID,
+    updateData,
+  },
 })
 
 export const updateUserSuccess = () => ({

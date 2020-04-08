@@ -7,7 +7,6 @@ import {
   providerSignInFail,
 } from './login.actions'
 import { SIGN_IN_PENDING, PROVIDER_SIGN_IN_PENDING } from './login.constants'
-import { setUser } from '../user/user.actions'
 
 import { auth, firestore } from '~/firebase/firebase.utils'
 import { signInWithGoogle, signInWithFacebook } from '~/firebase/providers'

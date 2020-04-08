@@ -7,8 +7,6 @@ import {
 } from './signup.actions'
 import { providerSignInSuccess, signInSuccess } from '~/store/login/login.actions'
 import { SIGN_UP_PENDING, SIGN_UP_PROVIDER_PENDING } from './signup.constants'
-import { setUser } from '../user/user.actions'
-import { pageSwitchStart } from '../pageSwitch/pageSwitch.actions'
 
 import { signInWithGoogle, signInWithFacebook } from '~/firebase/providers'
 import { auth, firestore } from '~/firebase/firebase.utils'
@@ -18,7 +16,7 @@ import User from '~/classes/user'
 // create document for user, if not existing
 /**
  * @param  {User class} userData
- * @param  {callback fn to run before setting user} onSuccess
+ * @param  {arr of callback FNs to run before page transition and setting user} onSuccess
  */
 export function* createUserProfileDocument(userData, ...onSuccess) {
   const userDocRef = firestore.doc(`users/${userData.uid}`)

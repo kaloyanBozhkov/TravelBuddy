@@ -32,7 +32,7 @@ const SignIn = ({ dispatch, isSignedInButNotVerifiedEmail }) => {
         })
       )
     }
-  }, [isSignedInButNotVerifiedEmail])
+  }, [isSignedInButNotVerifiedEmail, dispatch])
 
   const providerSigningInPending = useSelector(
     ({ loginReducer: { providerPending } }) => providerPending

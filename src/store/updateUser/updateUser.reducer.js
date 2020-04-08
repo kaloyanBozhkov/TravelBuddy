@@ -11,14 +11,14 @@ import {
 const initialState = {
   isPending: false,
   error: null,
-  updateArr: null,
+  update: null,
 }
 
-const updateUserPending = (state, updateArr) => ({
+const updateUserPending = (state, { updateId, updateData }) => ({
   ...state,
   error: null,
   isPending: true,
-  updateArr,
+  update: { updateId, updateData },
 })
 
 const updateUserSuccess = (state) => ({
