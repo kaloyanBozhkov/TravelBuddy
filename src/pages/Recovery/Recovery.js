@@ -12,7 +12,7 @@ import ErrorMsg from '~/components/UI/ErrorMsg/ErrorMsg'
 
 import useInputHandler from '~/hooks/useInputHandler'
 import { validateEmail } from '~/helpers/validation'
-import withPageAnimation from '~/components/HOCs/withPageAnimation'
+import withPageAnimation from '~/HOCs/withPageAnimation'
 
 const Recovery = ({ dispatch }) => {
   const [email, onInputChangeHandler] = useInputHandler({ email: '' })

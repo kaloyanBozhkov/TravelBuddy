@@ -4,7 +4,7 @@ import { pageSwitchStart } from '~/store/pageSwitch/pageSwitch.actions'
 import useInputHandler from '~/hooks/useInputHandler'
 
 import styles from './signin.module.scss'
-import withPageAnimation from '~/components/HOCs/withPageAnimation'
+import withPageAnimation from '~/HOCs/withPageAnimation'
 
 import Input from '~/components/UI/Input/Input'
 import Button from '~/components/UI/Button/Button'

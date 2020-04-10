@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Header from 'components/Header/Header'
+import Header from '~/components/Collections/Header/Header'
 const buttonDefinitions = [
   {
     label: 'Home',
@@ -10,7 +10,7 @@ const buttonDefinitions = [
   {
     label: 'New Trip',
     icon: 'plane',
-    path: '/new',
+    path: '/new-trip',
   },
   {
     label: 'Account',

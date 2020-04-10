@@ -1,8 +1,7 @@
 import React from 'react'
 
 const NewTrip = () => {
-
-    return <h1>New</h1>
+  return <div></div>
 }
 
 export default NewTrip

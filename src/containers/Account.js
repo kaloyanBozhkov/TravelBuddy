@@ -5,10 +5,10 @@ import { useHistory } from 'react-router-dom'
 
 import { pageSwitchEnd } from '~/store/pageSwitch/pageSwitch.actions'
 
-import SignIn from '~/components/Account/SignIn/SignIn'
-import Register from '~/components/Account/Register/Register'
-import Recovery from '~/components/Account/Recovery/Recovery'
-import Area from '~/components/Account/Area/Area'
+import SignIn from '~/pages/SignIn/SignIn'
+import Register from '~/pages/Register/Register'
+import Recovery from '~/pages/Recovery/Recovery'
+import Area from '~/pages/Area/Area'
 
 import scrollIt from '~/thirdPartyHelpers/scrollIt'
 

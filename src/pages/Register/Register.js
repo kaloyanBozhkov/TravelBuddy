@@ -20,7 +20,7 @@ import UserBall from '~/components/UI/UserBall/UserBall'
 import ErrorMsg from '~/components/UI/ErrorMsg/ErrorMsg'
 
 import { validateEmail } from '~/helpers/validation'
-import withPageAnimation from '~/components/HOCs/withPageAnimation'
+import withPageAnimation from '~/HOCs/withPageAnimation'
 /*
     check: custom check for validation besides empty
     onErrorClear: what other field to remove from errors state when this one is cleared? (password & repeatPassword will both clear error state on click of either one)

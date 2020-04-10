@@ -1,10 +1,10 @@
 import React from 'react'
 import styles from './styles.module.scss'
 
-import AccountDetals from './AccountDetails/AccountDetails'
+import AccountDetals from '~/components/Collections/AccountDetails/AccountDetails'
 import UserBall from '~/components/UI/UserBall/UserBall'
 
-import withPageAnimation from '~/components/HOCs/withPageAnimation'
+import withPageAnimation from '~/HOCs/withPageAnimation'
 
 const Area = ({ userData, dispatch }) => {
   return (
