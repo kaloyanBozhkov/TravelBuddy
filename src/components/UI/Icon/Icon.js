@@ -25,6 +25,11 @@ import {
   FaTimes,
   FaCamera,
   FaSignOutAlt,
+  FaMinus,
+  FaPlus,
+  FaCalendarAlt,
+  FaSun,
+  FaClock,
 } from 'react-icons/fa'
 
 //import styles
@@ -85,6 +90,16 @@ const Icon = (props) => {
         return <FaCamera />
       case 'signout':
         return <FaSignOutAlt />
+      case 'plus':
+        return <FaPlus />
+      case 'minus':
+        return <FaMinus />
+      case 'calendar':
+        return <FaCalendarAlt />
+      case 'sun':
+        return <FaSun />
+      case 'clock':
+        return <FaClock />
       default:
         return <i>Icon not found</i>
     }

@@ -4,7 +4,7 @@ $facebook: #4267b2;
 $error: #FF9494;
 $light-orange: lighten($orange, 27%);
 $soft-orange: #f6cb7b;
-$primary-black: #6f6f6f;
+$primary-black: #615F5F;
 $soft-blue: #def7ff;
 
 @font-face {
@@ -29,4 +29,10 @@ $soft-blue: #def7ff;
   font-family: "Kanit";
   font-weight: bold;
   src: url("../assets/fonts/Kanit-Bold.ttf");
+}
+
+@font-face {
+  font-family: "ChauPhilomeneOne";
+  font-weight: normal;
+  src: url("../assets/fonts/ChauPhilomeneOne-Regular.ttf");
 }

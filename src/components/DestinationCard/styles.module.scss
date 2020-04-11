@@ -1,0 +1,67 @@
+@import 'scss/variables';
+@import 'scss/mixins';
+.destinationCard {
+  position: relative;
+  background-color: white;
+  border-radius: 3px;
+  transform-origin: center;
+  transition: 0.4s;
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+  margin-top: 2rem;
+
+  font-weight: normal;
+  font-family: kanit;
+
+  cursor: pointer;
+
+  &:hover {
+      transform: scale(0.95)
+  }
+
+  > div[icon='times'] {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 1.5rem;
+    color: $orange;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  > div {
+    &:not(:last-of-type) {
+      margin-bottom: 0.5rem;
+    }
+    h1 {
+      color: $orange;
+      font-size: 1.2rem;
+      line-height: 1.2rem;
+      font-weight: normal;
+    }
+    p {
+      font-size: 1.4rem;
+      color: $primary-black;
+    }
+  }
+
+  &.entering {
+    @include animate(jumpIn, 400ms);
+  }
+
+  &.exiting {
+    transform: scale(0);
+    @include animate(jumpIn, 400ms);
+    animation-direction: reverse;
+  }
+
+  &.selected {
+   transform: translateX(20%);
+  }
+
+  @include boxShadow(0, 0, 4px, 2px, 0.2);
+}

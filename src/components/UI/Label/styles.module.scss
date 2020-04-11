@@ -1,4 +1,5 @@
 @import 'scss/variables';
+@import 'scss/mixins';
 
 .label {
     font-size: 1.4rem;
@@ -12,4 +13,33 @@
     line-height: 1.7rem;
     border-left: 3px solid $orange;
     padding: 0 .5rem;
+}
+
+.ribbonLabel {
+    position: relative;
+    width: auto;
+    max-width: 25rem;
+
+    h1 {
+        position: absolute;
+        background-color: white;
+        color: $orange;
+
+        width: 88%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 2rem;
+        @include boxShadow(0, 0, 2px, 1px, 0.3);
+    }
+
+    svg {
+        width: 100%;
+    }
 }

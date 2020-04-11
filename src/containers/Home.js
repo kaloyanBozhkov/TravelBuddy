@@ -1,9 +1,5 @@
 import React from 'react'
 
-// import components
-import WorldArea from '~/components/Collections/WorldArea/WorldArea'
-import Strip from '~/components/UI/Strip/Strip'
-import WelcomeArea from '~/components/Collections/WelcomeArea/WelcomeArea'
 import HomePage from '~/pages/Home/Home'
 
 // import assets
@@ -73,16 +69,7 @@ const logos = [
 ]
 
 const Home = () => {
-  return (
-    <>
-      <WorldArea />
-      <Strip label="Welcome To TravelBuddy!" />
-      <WelcomeArea />
-      <Strip />
-      <HomePage logos={logos} infoSections={infoSections} />
-      <Strip />
-    </>
-  )
+  return <HomePage logos={logos} infoSections={infoSections} />
 }
 
 export default Home

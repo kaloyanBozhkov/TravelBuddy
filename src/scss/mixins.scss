@@ -21,11 +21,18 @@
   -o-animation-delay: $delay;
 }
 
-@mixin boxShadow($x, $y, $blur, $spread, $opacity) {
-  box-shadow: $x $y $blur $spread rgba(0, 0, 0, $opacity);
-  -webkit-box-shadow: $x $y $blur $spread rgba(0, 0, 0, $opacity);
-  -moz-box-shadow: $x $y $blur $spread rgba(0, 0, 0, $opacity);
-  -o-box-shadow: $x $y $blur $spread rgba(0, 0, 0, $opacity);
+@mixin boxShadow($x, $y, $blur, $spread, $opacity, $inset: false) {
+  @if $inset == false {
+    box-shadow: $x $y $blur $spread rgba(0, 0, 0, $opacity);
+    -webkit-box-shadow: $x $y $blur $spread rgba(0, 0, 0, $opacity);
+    -moz-box-shadow: $x $y $blur $spread rgba(0, 0, 0, $opacity);
+    -o-box-shadow: $x $y $blur $spread rgba(0, 0, 0, $opacity);
+  } @else {
+    box-shadow: inset $x $y $blur $spread rgba(0, 0, 0, $opacity);
+    -webkit-box-shadow: inset $x $y $blur $spread rgba(0, 0, 0, $opacity);
+    -moz-box-shadow: inset $x $y $blur $spread rgba(0, 0, 0, $opacity);
+    -o-box-shadow: inset $x $y $blur $spread rgba(0, 0, 0, $opacity);
+  }
 }
 
 @mixin boxShadowMultiple($value...) {

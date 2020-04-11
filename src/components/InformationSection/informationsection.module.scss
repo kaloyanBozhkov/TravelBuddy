@@ -22,6 +22,8 @@
   }
 }
 .informationSection {
+  font-family: "Kanit";
+  
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -36,7 +38,6 @@
   margin-top: 4rem;
   padding: 4rem;
   box-sizing: border-box;
-
   &.imageWhiteBackground > img {
     background: white;
   }
