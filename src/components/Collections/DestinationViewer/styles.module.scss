@@ -12,4 +12,14 @@
   > div:first-of-type {
     width: 20rem;
   }
+
+  .noDestinationsMsg{
+   flex: 1;
+   display: flex;
+   align-items: center;
+   font-size: 2rem;
+   color: white;
+   text-align: center;    
+   text-shadow: 1px 1px 2px rgba(10, 10, 10, 0.6);
+  }
 }

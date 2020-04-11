@@ -67,10 +67,8 @@
         &::after {
             right: 2rem;
         }
-
-        max-height: 65rem;
+        max-height: 100%;
         transition: max-height .4s, padding .8s;
-        
     }
 
     &.minimized {

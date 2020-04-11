@@ -5,8 +5,8 @@
   0% {
     opacity: 0;
     height: 100vh;
-    top: -6.2rem;
-    margin-bottom: -6.2rem;
+    top: -$headerHeight;
+    margin-bottom: -$headerHeight;
   }
 
   20% {
@@ -44,29 +44,7 @@
   }
 }
 
-@keyframes backgroundEntrance {
-  0% {
-    opacity: 0;
-  }
 
-  40% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes backgroundCloudsMove {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-100%);
-  }
-}
 .worldArea {
   position: relative;
   width: 100%;
@@ -78,32 +56,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
-  background-color: $soft-blue;
-
   transition: 4s;
 
-  > .backgroundClouds {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    z-index: -1;
-    white-space: nowrap;
-
-    @include animate(backgroundCloudsMove, 8s);
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-    > div {
-      width: 100%;
-      height: 100%;
-      display: inline-block;
-      background-image: url("~assets/clouds.png");
-      background-repeat: repeat;
-      background-size: cover;
-
-      @include animate(backgroundEntrance, 8s);
-    }
-  }
 
   > .content {
     > div:last-of-type {
@@ -138,16 +92,20 @@
   }
 
   &.expanded {
-    height: 100vh;
-    top: -6.2rem;
-    margin-bottom: -6.2rem;
+    height: 100%;
+    height: calc(100vh - #{$headerHeight});
     > .content {
-      > div:first-of-type {
-        margin-top: 6.2rem;
-      }
       > div:last-of-type {
         transform: translateY(0);
       }
+    }
+
+    // cloud area
+    > div:last-of-type {
+      top:0;
+      left:0;
+      right:0;
+      bottom:0;
     }
   }
 }

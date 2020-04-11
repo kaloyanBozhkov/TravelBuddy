@@ -1,3 +1,4 @@
+
 @mixin breakpoint($breakpoint) {
 
     @if $breakpoint == mobile {
@@ -16,3 +17,31 @@
         @media (min-width: 112.5em) { @content };
     }
 }
+
+@mixin mediaQuery($size) {
+    @if $size == xs {
+      @media screen and (max-width: 575px) {
+        @content;
+      }
+    } @else if $size == sm {
+      @media screen and (min-width: 576px) and (max-width: 767px) {
+        @content;
+      }
+    } @else if $size == md {
+      @media screen and (min-width: 768px) and (max-width: 991px) {
+        @content;
+      }
+    } @else if $size == lg {
+      @media screen and (min-width: 992px) and (max-width: 1199px) {
+        @content;
+      }
+    } @else if $size == xl {
+      @media screen and (min-width: 1200px) {
+        @content;
+      }
+    } @else if $size == lgOrAbove {
+      @media screen and (min-width: 992px) {
+        @content;
+      }
+    }
+  }

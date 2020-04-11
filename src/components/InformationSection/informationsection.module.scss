@@ -1,29 +1,11 @@
-@import "scss/mixins";
-@import "scss/variables";
+@import 'scss/mixins';
+@import 'scss/variables';
+@import 'scss/keyframes';
+@import 'scss/media';
 
-@keyframes animateInLeft {
-  0% {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-@keyframes animateInRight {
-  0% {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
 .informationSection {
-  font-family: "Kanit";
-  
+  font-family: 'Kanit';
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -58,7 +40,7 @@
       color: $orange;
       font-size: 3rem;
       line-height: 3rem;
-      text-shadow: 1px 1px 2px rgb(10, 10, 10);
+      text-shadow: 1px 1px 2px rgba(10, 10, 10, 0.6);
       margin-bottom: 2rem;
     }
     > p {

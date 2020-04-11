@@ -9,18 +9,22 @@ const DestinationViewer = ({ updateDestinations, destinations = [] }) => {
     <div className={styles.viewer}>
       <Label text="Your Trip" withRibbon />
 
-      {destinations.map((destination, key) => (
-        <DestinationCard
-          key={`${destination.location}-${key}`}
-          location={destination.location}
-          beHereOn={destination.beHereOn}
-          stays={destination.stays}
-          weatherPref={destination.weatherPref}
-          selected={destination.selected}
-          onClose={(f) => f}
-          onSelect={(f) => f}
-        />
-      ))}
+      {destinations.length > 0 ? (
+        destinations.map((destination, key) => (
+          <DestinationCard
+            key={`${destination.location}-${key}`}
+            location={destination.location}
+            beHereOn={destination.beHereOn}
+            stays={destination.stays}
+            weatherPref={destination.weatherPref}
+            selected={destination.selected}
+            onClose={(f) => f}
+            onSelect={(f) => f}
+          />
+        ))
+      ) : (
+        <p className={styles.noDestinationsMsg}>No destinations added to your trip yet.</p>
+      )}
     </div>
   )
 }

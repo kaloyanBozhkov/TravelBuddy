@@ -14,9 +14,9 @@
   min-height: 100vh;
   box-sizing: border-box;
 
-  // header height is 6.2rem
-  padding-top: 6.2rem;
-  margin-top: -6.2rem;
+  // header height is $headerHeight
+  padding-top: $headerHeight;
+  margin-top: -$headerHeight;
 
   .tripSelectContainer {
     background-color: rgba(251, 251, 251, 0.8);
@@ -80,88 +80,11 @@
   }
 }
 
-.backgroundClouds {
-  width: 100%;
-  height: 100%;
+.background {
+  width:100%;
+  height:100%;
   position: absolute;
-  z-index: -1;
-  white-space: nowrap;
-
-  @include animate(backgroundCloudsMove, 8s);
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-  > div {
-    width: 100%;
-    height: 100%;
-    display: inline-block;
-    background-image: url('~assets/clouds.png');
-    background-repeat: repeat;
-    background-size: cover;
-  }
-}
-@keyframes slideInWithOpacity {
-  0% {
-    opacity: 0;
-    height: 100vh;
-    top: -6.2rem;
-    margin-bottom: -6.2rem;
-  }
-
-  20% {
-    opacity: 1;
-    top: 0;
-    margin-bottom: 0;
-  }
-
-  100% {
-    top: 0;
-    height: 35rem;
-    margin-bottom: 0;
-  }
-}
-
-@keyframes globeAdjustInitially {
-  0% {
-    transform: translateY(0);
-  }
-
-  100% {
-    transform: translateY(28%);
-  }
-}
-
-@keyframes expandButtonEntrance {
-  0% {
-    transform: scale(0);
-    opacity: 0;
-  }
-
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes backgroundEntrance {
-  0% {
-    opacity: 0;
-  }
-
-  40% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes backgroundCloudsMove {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-100%);
-  }
+  top:0;
+  left:0;
+  overflow: hidden;
 }

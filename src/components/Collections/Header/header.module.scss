@@ -1,7 +1,7 @@
 @import "scss/variables";
 @import "scss/mixins";
+@import "scss/media";
 
-$headerHeight: 6.2rem; //62px
 
 @keyframes slideIn {
   0% {
@@ -147,7 +147,7 @@ $headerHeight: 6.2rem; //62px
 
       position: fixed;
       top: 6.35rem;
-      top: calc(6.2rem + 2px);
+      top: calc($headerHeight + 2px);
       right: 0;
       bottom: 0;
       width: 65%;

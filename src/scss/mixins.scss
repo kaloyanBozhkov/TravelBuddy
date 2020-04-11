@@ -1,4 +1,6 @@
 @import './keyframes.scss';
+@import "scss/media";
+
 @mixin animate($animationName, $duration, $delay: 0s, $fillMode: forwards) {
   animation-name: $animationName;
   animation-duration: $duration;
@@ -47,34 +49,6 @@
   -webkit-box-shadow: inset $x $y $blur $spread rgba(0, 0, 0, $opacity);
   -moz-box-shadow: inset $x $y $blur $spread rgba(0, 0, 0, $opacity);
   -o-box-shadow: inset $x $y $blur $spread rgba(0, 0, 0, $opacity);
-}
-
-@mixin mediaQuery($size) {
-  @if $size == xs {
-    @media screen and (max-width: 575px) {
-      @content;
-    }
-  } @else if $size == sm {
-    @media screen and (min-width: 576px) and (max-width: 767px) {
-      @content;
-    }
-  } @else if $size == md {
-    @media screen and (min-width: 768px) and (max-width: 991px) {
-      @content;
-    }
-  } @else if $size == lg {
-    @media screen and (min-width: 992px) and (max-width: 1199px) {
-      @content;
-    }
-  } @else if $size == xl {
-    @media screen and (min-width: 1200px) {
-      @content;
-    }
-  } @else if $size == lgOrAbove {
-    @media screen and (min-width: 992px) {
-      @content;
-    }
-  }
 }
 
 @mixin fancyHeader($withAnimation: false) {

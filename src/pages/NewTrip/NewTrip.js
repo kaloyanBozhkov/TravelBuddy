@@ -11,6 +11,7 @@ import dateDisplay from '~/helpers/date'
 import useInputHandler from '~/hooks/useInputHandler'
 
 import styles from './styles.module.scss'
+import ScrollingClouds from '~/components/ScrollingClouds/ScrollingClouds'
 
 const NewTrip = () => {
   const [dates, onDateInputChangeHandler] = useInputHandler({
@@ -70,9 +71,8 @@ const NewTrip = () => {
 
       <section className={styles.googleMapsArea}></section>
 
-      <div className={styles.backgroundClouds}>
-        <div></div>
-        <div></div>
+      <div className={styles.background}>
+        <ScrollingClouds />
       </div>
     </div>
   )

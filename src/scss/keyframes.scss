@@ -1,109 +1,128 @@
-
 @keyframes fallIn {
-    0% {
-      transform: translateY(-150%) rotate(7deg);
-    }
-    100% {
-      transform: translateY(-20%) rotate(7deg);
-    }
+  0% {
+    transform: translateY(-150%) rotate(7deg);
   }
-  
-  @keyframes fallIn2 {
-    0% {
-      transform: translateY(-150%) rotate(5deg);
-    }
-    100% {
-      transform: translateY(-50%) rotate(5deg);
-    }
+  100% {
+    transform: translateY(-20%) rotate(7deg);
   }
-  
-  //not reversing these animation with animation-reverse due to needing a new animation name to overwrite
-  @keyframes fallOut {
-    0% {
-      transform: translateY(-20%) rotate(7deg);
-    }
-    100% {
-      transform: translateY(-150%) rotate(7deg);
-    }
-  }
-  
-  @keyframes fallOut2 {
-    0% {
-      transform: translateY(-50%) rotate(5deg);
-    }
-    100% {
-      transform: translateY(-150%) rotate(5deg);
-    }
-  }
-  
-  @keyframes slideHalfDownFadeOut {
-    0% {
-      transform: translateY(0%);
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(50%);
-      opacity: 0;
-    }
-  }
+}
 
-  
-  @keyframes slideHalfUpFadeIn {
-    0% {
-      transform: translateY(50%);
-      opacity: 0;
-    }
-    100% {
-      transform: translateY(0%);
-      opacity: 1;
-    }
+@keyframes fallIn2 {
+  0% {
+    transform: translateY(-150%) rotate(5deg);
   }
-  
-  @keyframes scaleOpacityIn {
-    0% {
-      opacity: 0;
-      transform: scale(0);
-    }
-    100% {
-      opacity: 1;
-      transform: scale(1);
-    }
+  100% {
+    transform: translateY(-50%) rotate(5deg);
   }
+}
 
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
+//not reversing these animation with animation-reverse due to needing a new animation name to overwrite
+@keyframes fallOut {
+  0% {
+    transform: translateY(-20%) rotate(7deg);
   }
+  100% {
+    transform: translateY(-150%) rotate(7deg);
+  }
+}
 
-  @keyframes enterFromRight {
-    0% {
-      transform: translateX(100%);
-    }
-    100% {
-      transform: translateX(0%);
-    }
+@keyframes fallOut2 {
+  0% {
+    transform: translateY(-50%) rotate(5deg);
   }
-  
-  @keyframes enterFromLeft {
-    0% {
-      transform: translateX(-100%);
-    }
-    100% {
-      transform: translateX(0%);
-    }
+  100% {
+    transform: translateY(-150%) rotate(5deg);
   }
+}
 
-  @keyframes jumpIn {
-    0%{
-      transform: scale(0);
-      opacity:0;
-    }
-    100%{
-      transform: scale(1);
-      opacity:1;
-    }
+@keyframes slideHalfDownFadeOut {
+  0% {
+    transform: translateY(0%);
+    opacity: 1;
   }
+  100% {
+    transform: translateY(50%);
+    opacity: 0;
+  }
+}
+
+@keyframes slideHalfUpFadeIn {
+  0% {
+    transform: translateY(50%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleOpacityIn {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes enterFromRight {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes enterFromLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes jumpIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes animateInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes animateInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

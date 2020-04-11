@@ -39,8 +39,8 @@ const AboutArea = ({ logos, infoSections }) => {
         {isDesktop && <img src={laptopAndLine} alt="Laptop with Travel Buddy logo" />}
       </div>
       <div className={styles.logoArea}>
-        {logos.map(({ image, alt }) => (
-          <img src={image} alt={alt} />
+        {logos.map(({ image, alt }, key) => (
+          <img key={key} src={image} alt={alt} />
         ))}
       </div>
     </div>
