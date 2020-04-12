@@ -29,6 +29,7 @@ const ScrollingClouds = () => {
   // render persist obj
   const requestAnimRef = useRef()
   const addCloudReqAnimRef = useRef()
+  const activeTimeouts = useRef([])
 
   const animateCloud = () => {
     setClouds((pastClouds) => {
@@ -54,27 +55,42 @@ const ScrollingClouds = () => {
 
   const addCloud = () => {
     // add 3 clouds each second
-    setClouds((pastClouds) => [...pastClouds, cloudGenerator(), cloudGenerator(), cloudGenerator()])
 
-    setTimeout(() => {
+    const id = setTimeout(() => {
+      setClouds((pastClouds) => [
+        ...pastClouds,
+        cloudGenerator(),
+        cloudGenerator(),
+        cloudGenerator(),
+      ])
+
+      // after runing callback, clear timeout id from the tracker variable
+      activeTimeouts.current = activeTimeouts.current.filter((timeoutId) => timeoutId != id)
       requestAnimRef.current = window.requestAnimationFrame(addCloud)
     }, 1000)
+
+    activeTimeouts.current.push(id)
   }
+
   const removeCloud = (removeId, target) => {
     target.classList.add(styles.cloudExiting)
     setCloudsKilled((killed) => killed + 1)
 
     // wait for the animation to finish
-    setTimeout(() => {
+    const id = setTimeout(() => {
+      // after runing callback, clear timeout id from the tracker variable
       setClouds((prevClouds) => prevClouds.filter(({ cloudId }) => cloudId !== removeId))
+      activeTimeouts.current = activeTimeouts.current.filter((timeoutId) => timeoutId != id)
     }, 400)
+
+    activeTimeouts.current.push(id)
   }
 
   // handle animating new clouds
   useEffect(() => {
     requestAnimRef.current = window.requestAnimationFrame(animateCloud)
 
-    return () => window.cancelAnimationFrame(requestAnimRef)
+    return () => window.cancelAnimationFrame(requestAnimRef.current)
   }, [])
 
   // handle adding new clouds each second
@@ -82,6 +98,11 @@ const ScrollingClouds = () => {
     addCloudReqAnimRef.current = window.requestAnimationFrame(addCloud)
 
     return () => window.cancelAnimationFrame(addCloudReqAnimRef.current)
+  }, [])
+
+  // clear all setTimeouts not yet ran, that will run after unmount and set state
+  useEffect(() => {
+    return () => activeTimeouts.current.forEach((id) => window.clearTimeout(id))
   }, [])
 
   return (

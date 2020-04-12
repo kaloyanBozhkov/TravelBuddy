@@ -4,7 +4,6 @@ import Label from '~/components/UI/Label/Label'
 import DestinationCard from '~/components/DestinationCard/DestinationCard'
 
 const DestinationViewer = ({ updateDestinations, destinations = [] }) => {
-  console.log('destinations', destinations)
   return (
     <div className={styles.viewer}>
       <Label text="Your Trip" withRibbon />

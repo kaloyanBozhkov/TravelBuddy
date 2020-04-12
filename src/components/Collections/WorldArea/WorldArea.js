@@ -11,7 +11,9 @@ const WorldArea = () => {
 
   useEffect(() => {
     //when initial animation finished, toggl ethe compressed state
-    setTimeout(() => setExpanded(false), 4000)
+    const timeoutId = window.setTimeout(() => setExpanded(false), 4000)
+
+    return () => window.clearTimeout(timeoutId)
   }, [])
 
   const worldAreaClasses = [
