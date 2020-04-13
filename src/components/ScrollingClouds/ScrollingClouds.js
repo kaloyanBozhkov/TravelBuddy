@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect, useRef, createRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import styles from './styles.module.scss'
 import { ReactComponent as Cloud1 } from '~/assets/cloud1.svg'
 import { ReactComponent as Cloud2 } from '~/assets/cloud2.svg'
@@ -22,6 +22,45 @@ const cloudGenerator = () => {
   return cloudConfig
 }
 
+const animateCloud = (setClouds, requestAnimRef) => {
+  setClouds((pastClouds) => {
+    const cloudsToKeep = []
+
+    pastClouds.forEach((cloudConfig) => {
+      const currentRight = parseFloat(cloudConfig.right)
+
+      // if out of screeen, gotta remove these ones so dont consider them!
+      if (currentRight < 120) {
+        cloudConfig.right = `${currentRight + 0.25}%`
+
+        cloudsToKeep.push(cloudConfig)
+      }
+    })
+
+    return cloudsToKeep
+  })
+
+  // call next aniamtion frame, only if deleting
+  requestAnimRef.current = window.requestAnimationFrame(() =>
+    animateCloud(setClouds, requestAnimRef)
+  )
+}
+const addCloud = (setClouds, activeTimeouts, requestAnimRef) => {
+  // add 3 clouds each second
+
+  const id = setTimeout(() => {
+    setClouds((pastClouds) => [...pastClouds, cloudGenerator(), cloudGenerator(), cloudGenerator()])
+
+    // after runing callback, clear timeout id from the tracker variable
+    activeTimeouts.current = activeTimeouts.current.filter((timeoutId) => timeoutId !== id)
+    requestAnimRef.current = window.requestAnimationFrame(() =>
+      addCloud(setClouds, activeTimeouts, requestAnimRef)
+    )
+  }, 1000)
+
+  activeTimeouts.current.push(id)
+}
+
 const ScrollingClouds = ({ reverseCounter }) => {
   const [clouds, setClouds] = useState([])
   const [cloudsKilled, setCloudsKilled] = useState(0)
@@ -31,47 +70,6 @@ const ScrollingClouds = ({ reverseCounter }) => {
   const addCloudReqAnimRef = useRef()
   const activeTimeouts = useRef([])
 
-  const animateCloud = () => {
-    setClouds((pastClouds) => {
-      const cloudsToKeep = []
-
-      pastClouds.forEach((cloudConfig) => {
-        const currentRight = parseFloat(cloudConfig.right)
-
-        // if out of screeen, gotta remove these ones so dont consider them!
-        if (currentRight < 120) {
-          cloudConfig.right = `${currentRight + 0.25}%`
-
-          cloudsToKeep.push(cloudConfig)
-        }
-      })
-
-      return cloudsToKeep
-    })
-
-    // call next aniamtion frame, only if deleting
-    requestAnimRef.current = window.requestAnimationFrame(animateCloud)
-  }
-
-  const addCloud = () => {
-    // add 3 clouds each second
-
-    const id = setTimeout(() => {
-      setClouds((pastClouds) => [
-        ...pastClouds,
-        cloudGenerator(),
-        cloudGenerator(),
-        cloudGenerator(),
-      ])
-
-      // after runing callback, clear timeout id from the tracker variable
-      activeTimeouts.current = activeTimeouts.current.filter((timeoutId) => timeoutId != id)
-      requestAnimRef.current = window.requestAnimationFrame(addCloud)
-    }, 1000)
-
-    activeTimeouts.current.push(id)
-  }
-
   const removeCloud = (removeId, target) => {
     target.classList.add(styles.cloudExiting)
     setCloudsKilled((killed) => killed + 1)
@@ -80,7 +78,7 @@ const ScrollingClouds = ({ reverseCounter }) => {
     const id = setTimeout(() => {
       // after runing callback, clear timeout id from the tracker variable
       setClouds((prevClouds) => prevClouds.filter(({ cloudId }) => cloudId !== removeId))
-      activeTimeouts.current = activeTimeouts.current.filter((timeoutId) => timeoutId != id)
+      activeTimeouts.current = activeTimeouts.current.filter((timeoutId) => timeoutId !== id)
     }, 400)
 
     activeTimeouts.current.push(id)
@@ -88,14 +86,18 @@ const ScrollingClouds = ({ reverseCounter }) => {
 
   // handle animating new clouds
   useEffect(() => {
-    requestAnimRef.current = window.requestAnimationFrame(animateCloud)
+    requestAnimRef.current = window.requestAnimationFrame(() =>
+      animateCloud(setClouds, requestAnimRef)
+    )
 
     return () => window.cancelAnimationFrame(requestAnimRef.current)
   }, [])
 
   // handle adding new clouds each second
   useEffect(() => {
-    addCloudReqAnimRef.current = window.requestAnimationFrame(addCloud)
+    addCloudReqAnimRef.current = window.requestAnimationFrame(() =>
+      addCloud(setClouds, activeTimeouts, requestAnimRef)
+    )
 
     return () => window.cancelAnimationFrame(addCloudReqAnimRef.current)
   }, [])

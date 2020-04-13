@@ -8,7 +8,7 @@ const UserBall = ({ label = '', photoURL = '', updatePhotoClick = null }) => {
     <div className={styles.userHeader}>
       <div className={[styles.userBall, photoURL ? styles.withPhoto : ''].join(' ')}>
         {photoURL ? (
-          <img src={photoURL} alt="Profile Picture" />
+          <img src={photoURL} alt="Profile" />
         ) : (
           <>
             <div className={styles.head}></div>

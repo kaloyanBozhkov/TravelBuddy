@@ -58,15 +58,15 @@ const loadDeestination = (state, destinationIndex) => ({
 const tripReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_DESTINATION:
-      return state, addDestination(state, action.payload)
+      return addDestination(state, action.payload)
     case EDIT_DESTINATION:
-      return state, editDestination(state, action.payload)
+      return editDestination(state, action.payload)
     case DELETE_DESTINATION:
-      return state, deleteDestination(state, action.payload)
+      return deleteDestination(state, action.payload)
     case LOAD_DESTINATION:
-      return state, loadDeestination(state, action.payload)
+      return loadDeestination(state, action.payload)
     case SET_TRIP:
-      return state, setTrip(state, action.payload)
+      return setTrip(state, action.payload)
     default:
       return state
   }

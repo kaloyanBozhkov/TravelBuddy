@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useLayoutEffect, useRef } from 'react'
+import React, { useState, useLayoutEffect, useRef } from 'react'
 
 import Input from '~/components/UI/Input/Input'
 import Label from '~/components/UI/Label/Label'
 import Button from '~/components/UI/Button/Button'
 
-import dateDisplay from '~/helpers/date'
 import fetchWeather from '~/helpers/fetchWeather'
 import { handleDateChange } from '~/helpers/inputHandlers'
 
