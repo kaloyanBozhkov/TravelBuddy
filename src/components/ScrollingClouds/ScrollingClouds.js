@@ -22,7 +22,7 @@ const cloudGenerator = () => {
   return cloudConfig
 }
 
-const ScrollingClouds = () => {
+const ScrollingClouds = ({ reverseCounter }) => {
   const [clouds, setClouds] = useState([])
   const [cloudsKilled, setCloudsKilled] = useState(0)
 
@@ -107,7 +107,13 @@ const ScrollingClouds = () => {
 
   return (
     <div className={styles.backgroundClouds}>
-      {cloudsKilled > 0 && <p className={styles.counter}>{cloudsKilled}</p>}
+      {cloudsKilled > 0 && (
+        <p
+          className={[styles.counter, reverseCounter ? styles.reverseCounter : ''].join(' ').trim()}
+        >
+          {cloudsKilled}
+        </p>
+      )}
       {clouds.map(({ cloudType, cloudId, exiting, ...styles }) => {
         const config = {
           key: cloudId,

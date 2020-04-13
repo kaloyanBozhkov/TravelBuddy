@@ -9,6 +9,7 @@ import signUpReducer from './signup/signup.reducer'
 import userReducer from './user/user.reducer'
 import resetPasswordReducer from './reset/reset.reducer'
 import pageSwitchReducer from './pageSwitch/pageSwitch.reducer'
+import tripReducer from './trip/trip.reducer'
 
 // what reducers to persist
 const persistConfig = {
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   userReducer,
   resetPasswordReducer,
   pageSwitchReducer,
+  tripReducer,
 })
 
 export default persistReducer(persistConfig, rootReducer)

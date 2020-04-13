@@ -1,5 +1,5 @@
-@import "scss/mixins";
-@import "scss/variables";
+@import 'scss/mixins';
+@import 'scss/variables';
 
 .input {
   display: flex;
@@ -16,7 +16,7 @@
     0 2px 4px rgba(0, 0, 0, 0.14)
   );
 
-  &::before {     
+  &::before {
     content: attr(data-label);
     position: absolute;
     top: 0;
@@ -31,7 +31,8 @@
     z-index: -1;
   }
 
-  input {
+  input,
+  select {
     height: 5.4rem;
     min-width: 25rem;
     width: 100%;
@@ -42,12 +43,24 @@
 
     /* get rid of chrome's background color change of auto fill ;) */
     &:-webkit-autofill,
-    &:-webkit-autofill:hover, 
-    &:-webkit-autofill:focus, 
-    &:-webkit-autofill:active  {
-    -webkit-box-shadow: 0 0 0 30px white inset !important;
-}
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 30px white inset !important;
+    }
+  }
 
+  select {
+    outline: none;
+    border: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+
+    &::-ms-expand {
+      display: none;
+    }
   }
 
   //icon
@@ -76,14 +89,21 @@
     }
   }
 
-  &.inputFocused {
-    z-index: 1;
+  &.inputFocused,
+  &.selectFocused {
     border: 2px solid $orange;
     &::before,
     > div[icon] {
       color: $orange;
     }
     @include boxShadow(0, 0, 0, 0, 0);
+  }
+
+  &.selectFocused {
+    z-index: 1;
+  }
+  &.inputFocused {
+    z-index: 2;
   }
 
   &.error {
@@ -97,7 +117,8 @@
   }
 
   &.error,
-  &.inputFocused {
+  &.inputFocused,
+  &.selectFocused {
     &::before {
       content: attr(data-label);
       position: absolute;
@@ -107,7 +128,7 @@
       z-index: 1;
     }
   }
-  
+
   &.isOptional:not(.inputFocused) {
     &::before {
       content: attr(data-label) ' - optional';

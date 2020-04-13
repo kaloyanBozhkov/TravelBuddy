@@ -3,7 +3,12 @@ import styles from './styles.module.scss'
 import Label from '~/components/UI/Label/Label'
 import DestinationCard from '~/components/DestinationCard/DestinationCard'
 
-const DestinationViewer = ({ updateDestinations, destinations = [] }) => {
+const DestinationViewer = ({
+  onSelectDestination,
+  onRemoveDestination,
+  activeDestination,
+  destinations = [],
+}) => {
   return (
     <div className={styles.viewer}>
       <Label text="Your Trip" withRibbon />
@@ -12,13 +17,13 @@ const DestinationViewer = ({ updateDestinations, destinations = [] }) => {
         destinations.map((destination, key) => (
           <DestinationCard
             key={`${destination.location}-${key}`}
-            location={destination.location}
+            location={destination.location.label}
             beHereOn={destination.beHereOn}
             stays={destination.stays}
             weatherPref={destination.weatherPref}
-            selected={destination.selected}
-            onClose={(f) => f}
-            onSelect={(f) => f}
+            selected={activeDestination === key}
+            onClose={() => onRemoveDestination(key)}
+            onSelect={() => onSelectDestination(activeDestination === key ? -1 : key)}
           />
         ))
       ) : (

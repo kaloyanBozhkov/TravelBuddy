@@ -1,0 +1,43 @@
+@import './mixins';
+@import './media';
+@import './variables';
+
+.react-datepicker-popper {
+  @include boxShadow(0px, 0px, 4px, 2px, 0.2);
+}
+
+.react-datepicker__day--keyboard-selected,
+.react-datepicker__month-text--keyboard-selected,
+.react-datepicker__quarter-text--keyboard-selected,
+.react-datepicker__header,
+.react-datepicker__day--selected,
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day--in-range,
+.react-datepicker__month-text--selected,
+.react-datepicker__month-text--in-selecting-range,
+.react-datepicker__month-text--in-range,
+.react-datepicker__quarter-text--selected,
+.react-datepicker__quarter-text--in-selecting-range,
+.react-datepicker__quarter-text--in-range {
+  background-color: $orange;
+}
+.react-datepicker__current-month,
+.react-datepicker-time__header,
+.react-datepicker-year-header,
+.react-datepicker__day-names,
+.react-datepicker__week,
+.react-datepicker__day-name {
+  color: white;
+}
+
+.react-datepicker-popper[data-placement^='bottom'] .react-datepicker__triangle,
+.react-datepicker-popper[data-placement^='bottom'] .react-datepicker__triangle::before {
+  border-bottom-color: $orange;
+}
+
+.react-datepicker__navigation--next {
+  border-left-color: white;
+}
+.react-datepicker__navigation--previous {
+  border-right-color: white;
+}

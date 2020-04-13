@@ -1,8 +1,10 @@
-import React, { useState, forwardRef } from 'react'
-
+import React, { useState, forwardRef, useLayoutEffect } from 'react'
+import Script from 'react-load-script'
 import styles from './input.module.scss'
 
 import Icon from '~/components/UI/Icon/Icon'
+
+import PlacesAutocomplete from 'react-google-autocomplete'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
@@ -29,18 +31,31 @@ const Input = forwardRef(
     },
     ref
   ) => {
-    const [focused, setFocused] = useState(false)
+    const beginFocused =
+      (remainingProps.hasOwnProperty('value') && remainingProps.value.length > 0) ||
+      (type === 'date' && remainingProps.hasOwnProperty('selected') && remainingProps.selected) ||
+      (type === 'select' &&
+        remainingProps.hasOwnProperty('selected') &&
+        remainingProps.selected.length > 0)
+
+    const [focused, setFocused] = useState(beginFocused)
+    const [hasScriptLoaded, setHasScriptLoaded] = useState(false)
 
     // classes of wrapper
     const classes = [
       styles.input,
       invalidInputHandler ? styles.error : '',
       isOptional ? styles.isOptional : '',
-      focused ? styles.inputFocused : '',
+      focused ? (type === 'select' ? styles.selectFocused : styles.inputFocused) : '',
       ...(Array.prototype.isPrototypeOf(classNames) ? classNames : [classNames]),
     ]
       .join(' ')
       .replace(/ +/g, ' ')
+
+    // make sure to change focused whenever beginFocused changes, optimally before paint
+    useLayoutEffect(() => {
+      setFocused(beginFocused)
+    }, [beginFocused])
 
     // handle state of input. Does it have content? Then set it to active styles!
     const focusHandler = () => {
@@ -58,7 +73,11 @@ const Input = forwardRef(
     }
     const blurHandler = ({ target: { value } }) => setFocused(value !== '')
     const iconClickHandler = ({ target }) => {
-      target.parentNode.parentNode.parentNode.querySelector('input').focus()
+      if (type === 'select') {
+        target.parentNode.parentNode.parentNode.querySelector('select').focus()
+      } else {
+        target.parentNode.parentNode.parentNode.querySelector('input').focus()
+      }
     }
 
     const input = (() => {
@@ -96,6 +115,56 @@ const Input = forwardRef(
               }}
             />
           )
+        case 'googleAutocomplete':
+          return (
+            <>
+              <Script
+                url={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&libraries=places`}
+                onLoad={() => setHasScriptLoaded(true)}
+              />
+              {hasScriptLoaded && (
+                <PlacesAutocomplete
+                  ref={ref}
+                  // onPlaceSelected={(place) => console.log(place)} => control from parent
+                  onFocus={focusHandler}
+                  onBlur={blurHandler}
+                  types={['(regions)']}
+                  placeholder=""
+                  {...remainingProps}
+                />
+              )}
+            </>
+          )
+        case 'select': {
+          const { options, selected, ...otherProps } = remainingProps
+
+          return (
+            <select
+              value={selected}
+              ref={ref}
+              {...otherProps}
+              onFocus={focusHandler}
+              onBlur={blurHandler}
+              onChange={(e) => {
+                if (!e.target.value) {
+                  blurHandler(e)
+                } else {
+                  focusHandler(e)
+                }
+
+                if (otherProps.onChange) {
+                  otherProps.onChange(e)
+                }
+              }}
+            >
+              {options.map((option, key) => (
+                <option value={option} key={key}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          )
+        }
         default:
           return <input ref={ref} onFocus={focusHandler} onBlur={blurHandler} {...remainingProps} />
       }

@@ -5,7 +5,7 @@
   background-color: white;
   border-radius: 3px;
   transform-origin: center;
-  transition: 0.4s;
+  transition: 0.3s;
   width: 100%;
   padding: 1rem;
   box-sizing: border-box;
@@ -50,12 +50,12 @@
   }
 
   &.entering {
-    @include animate(jumpIn, 400ms);
+    @include animate(jumpIn, 300ms);
   }
 
   &.exiting {
     transform: scale(0);
-    @include animate(jumpIn, 400ms);
+    @include animate(jumpIn, 300ms);
     animation-direction: reverse;
   }
 

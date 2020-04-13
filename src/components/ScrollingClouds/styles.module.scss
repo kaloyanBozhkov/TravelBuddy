@@ -27,7 +27,6 @@
   .counter {
     position: absolute;
     top: 0;
-    left: 0;
     color: white;
     font-size: 2rem;
     font-weight: bold;
@@ -37,6 +36,13 @@
     &::before {
       content: 'Clouds killed:';
       display: block;
+    }
+
+    &.reverseCounter {
+      right:0;
+    }
+    &:not(.reverseCounter) {
+      left: 0;
     }
   }
 }

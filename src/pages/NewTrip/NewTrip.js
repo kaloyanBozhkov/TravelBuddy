@@ -1,4 +1,12 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+
+import {
+  addDestination,
+  loadDestination,
+  editDestination,
+  deleteDestination,
+} from '~/store/trip/trip.action'
 
 import DestinationPicker from '~/components/Collections/DestinationPicker/DestinationPicker'
 import DestinationViewer from '~/components/Collections/DestinationViewer/DestinationViewer'
@@ -7,24 +15,29 @@ import Input from '~/components/UI/Input/Input'
 import Button from '~/components/UI/Button/Button'
 
 import { handleDateChange } from '~/helpers/inputHandlers'
-import dateDisplay from '~/helpers/date'
 import useInputHandler from '~/hooks/useInputHandler'
 
 import styles from './styles.module.scss'
 import ScrollingClouds from '~/components/ScrollingClouds/ScrollingClouds'
 
 const NewTrip = () => {
+  const dispatch = useDispatch()
+
   const [dates, onDateInputChangeHandler] = useInputHandler({
     startDate: '',
     endDate: '',
   })
+  const { destinations, activeDestination } = useSelector(({ tripReducer }) => tripReducer)
 
-  const [destinations, setDestinations] = useState([])
-  const updateDestinations = (dests) => setDestinations(dests)
+  const onAddToTrip = (destination) => dispatch(addDestination(destination))
+  const onSelectDestination = (destinationIndex) => dispatch(loadDestination(destinationIndex))
+  const onCancelDestination = () => onSelectDestination(-1)
+  const onEditDestination = (newDestinationData) =>
+    dispatch(editDestination(activeDestination, newDestinationData))
+  const onRemoveDestination = (destinationIndex) => dispatch(deleteDestination(destinationIndex))
 
-  const onAddToTrip = (destination) => {
-    setDestinations([...destinations, destination])
-  }
+  // toggle if clouds can be killable, based on if anything is selected yet
+  const googleMapsAreaClasses = [styles.googleMapsArea, styles.empty].join(' ')
 
   return (
     <div className={styles.newTrip}>
@@ -40,7 +53,7 @@ const NewTrip = () => {
               onChange={(value) => handleDateChange(onDateInputChangeHandler, value, 'startDate')}
               // errorMsgHandler={clearError}
               // invalidInputHandler={errorMsg && !!~errorMsg.indexOf('email')}
-              value={dates.startDate && dateDisplay(dates.startDate).format()}
+              selected={dates.startDate && new Date(dates.startDate)}
               type="date"
             />
             <Input
@@ -52,7 +65,7 @@ const NewTrip = () => {
               onChange={(value) => handleDateChange(onDateInputChangeHandler, value, 'endDate')}
               // errorMsgHandler={clearError}
               // invalidInputHandler={errorMsg && !!~errorMsg.indexOf('email')}
-              value={dates.endDate && dateDisplay(dates.endDate).format()}
+              selected={dates.endDate && new Date(dates.endDate)}
               type="date"
             />
           </div>
@@ -60,19 +73,28 @@ const NewTrip = () => {
 
         <DroppingContainer label="Choose the citites you want to visit!">
           <div className={styles.citiesWrapper}>
-            <DestinationPicker onAddToTrip={onAddToTrip} />
+            <DestinationPicker
+              onAddToTrip={onAddToTrip}
+              onEditDestination={onEditDestination}
+              onCancelDestination={onCancelDestination}
+              destinationToEdit={destinations[activeDestination]}
+            />
             <DestinationViewer
               destinations={destinations}
-              updateDestinations={updateDestinations}
+              activeDestination={activeDestination}
+              onSelectDestination={onSelectDestination}
+              onRemoveDestination={onRemoveDestination}
             />
           </div>
         </DroppingContainer>
       </section>
 
-      <section className={styles.googleMapsArea}></section>
+      <section className={googleMapsAreaClasses}>
+        <p>CONTENT</p>
+      </section>
 
       <div className={styles.background}>
-        <ScrollingClouds />
+        <ScrollingClouds reverseCounter />
       </div>
     </div>
   )
