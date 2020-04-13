@@ -15,7 +15,7 @@ import tripReducer from './trip/trip.reducer'
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['userReducer'],
+  whitelist: ['userReducer', 'tripReducer'],
 }
 
 const rootReducer = combineReducers({

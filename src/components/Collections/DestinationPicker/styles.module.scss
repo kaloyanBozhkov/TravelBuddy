@@ -7,55 +7,58 @@
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
+  transition: 0.4s;
 
-  > div > span {
-    font-weight: normal;
-    font-family: 'Kanit';
-  }
-
-  > div {
-    margin-bottom: 3rem;
-
-    &:first-of-type {
-      margin-bottom: 5rem;
-    }
-  }
-
-  // select ribbon
-  > div:nth-child(2) {
-    align-self: center;
-
-    &::after {
-      content: '- OPTIONAL -';
-      position: absolute;
-      bottom: -1.6rem;
-      left: 0;
-      right: 0;
-      text-align: center;
-      color: $orange;
-      font-weight: bold;
+  .pickerWrapper {
+    > div > span {
+      font-weight: normal;
       font-family: 'Kanit';
     }
-  }
 
-  > .button {
-    height: 4.8rem;
-    font-size: 2rem;
-    margin-bottom: 0;
-    min-width: 20rem;
-    margin-top: 5rem;
+    > div {
+      margin-bottom: 3rem;
 
-    &[editMode] {
-      display: flex;
-      justify-content: space-evenly;
-      > div {
-        flex: 1;
-        &:first-of-type {
-          margin-right: 0.5rem;
-        }
-        &:last-of-type {
-          margin-left: 0.5rem;
-          background-color: $error;
+      &:first-of-type {
+        margin-bottom: 5rem;
+      }
+    }
+
+    // select ribbon
+    > div:nth-child(2) {
+      align-self: center;
+
+      &::after {
+        content: '- OPTIONAL -';
+        position: absolute;
+        bottom: -1.6rem;
+        left: 0;
+        right: 0;
+        text-align: center;
+        color: $orange;
+        font-weight: bold;
+        font-family: 'Kanit';
+      }
+    }
+
+    > .button {
+      height: 4.8rem;
+      font-size: 2rem;
+      margin-bottom: 0;
+      min-width: 20rem;
+      margin-top: 5rem;
+
+      &[editMode] {
+        display: flex;
+        justify-content: space-evenly;
+        > div {
+          flex: 1;
+          &:first-of-type {
+            margin-right: 0.5rem;
+          }
+          &:last-of-type {
+            margin-left: 0.5rem;
+            background-color: $error;
+          }
         }
       }
     }
