@@ -55,7 +55,7 @@
   position: relative;
   top: -$headerHeight;
   opacity: 0;
-  z-index: 2;
+  z-index: 100;
   height: $headerHeight;
   border-bottom: 2px solid $orange;
   background-color: white;

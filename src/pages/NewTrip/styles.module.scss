@@ -1,6 +1,7 @@
 @import 'scss/mixins';
 @import 'scss/keyframes';
 @import 'scss/variables';
+@import 'scss/media';
 
 .newTrip {
   position: relative;
@@ -15,13 +16,14 @@
   box-sizing: border-box;
 
   // header height is $headerHeight
-  padding-top: $headerHeight;
-  margin-top: -$headerHeight;
+  // padding-top: $headerHeight;
+  // margin-top: -$headerHeight;
 
   .tripSelectContainer {
     background-color: rgba(251, 251, 251, 0.8);
     max-width: 54rem;
-    flex: 2;
+    width: 100%;
+
     z-index: 2;
 
     @include boxShadow(4px, 4px, 4px, 0, 0.15);
@@ -63,14 +65,14 @@
     }
 
     .citiesWrapper {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-evenly;
-        > div {
-            flex: 1;
-        }
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      > div {
+        flex: 1;
+      }
     }
-    
+
     .button {
       height: 4.8rem;
       font-size: 2rem;
@@ -83,24 +85,51 @@
   .googleMapsArea {
     background-color: transparent;
     flex: 1;
-    
+
     &:not(.empty) {
       z-index: 0;
-    }    
+    }
     &.empty {
       z-index: -1;
     }
+  }
 
+  @include mediaQuery(xs) {
+    margin-top: $headerHeight;
+    flex-direction: column;
+
+    .tripSelectContainer {
+      width: 90%;
+      margin: 0 auto;
+      top: 2rem;
+      position: relative;
+      margin-bottom: 2rem;
+
+      .dateWrapper {
+        flex-direction: column;
+        > div,
+        > div:first-of-type,
+        > div:last-of-type {
+          margin: 0rem 0rem 2rem 0rem;
+        }
+
+        > div:first-of-type {
+          margin-bottom: 4rem;
+        }
+      }
+      .citiesWrapper {
+        flex-direction: column;
+      }
+    }
   }
 }
 
 .background {
-  width:100%;
-  height:100%;
-  height:calc(100% - #{$headerHeight});
+  width: 100%;
+  height: 100%;
   position: absolute;
-  top:$headerHeight;
-  left:0;
+  top: 0;
+  left: 0;
   overflow: hidden;
   z-index: 0;
   @include animate(opacityIn, 1s);

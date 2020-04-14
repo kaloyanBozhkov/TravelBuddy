@@ -1,5 +1,6 @@
 @import 'scss/variables';
 @import 'scss/mixins';
+@import 'scss/media';
 .destinationCard {
   position: relative;
   background-color: white;
@@ -17,7 +18,7 @@
   cursor: pointer;
 
   &:hover {
-      transform: scale(0.95)
+    transform: scale(0.95);
   }
 
   > div[icon='times'] {
@@ -60,7 +61,15 @@
   }
 
   &.selected {
-   transform: translateX(20%);
+    transform: translateX(20%);
+    @include mediaQuery(xs) {
+      &:nth-child(even) {
+        transform: translateX(20%);
+      }
+      &:nth-child(odd) {
+        transform: translateX(-20%);
+      }
+    }
   }
 
   @include boxShadow(0, 0, 4px, 2px, 0.2);

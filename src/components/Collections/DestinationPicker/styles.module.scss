@@ -26,6 +26,8 @@
     // select ribbon
     > div:nth-child(2) {
       align-self: center;
+      margin-left: auto;
+      margin-right: auto;
 
       &::after {
         content: '- OPTIONAL -';

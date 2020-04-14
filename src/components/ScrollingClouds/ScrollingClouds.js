@@ -30,7 +30,7 @@ const animateCloud = (setClouds, requestAnimRef) => {
       const currentRight = parseFloat(cloudConfig.right)
 
       // if out of screeen, gotta remove these ones so dont consider them!
-      if (currentRight < 120) {
+      if (currentRight < 140) {
         cloudConfig.right = `${currentRight + 0.25}%`
 
         cloudsToKeep.push(cloudConfig)
