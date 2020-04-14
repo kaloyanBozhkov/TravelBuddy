@@ -39,16 +39,14 @@ const editDestination = (state, { destinationIndex, newDestinationData }) => {
   }
 }
 
-const deleteDestination = (state, destinationIndex) => {
-  const copy = [...state.destinations]
+const deleteDestination = (state, destinationIndex) => ({
+  ...state,
+  // remove the destination
+  destinations: state.destinations.filter((d, key) => key !== destinationIndex),
 
-  copy.splice(destinationIndex, 1)
-
-  return {
-    ...state,
-    destinations: copy,
-  }
-}
+  // unselect if it was selected
+  activeDestination: state.activeDestination === destinationIndex ? -1 : state.activeDestination,
+})
 
 const loadDeestination = (state, destinationIndex) => ({
   ...state,

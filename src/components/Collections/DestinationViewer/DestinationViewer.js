@@ -16,7 +16,7 @@ const DestinationViewer = ({
       {destinations.length > 0 ? (
         destinations.map((destination, key) => (
           <DestinationCard
-            key={`${destination.location}-${key}`}
+            key={`${destination.uid}`}
             location={destination.location.label}
             beHereOn={destination.beHereOn}
             stays={destination.stays}

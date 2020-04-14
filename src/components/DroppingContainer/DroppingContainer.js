@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from 'react'
+import React, { useState, useLayoutEffect, useRef } from 'react'
 
 import Icon from '~/components/UI/Icon/Icon'
 
@@ -7,7 +7,11 @@ import styles from './styles.module.scss'
 const DroppingContainer = ({ label, children }) => {
   const [expanded, setExpanded] = useState(true)
   const [expanding, setExpanding] = useState(false)
+  const wrapperRef = useRef()
+  const sectionRef = useRef()
+
   const contractExpandToggle = () => setExpanded(!expanded)
+
   const classes = [
     styles.droppingContainer,
     expanded ? '' : styles.minimized,
@@ -26,6 +30,13 @@ const DroppingContainer = ({ label, children }) => {
     }
   }, [expanded])
 
+  // make sure to adapt max height dynamically based on content, so the contract/expand overflow works properly with however many elements there are in children
+  useLayoutEffect(() => {
+    sectionRef.current.style.maxHeight = expanded
+      ? `${wrapperRef.current.offsetHeight + 100}px`
+      : '0px'
+  })
+
   return (
     <div className={classes}>
       <header>
@@ -33,8 +44,10 @@ const DroppingContainer = ({ label, children }) => {
         <Icon icon={expanded ? 'minus' : 'plus'} onClick={contractExpandToggle} />
       </header>
 
-      <section>
-        <div className={styles.content}>{children}</div>
+      <section ref={sectionRef}>
+        <div className={styles.content} ref={wrapperRef}>
+          {children}
+        </div>
       </section>
     </div>
   )

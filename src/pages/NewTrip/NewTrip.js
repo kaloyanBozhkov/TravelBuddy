@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import {
@@ -8,6 +8,7 @@ import {
   deleteDestination,
 } from '~/store/trip/trip.action'
 
+import ScrollingClouds from '~/components/ScrollingClouds/ScrollingClouds'
 import DestinationPicker from '~/components/Collections/DestinationPicker/DestinationPicker'
 import DestinationViewer from '~/components/Collections/DestinationViewer/DestinationViewer'
 import DroppingContainer from '~/components/DroppingContainer/DroppingContainer'
@@ -16,9 +17,9 @@ import Button from '~/components/UI/Button/Button'
 
 import { handleDateChange } from '~/helpers/inputHandlers'
 import useInputHandler from '~/hooks/useInputHandler'
+import uid from '~/thirdPartyHelpers/uid'
 
 import styles from './styles.module.scss'
-import ScrollingClouds from '~/components/ScrollingClouds/ScrollingClouds'
 
 const NewTrip = () => {
   const dispatch = useDispatch()
@@ -29,7 +30,7 @@ const NewTrip = () => {
   })
   const { destinations, activeDestination } = useSelector(({ tripReducer }) => tripReducer)
 
-  const onAddToTrip = (destination) => dispatch(addDestination(destination))
+  const onAddToTrip = (destination) => dispatch(addDestination({ ...destination, uid: uid() }))
   const onSelectDestination = (destinationIndex) => dispatch(loadDestination(destinationIndex))
   const onCancelDestination = () => onSelectDestination(-1)
   const onEditDestination = (newDestinationData) =>
@@ -87,6 +88,15 @@ const NewTrip = () => {
             />
           </div>
         </DroppingContainer>
+
+        <Button
+          label="Calculate Optimal Trip!"
+          icon="calculator"
+          iconOnLeftSide
+          modifier="filled"
+          className={styles.button}
+          onClick={(f) => f}
+        />
       </section>
 
       <section className={googleMapsAreaClasses}>

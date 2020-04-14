@@ -147,7 +147,7 @@ const DestinationPicker = ({
         />
 
         {destinationToEdit ? (
-          <div className={styles.button} editMode="true">
+          <div className={styles.button} editmode="true">
             <Button
               label="Save"
               modifier="filled"
