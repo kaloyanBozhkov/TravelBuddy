@@ -22,9 +22,11 @@ import uid from '~/thirdPartyHelpers/uid'
 
 import styles from './styles.module.scss'
 import { CSSTransition } from 'react-transition-group'
+import useWindowWidth from '~/hooks/useWindowWidth'
 
 const NewTrip = () => {
   const dispatch = useDispatch()
+  const windowWidth = useWindowWidth()
 
   const [dates, onDateInputChangeHandler] = useInputHandler({
     startDate: '',
@@ -121,7 +123,7 @@ const NewTrip = () => {
       </section>
 
       <CSSTransition
-        in={!destinations.length}
+        in={!destinations.length || windowWidth < 576}
         mountOnEnter
         unmountOnExit
         timeout={1000}
@@ -132,7 +134,9 @@ const NewTrip = () => {
           exitActive: styles.exiting,
         }}
       >
-        <div className={styles.background}>
+        <div
+          className={[styles.background, windowWidth < 576 ? styles.halfSize : ''].join(' ').trim()}
+        >
           <ScrollingClouds reverseCounter />
         </div>
       </CSSTransition>
