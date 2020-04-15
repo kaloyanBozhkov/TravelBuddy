@@ -18,7 +18,13 @@ const newDestination = {
   beHereOn: '',
   weatherPref: '',
 }
-
+/**
+ * @param  {} {onAddToTrip
+ * @param  {} onEditDestination
+ * @param  {} onCancelDestination
+ * @param  {} destinationToEdit=null
+ * @param  {bool} withAutocompleteGoogleMapsScript=false => if GoogleMap is loaded on same page, there will be two script tags importing google maps api, this controls autocomplete input's script tag
+ */
 const DestinationPicker = ({
   onAddToTrip,
   onEditDestination,

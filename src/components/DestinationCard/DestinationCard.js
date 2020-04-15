@@ -47,6 +47,7 @@ const DestinationCard = ({
     </div>
   )
 
+  // @TODO figure out why CSSTransition adds undefined class to card div
   return (
     <CSSTransition
       in={!closing}

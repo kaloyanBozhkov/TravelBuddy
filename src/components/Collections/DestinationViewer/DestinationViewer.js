@@ -13,7 +13,11 @@ const DestinationViewer = ({
     <div className={styles.viewer}>
       <Label text="Your Trip" withRibbon />
 
-      <div className={styles.cardsContainer}>
+      <div
+        className={[styles.cardsContainer, destinations.length ? '' : styles.empty]
+          .join(' ')
+          .trim()}
+      >
         {destinations.length > 0 ? (
           destinations.map((destination, key) => (
             <DestinationCard

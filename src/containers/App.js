@@ -1,6 +1,7 @@
 import React from 'react'
 import { Redirect, Route } from 'react-router-dom'
 import { Switch } from 'react-router'
+import { GoogleApiWrapper } from 'react-google-maps'
 
 //import containers
 import Header from './Header'
@@ -32,5 +33,4 @@ function App() {
     </div>
   )
 }
-
 export default App

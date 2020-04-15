@@ -13,7 +13,7 @@
   }
 
   .noDestinationsMsg{
-   flex: 1;
+   height: 100%;
    display: flex;
    align-items: center;
    font-size: 2rem;
@@ -25,14 +25,22 @@
   @include boxShadow(8px, 0, 8px, -4px, 0.2, inset);
   .cardsContainer {
     width: 100%;
+    flex:1;
   }
 
   @include mediaQuery(xs) { 
     @include boxShadow(0px, 8px, 8px, -4px, 0.2, inset);
-    .cardsContainer {
+    .cardsContainer:not(.empty) {
       display: grid;
       grid-template-columns: 1fr 1fr;
       column-gap: 2rem;
+    }
+
+    .cardsContainer.empty{
+      > p {
+        padding: 4rem 0rem;
+        justify-content: center;
+      }
     }
   }
 }

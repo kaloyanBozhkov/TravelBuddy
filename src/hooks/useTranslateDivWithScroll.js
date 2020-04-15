@@ -16,7 +16,7 @@ const useTranslateDivWithScroll = (parentRef, childRef) => {
 const handleScrollPosition = (parentRef, childRef) => {
   const { top, bottom, height } = parentRef.current.getBoundingClientRect()
 
-  const hasReachedBottom = parseFloat(bottom) - parseFloat(childRef.current.offsetHeight) - 20 < 0
+  const hasReachedBottom = parseFloat(bottom) - parseFloat(childRef.current.offsetHeight) - 20 < 50
   const newTop = hasReachedBottom
     ? parseFloat(height) - parseFloat(childRef.current.offsetHeight) - 50
     : top < 0

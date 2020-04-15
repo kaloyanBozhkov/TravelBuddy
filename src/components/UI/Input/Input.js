@@ -1,5 +1,4 @@
 import React, { useState, forwardRef, useLayoutEffect } from 'react'
-import Script from 'react-load-script'
 import styles from './input.module.scss'
 
 import Icon from '~/components/UI/Icon/Icon'
@@ -39,7 +38,6 @@ const Input = forwardRef(
         remainingProps.selected.length > 0)
 
     const [focused, setFocused] = useState(beginFocused)
-    const [hasScriptLoaded, setHasScriptLoaded] = useState(false)
 
     // classes of wrapper
     const classes = [
@@ -117,23 +115,15 @@ const Input = forwardRef(
           )
         case 'googleAutocomplete':
           return (
-            <>
-              <Script
-                url={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&libraries=places`}
-                onLoad={() => setHasScriptLoaded(true)}
-              />
-              {hasScriptLoaded && (
-                <PlacesAutocomplete
-                  ref={ref}
-                  // onPlaceSelected={(place) => console.log(place)} => control from parent
-                  onFocus={focusHandler}
-                  onBlur={blurHandler}
-                  types={['(regions)']}
-                  placeholder=""
-                  {...remainingProps}
-                />
-              )}
-            </>
+            <PlacesAutocomplete
+              ref={ref}
+              // onPlaceSelected={(place) => console.log(place)} => control from parent
+              onFocus={focusHandler}
+              onBlur={blurHandler}
+              types={['(cities)']}
+              placeholder=""
+              {...remainingProps}
+            />
           )
         case 'select': {
           const { options, selected, ...otherProps } = remainingProps

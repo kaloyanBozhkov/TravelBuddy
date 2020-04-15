@@ -83,11 +83,13 @@
   }
 
   .googleMapsArea {
+    position: relative;
+    min-height: 100%;
     background-color: transparent;
     flex: 1;
 
     &:not(.empty) {
-      z-index: 0;
+      z-index: 1;
     }
     &.empty {
       z-index: -1;
@@ -132,5 +134,17 @@
   left: 0;
   overflow: hidden;
   z-index: 0;
-  @include animate(opacityIn, 1s);
 }
+
+
+.exiting {
+  opacity: 1;
+  @include animate(opacityIn, 1000ms);
+  animation-direction: reverse;
+}
+
+.entering {
+  opacity: 0;
+  @include animate(opacityIn, 1000ms);
+}
+

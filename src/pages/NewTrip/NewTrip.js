@@ -8,6 +8,7 @@ import {
   deleteDestination,
 } from '~/store/trip/trip.action'
 
+import GoogleMap from '~/components/GoogleMap/GoogleMap'
 import ScrollingClouds from '~/components/ScrollingClouds/ScrollingClouds'
 import DestinationPicker from '~/components/Collections/DestinationPicker/DestinationPicker'
 import DestinationViewer from '~/components/Collections/DestinationViewer/DestinationViewer'
@@ -20,6 +21,7 @@ import useInputHandler from '~/hooks/useInputHandler'
 import uid from '~/thirdPartyHelpers/uid'
 
 import styles from './styles.module.scss'
+import { CSSTransition } from 'react-transition-group'
 
 const NewTrip = () => {
   const dispatch = useDispatch()
@@ -37,8 +39,10 @@ const NewTrip = () => {
     dispatch(editDestination(activeDestination, newDestinationData))
   const onRemoveDestination = (destinationIndex) => dispatch(deleteDestination(destinationIndex))
 
-  // toggle if clouds can be killable, based on if anything is selected yet
-  const googleMapsAreaClasses = [styles.googleMapsArea, styles.empty].join(' ')
+  // toggle if clouds can be killable by changing z-index through css, based on if anything is selected yet
+  const googleMapsAreaClasses = [styles.googleMapsArea, destinations.length ? '' : styles.empty]
+    .join(' ')
+    .trim()
 
   return (
     <div className={styles.newTrip}>
@@ -100,12 +104,38 @@ const NewTrip = () => {
       </section>
 
       <section className={googleMapsAreaClasses}>
-        <p>CONTENT</p>
+        <CSSTransition
+          in={destinations.length}
+          mountOnEnter
+          unmountOnExit
+          timeout={1000}
+          appear
+          classNames={{
+            appearActive: styles.entering,
+            enterActive: styles.entering,
+            exitActive: styles.exiting,
+          }}
+        >
+          <GoogleMap />
+        </CSSTransition>
       </section>
 
-      <div className={styles.background}>
-        <ScrollingClouds reverseCounter />
-      </div>
+      <CSSTransition
+        in={!destinations.length}
+        mountOnEnter
+        unmountOnExit
+        timeout={1000}
+        appear
+        classNames={{
+          appearActive: styles.entering,
+          enterActive: styles.entering,
+          exitActive: styles.exiting,
+        }}
+      >
+        <div className={styles.background}>
+          <ScrollingClouds reverseCounter />
+        </div>
+      </CSSTransition>
     </div>
   )
 }
