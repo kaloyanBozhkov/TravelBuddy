@@ -94,6 +94,10 @@
     &.empty {
       z-index: -1;
     }
+
+    
+  opacity: 0;
+  @include animate(opacityIn, 2000ms);
   }
 
   @include mediaQuery(xs) {
@@ -148,6 +152,6 @@
 
 .entering {
   opacity: 0;
-  @include animate(opacityIn, 1000ms);
+  @include animate(opacityIn, 2000ms);
 }
 

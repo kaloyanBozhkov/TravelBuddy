@@ -90,7 +90,6 @@ const NewTrip = () => {
               destinations={destinations}
               activeDestination={activeDestination}
               onSelectDestination={onSelectDestination}
-              onRemoveDestination={onRemoveDestination}
             />
           </div>
         </DroppingContainer>
@@ -110,15 +109,19 @@ const NewTrip = () => {
           in={!!destinations.length}
           mountOnEnter
           unmountOnExit
-          timeout={1000}
-          appear
+          timeout={2000}
           classNames={{
             appearActive: styles.entering,
             enterActive: styles.entering,
             exitActive: styles.exiting,
           }}
         >
-          <GoogleMap destinations={destinations} activeDestination={activeDestination} />
+          <GoogleMap
+            destinations={destinations}
+            activeDestination={activeDestination}
+            onCloseDestination={onSelectDestination}
+            onSelectDestination={onSelectDestination}
+          />
         </CSSTransition>
       </section>
 

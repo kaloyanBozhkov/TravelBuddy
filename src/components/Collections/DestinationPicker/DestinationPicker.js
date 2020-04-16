@@ -61,8 +61,10 @@ const DestinationPicker = ({
 
   // when destination to edit is set, re-set inputs and vice-versa
   useLayoutEffect(() => {
-    setEntireState(destinationToEdit || newDestination)
-  }, [destinationToEdit])
+    if (destinationToEdit && destination.uid !== destinationToEdit.uid) {
+      setEntireState(destinationToEdit || newDestination)
+    }
+  }, [destinationToEdit, destination, setEntireState])
 
   return (
     <div className={styles.picker} ref={pickerRef}>

@@ -1,0 +1,19 @@
+@import 'scss/variables.scss';
+
+.destinationInfo {
+  padding: 1rem 0;
+  .content {
+    margin-bottom: -1rem;
+    > div {
+      h1 {
+        color: $orange;
+        font-size: 1.4rem;
+      }
+      p {
+        font-size: 1.5rem;
+      }
+
+      margin: 1rem 2rem;
+    }
+  }
+}
