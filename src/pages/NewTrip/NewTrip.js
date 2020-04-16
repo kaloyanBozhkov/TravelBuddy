@@ -107,7 +107,7 @@ const NewTrip = () => {
 
       <section className={googleMapsAreaClasses}>
         <CSSTransition
-          in={destinations.length}
+          in={!!destinations.length}
           mountOnEnter
           unmountOnExit
           timeout={1000}
@@ -118,7 +118,7 @@ const NewTrip = () => {
             exitActive: styles.exiting,
           }}
         >
-          <GoogleMap />
+          <GoogleMap destinations={destinations} activeDestination={activeDestination} />
         </CSSTransition>
       </section>
 

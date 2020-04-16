@@ -11,9 +11,9 @@ const width = 305
 const height = 305
 const scale = 152.5
 
-const countryClicked = (data) => {
+const countryClicked = ({ properties: { name } }) => {
   // on click set country in redux store to trigger trip menu etc..?
-  console.log(data) //country data
+  // console.log(data) //country data
 }
 
 const drawWorld = (div, geoGenerator) => {
