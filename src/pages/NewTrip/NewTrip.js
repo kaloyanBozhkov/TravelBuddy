@@ -46,6 +46,8 @@ const NewTrip = () => {
     .join(' ')
     .trim()
 
+  const onCalculateOptimalTrip = () => {}
+
   return (
     <div className={styles.newTrip}>
       <section className={styles.tripSelectContainer}>
@@ -90,6 +92,7 @@ const NewTrip = () => {
               destinations={destinations}
               activeDestination={activeDestination}
               onSelectDestination={onSelectDestination}
+              onRemoveDestination={onRemoveDestination}
             />
           </div>
         </DroppingContainer>

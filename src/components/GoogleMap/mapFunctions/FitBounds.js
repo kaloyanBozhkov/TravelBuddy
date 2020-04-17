@@ -1,18 +1,16 @@
 // fits map to contain all markers with some padding
-const fitBounds = (mapRef, larLngSource, centerCallback, padding = 50) => {
+const fitBounds = (mapRef, latlngSource, centerCallback, padding = 50) => {
   // create a LatLngBounds instance represents a rectangle in geographical coordinates
   const bounds = new window.google.maps.LatLngBounds()
 
   // passed obj with coords
-  if (larLngSource.hasOwnProperty('lat') && larLngSource.hasOwnProperty('lng')) {
+  if (latlngSource.hasOwnProperty('lat') && latlngSource.hasOwnProperty('lng')) {
     bounds.extend({
-      lat: larLngSource.lat,
-      lng: larLngSource.lng,
+      lat: latlngSource.lat,
+      lng: latlngSource.lng,
     })
-
-    //console.log(mapRef.current.map)
   } else {
-    const markerRefs = larLngSource
+    const markerRefs = latlngSource
     // passed markerRefs, obj with various refs to markers
     Object.values(markerRefs.current).forEach((singleMarkerRef) => {
       const { lat, lng } = singleMarkerRef.current.marker.getPosition()
@@ -32,6 +30,14 @@ const fitBounds = (mapRef, larLngSource, centerCallback, padding = 50) => {
     right: padding,
     left: padding,
     bottom: padding,
+  })
+
+  // make sure to set zoom to 14 if map zoom changed to lower due to bounds update
+  window.google.maps.event.addListenerOnce(mapRef.current.map, 'bounds_changed', function () {
+    console.log('changed')
+    if (this.getZoom() > 14) {
+      this.setZoom(14)
+    }
   })
 }
 

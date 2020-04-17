@@ -17,7 +17,11 @@ const DestinationCard = ({
   selected,
 }) => {
   const [closing, setClosing] = useState(false)
-  const onCloseHandler = () => setClosing(true)
+  const onCloseHandler = (e) => {
+    // prevent parent from triggering its onSelectHandler call
+    e.stopPropagation()
+    setClosing(true)
+  }
   const onSelectHandler = () => onSelect(location, stays, beHereOn, weatherPref)
   const classes = [styles.destinationCard, selected ? styles.selected : ''].join(' ').trim()
 

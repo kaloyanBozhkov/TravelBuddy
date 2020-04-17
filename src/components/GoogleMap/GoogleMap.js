@@ -26,6 +26,26 @@ const GoogleMap = ({
   const markerRefs = useRef({})
   const mapRef = useRef()
 
+  // when destinations arr changes (destination added/removed), delete markers no longer needed
+  useLayoutEffect(() => {
+    const previousDestinations = Object.keys(markerRefs.current)
+
+    // if first destination was added, dont do anything
+    if (previousDestinations.length > 0) {
+      // arr of uid's of removed destinations
+      const removedDestinations = previousDestinations.filter(
+        (uid) => !~destinations.map((dest) => dest.uid).indexOf(uid)
+      )
+      console.log('removedDestinations', removedDestinations)
+
+      // for each removed destination's uid
+      removedDestinations.forEach((uid) => {
+        // delete the persisting ref to the unset marker
+        delete markerRefs.current[uid]
+      })
+    }
+  }, [destinations])
+
   // update map center location and bounds based on selected destination
   useLayoutEffect(() => {
     if (destinations[activeDestination]) {
@@ -35,6 +55,7 @@ const GoogleMap = ({
     }
   }, [activeDestination, destinations])
 
+  // when active destiantion changes, show/hide infoWindow according to destination's marker on map
   useLayoutEffect(() => {
     if (destinations[activeDestination]) {
       setInfoWindow({
@@ -62,7 +83,7 @@ const GoogleMap = ({
       center={location}
       ref={mapRef}
     >
-      {destinations.map(({ location: { lat, lng, label }, uid }, key) => {
+      {destinations.map(({ location: { lat, lng }, uid }, key) => {
         markerRefs.current[uid] = createRef()
         return (
           <Marker

@@ -12,7 +12,6 @@ const DestinationViewer = ({
   return (
     <div className={styles.viewer}>
       <Label text="Your Trip" withRibbon />
-
       <div
         className={[styles.cardsContainer, destinations.length ? '' : styles.empty]
           .join(' ')
