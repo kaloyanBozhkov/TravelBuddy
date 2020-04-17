@@ -12,6 +12,7 @@ const DestinationInfoWindow = ({
   marker,
   isOpen,
   onCloseDestinationInfoWindow,
+  stopNumber,
   map,
   google,
 }) => {
@@ -27,7 +28,7 @@ const DestinationInfoWindow = ({
       map={map}
     >
       <div className={styles.destinationInfo}>
-        <Label text={`Stop #1`} withRibbon />
+        <Label text={`Stop #${stopNumber + 1}`} withRibbon />
         <div className={styles.content}>
           <div>
             <h1>Location</h1>

@@ -17,7 +17,7 @@ import { pageSwitchStart } from '~/store/pageSwitch/pageSwitch.actions'
 import Input from '~/components/UI/Input/Input'
 import Button from '~/components/UI/Button/Button'
 import UserBall from '~/components/UI/UserBall/UserBall'
-import ErrorMsg from '~/components/UI/ErrorMsg/ErrorMsg'
+import ErrorMsg from '~/components/Collections/ErrorMsg/ErrorMsg'
 
 import { validateEmail } from '~/helpers/validation'
 import withPageAnimation from '~/HOCs/withPageAnimation'
@@ -78,7 +78,7 @@ const inputDefinitions = [
 ]
 
 const register = (fields, setInvalidInputs, dispatch) => {
-  //if field is not optional and has no value or has a custom check for it that fails, add field to error fields
+  // if field is not optional and has no value or has a custom check for it that fails, add field to error fields
   const invalidInput = fields
     .getFields()
     .filter(
@@ -88,10 +88,10 @@ const register = (fields, setInvalidInputs, dispatch) => {
     )
 
   if (invalidInput.length) {
-    //gotta fill in the missing mandatory fields fam
+    // gotta fill in the missing mandatory fields fam
     setInvalidInputs(invalidInput.map(({ name }) => name))
 
-    //do not continue further
+    // do not continue further
     return
   }
 
@@ -108,7 +108,7 @@ const register = (fields, setInvalidInputs, dispatch) => {
 
 // sign in input is controlled, register is uncontrolled. Why? for the fun of it!
 const Register = ({ dispatch }) => {
-  //setup fields' refs dynamically. Use createRef instead of useRef hook since hooks cannot be invoked in callbacks
+  // setup fields' refs dynamically. Use createRef instead of useRef hook since hooks cannot be invoked in callbacks
   const persistantFields = usePersistantFields(inputDefinitions)
 
   const fields = persistantFields.current
@@ -149,12 +149,11 @@ const Register = ({ dispatch }) => {
             <Input
               key={fieldAttributes.name}
               {...fieldAttributes}
-              invalidInputHandler={
-                ~errInputs.indexOf(fieldAttributes.name)
-                  ? () => invalidInputHandler(fieldAttributes.name)
-                  : false
+              errorMsgHandler={
+                (errorMsg && errorMsgHandler) ||
+                (!!~errInputs.indexOf(fieldAttributes.name) &&
+                  (() => invalidInputHandler(fieldAttributes.name)))
               }
-              errorMsgHandler={errorMsg ? errorMsgHandler : null}
             />
           ))}
         </div>

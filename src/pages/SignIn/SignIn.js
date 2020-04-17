@@ -9,7 +9,7 @@ import withPageAnimation from '~/HOCs/withPageAnimation'
 import Input from '~/components/UI/Input/Input'
 import Button from '~/components/UI/Button/Button'
 import UserBall from '~/components/UI/UserBall/UserBall'
-import ErrorMsg from '~/components/UI/ErrorMsg/ErrorMsg'
+import ErrorMsg from '~/components/Collections/ErrorMsg/ErrorMsg'
 
 import {
   signInPending,
@@ -68,14 +68,18 @@ const SignIn = ({ dispatch, isSignedInButNotVerifiedEmail }) => {
     <div className={styles.signIn}>
       <div className={styles.container}>
         <UserBall label="Sign in" />
-        <ErrorMsg errorMsg={errorMsg} />
+        <ErrorMsg show={!!errorMsg} errorMsg={errorMsg} />
         <div className={styles.inputArea}>
           <Input
             label="Email"
             icon="userCircle"
             name="username"
             onChange={onInputChangeHandler}
-            errorMsgHandler={errorMsg && !!~errorMsg.indexOf('email') && clearError}
+            errorMsgHandler={
+              errorMsg &&
+              (!!~errorMsg.indexOf('email') || !!~errorMsg.indexOf('fill in the fields')) &&
+              clearError
+            }
           />
           <Input
             label="Password"
@@ -85,7 +89,11 @@ const SignIn = ({ dispatch, isSignedInButNotVerifiedEmail }) => {
             comment="Forgot your password?"
             commentOnClick={() => redirectTo('/account/recovery')}
             onChange={onInputChangeHandler}
-            errorMsgHandler={errorMsg && !!~errorMsg.indexOf('password') && clearError}
+            errorMsgHandler={
+              errorMsg &&
+              (!!~errorMsg.indexOf('password') || !!~errorMsg.indexOf('fill in the fields')) &&
+              clearError
+            }
           />
         </div>
         <Button

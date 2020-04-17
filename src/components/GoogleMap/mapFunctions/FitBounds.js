@@ -34,7 +34,6 @@ const fitBounds = (mapRef, latlngSource, centerCallback, padding = 50) => {
 
   // make sure to set zoom to 14 if map zoom changed to lower due to bounds update
   window.google.maps.event.addListenerOnce(mapRef.current.map, 'bounds_changed', function () {
-    console.log('changed')
     if (this.getZoom() > 14) {
       this.setZoom(14)
     }

@@ -8,7 +8,7 @@ import { pageSwitchStart } from '~/store/pageSwitch/pageSwitch.actions'
 import Input from '~/components/UI/Input/Input'
 import Button from '~/components/UI/Button/Button'
 import UserBall from '~/components/UI/UserBall/UserBall'
-import ErrorMsg from '~/components/UI/ErrorMsg/ErrorMsg'
+import ErrorMsg from '~/components/Collections/ErrorMsg/ErrorMsg'
 
 import useInputHandler from '~/hooks/useInputHandler'
 import { validateEmail } from '~/helpers/validation'

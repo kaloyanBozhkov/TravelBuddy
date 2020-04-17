@@ -36,7 +36,6 @@ const GoogleMap = ({
       const removedDestinations = previousDestinations.filter(
         (uid) => !~destinations.map((dest) => dest.uid).indexOf(uid)
       )
-      console.log('removedDestinations', removedDestinations)
 
       // for each removed destination's uid
       removedDestinations.forEach((uid) => {
@@ -101,6 +100,7 @@ const GoogleMap = ({
         config={infoWindow.config}
         onCloseDestinationInfoWindow={() => onSelectDestination(-1)}
         isOpen={infoWindow.isOpen}
+        stopNumber={activeDestination}
       />
     </Map>
   )

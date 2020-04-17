@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useLayoutEffect } from 'react'
 import { addDestination, editDestination, deleteDestination } from '~/store/trip/trip.action'
 
 import DestinationPicker from '~/components/Collections/DestinationPicker/DestinationPicker'
@@ -6,9 +6,10 @@ import DestinationViewer from '~/components/Collections/DestinationViewer/Destin
 import DroppingContainer from '~/components/DroppingContainer/DroppingContainer'
 import Input from '~/components/UI/Input/Input'
 import Button from '~/components/UI/Button/Button'
+import ErrorMsg from '~/components/Collections/ErrorMsg/ErrorMsg'
 
-import { handleDateChange } from '~/helpers/inputHandlers'
 import useInputHandler from '~/hooks/useInputHandler'
+import { handleDateChange } from '~/helpers/inputHandlers'
 import uid from '~/thirdPartyHelpers/uid'
 
 import styles from './styles.module.scss'
@@ -20,11 +21,12 @@ const TripSelectContainer = ({
   dispatch,
 }) => {
   const [dates, onDateInputChangeHandler] = useInputHandler({
-    startDate: '',
-    endDate: '',
+    startDate: null,
+    endDate: null,
   })
   const [errorMsg, setErrorMsg] = useState([])
-  const clearErrorMsg = (errMsg) => setErrorMsg(errorMsg.filter((msg) => msg !== errMsg))
+  const clearErrorMsg = (removeForField) =>
+    setErrorMsg(errorMsg.filter(({ field }) => field !== removeForField))
 
   const onAddToTrip = (destination) => dispatch(addDestination({ ...destination, uid: uid() }))
   const onCancelDestination = () => onSelectDestination(-1)
@@ -33,24 +35,49 @@ const TripSelectContainer = ({
   const onRemoveDestination = (destinationIndex) => dispatch(deleteDestination(destinationIndex))
 
   const onCalculateOptimalTrip = () => {
-    const canProceed = (() => {
-      // check start and end date for valid values
-      if (dates.startDate === '' || dates.endDate === '') {
-        return 'Make sure start date is set'
-      } else if (dates.endDate === '') {
-        return 'Make sure end date is set'
-      } else if (+dates.startDate <= +dates.endDate) {
-        return 'Make sure end date is greater than start date'
-      }
+    const errors = []
 
-      return true
-    })()
+    // check start and end date for valid values
+    if (!dates.startDate) {
+      errors.push({
+        field: 'startDate',
+        error: 'Make sure start date is set',
+      })
+    }
+
+    if (!dates.endDate) {
+      errors.push({
+        field: 'endDate',
+        error: 'Make sure end date is set',
+      })
+    }
+
+    // will implicitly convert null to 0 and compate timestamps
+    if (+dates.startDate >= +dates.endDate) {
+      errors.push({
+        field: 'endDate',
+        error: 'Make sure end date is greater than start date',
+      })
+    }
+
+    if (destinations.length <= 1) {
+      errors.push({
+        field: 'destination',
+        error: 'Make sure to have added two or more destinations',
+      })
+    }
 
     // check at least two destinations added
-
-    if (canProceed === true) {
+    if (errors.length) {
+      setErrorMsg(errors)
+    } else {
     }
   }
+
+  // make sure to trigger the update scroll of
+  useLayoutEffect(() => {
+    window.scrollBy(0, 0)
+  }, [destinations])
 
   return (
     <section className={styles.tripSelectContainer}>
@@ -63,8 +90,10 @@ const TripSelectContainer = ({
             comment="When should your trip start?"
             icon="calendar"
             onChange={(value) => handleDateChange(onDateInputChangeHandler, value, 'startDate')}
-            errorMsgHandler={() => clearErrorMsg('startDate')}
-            invalidInputHandler={errorMsg && !!~errorMsg.indexOf('email')}
+            errorMsgHandler={
+              errorMsg.filter(({ field }) => field === 'startDate').length > 0 &&
+              (() => clearErrorMsg('startDate'))
+            }
             selected={dates.startDate && new Date(dates.startDate)}
             type="date"
             minDate={new Date()}
@@ -76,8 +105,10 @@ const TripSelectContainer = ({
             comment="When should your trip end?"
             icon="calendar"
             onChange={(value) => handleDateChange(onDateInputChangeHandler, value, 'endDate')}
-            errorMsgHandler={() => clearErrorMsg('endDate')}
-            invalidInputHandler={errorMsg && !!~errorMsg.indexOf('endDate')}
+            errorMsgHandler={
+              errorMsg.filter(({ field }) => field === 'endDate').length > 0 &&
+              (() => clearErrorMsg('endDate'))
+            }
             selected={dates.endDate && new Date(dates.endDate)}
             type="date"
             minDate={dates.startDate || new Date()}
@@ -101,7 +132,17 @@ const TripSelectContainer = ({
           />
         </div>
       </DroppingContainer>
-
+      <section className={styles.errorMsgArea}>
+        <ErrorMsg
+          show={errorMsg.length > 0}
+          errorMsg={errorMsg}
+          isCard
+          title="Oops! Cannot continue.."
+          onClose={() => setErrorMsg([])}
+          unmountOnExit
+          mountOnEnter
+        />
+      </section>
       <Button
         label="Calculate Optimal Trip!"
         icon="calculator"

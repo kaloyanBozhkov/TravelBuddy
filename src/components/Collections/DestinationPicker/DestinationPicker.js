@@ -91,8 +91,7 @@ const DestinationPicker = ({
                 },
               })
           }
-          errorMsgHandler={clearLocationError}
-          invalidInputHandler={locationError}
+          errorMsgHandler={locationError && clearLocationError}
           value={destination.location.label}
           type="googleAutocomplete"
           onPlaceSelected={(place) => {

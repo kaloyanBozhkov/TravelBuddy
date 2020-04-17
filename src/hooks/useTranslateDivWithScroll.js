@@ -26,3 +26,12 @@ const handleScrollPosition = (parentRef, childRef) => {
 }
 
 export default useTranslateDivWithScroll
+
+/*
+  // make sure to trigger the scroll event when the parent div size changes (becomes smaller for example), in order to update the child's position again!
+  E.g. 
+  useLayoutEffect(() => {
+    window.scrollBy(0, 0)
+  }, [destinations])
+
+*/

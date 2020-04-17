@@ -149,7 +149,15 @@ const Input = forwardRef(
           )
         }
         default:
-          return <input ref={ref} onFocus={focusHandler} onBlur={blurHandler} {...remainingProps} />
+          return (
+            <input
+              ref={ref}
+              onFocus={focusHandler}
+              onBlur={blurHandler}
+              type={type}
+              {...remainingProps}
+            />
+          )
       }
     })()
 
