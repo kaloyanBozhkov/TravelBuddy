@@ -16,8 +16,6 @@ const Input = forwardRef(
       comment,
       commentOnClick = null,
 
-      // function to invoke to clear the error state, if any
-      invalidInputHandler = null,
       // function to call when an error is displayed (e.g. short password msg) and we want to remove it on click of input
       errorMsgHandler = null,
       isOptional = false,
@@ -42,7 +40,7 @@ const Input = forwardRef(
     // classes of wrapper
     const classes = [
       styles.input,
-      invalidInputHandler ? styles.error : '',
+      errorMsgHandler ? styles.error : '',
       isOptional ? styles.isOptional : '',
       focused ? (type === 'select' ? styles.selectFocused : styles.inputFocused) : '',
       ...(Array.prototype.isPrototypeOf(classNames) ? classNames : [classNames]),
@@ -60,12 +58,7 @@ const Input = forwardRef(
       setFocused(true)
 
       // clear error style if any set
-      if (invalidInputHandler && typeof invalidInputHandler === 'function') {
-        invalidInputHandler()
-      }
-
-      // clear any error msg
-      if (errorMsgHandler) {
+      if (errorMsgHandler && typeof errorMsgHandler === 'function') {
         errorMsgHandler()
       }
     }

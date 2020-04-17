@@ -13,7 +13,6 @@ const initialState = {
 
   // which destinatioin is currently selected (based on index?) for edit and view on maps
   activeDestination: -1,
-  hasError: null,
 }
 
 const setTrip = (state, { startDate, endDate, destinations }) => ({

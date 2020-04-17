@@ -75,8 +75,7 @@ const SignIn = ({ dispatch, isSignedInButNotVerifiedEmail }) => {
             icon="userCircle"
             name="username"
             onChange={onInputChangeHandler}
-            errorMsgHandler={clearError}
-            invalidInputHandler={errorMsg && !!~errorMsg.indexOf('email')}
+            errorMsgHandler={errorMsg && !!~errorMsg.indexOf('email') && clearError}
           />
           <Input
             label="Password"
@@ -86,8 +85,7 @@ const SignIn = ({ dispatch, isSignedInButNotVerifiedEmail }) => {
             comment="Forgot your password?"
             commentOnClick={() => redirectTo('/account/recovery')}
             onChange={onInputChangeHandler}
-            errorMsgHandler={clearError}
-            invalidInputHandler={errorMsg && !!~errorMsg.indexOf('password')}
+            errorMsgHandler={errorMsg && !!~errorMsg.indexOf('password') && clearError}
           />
         </div>
         <Button
