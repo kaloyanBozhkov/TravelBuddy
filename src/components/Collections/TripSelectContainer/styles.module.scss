@@ -71,16 +71,15 @@
 }
 
 @include mediaQuery(xs) {
-  margin-top: $headerHeight;
-  flex-direction: column;
-
   .tripSelectContainer {
     width: 90%;
     margin: 0 auto;
     top: 2rem;
     position: relative;
     margin-bottom: 2rem;
-
+    header h1 {
+      font-size: 2rem;
+    }
     .dateWrapper {
       flex-direction: column;
       > div,
@@ -98,3 +97,4 @@
     }
   }
 }
+

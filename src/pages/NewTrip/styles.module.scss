@@ -103,30 +103,6 @@
   @include mediaQuery(xs) {
     margin-top: $headerHeight;
     flex-direction: column;
-
-    .tripSelectContainer {
-      width: 90%;
-      margin: 0 auto;
-      top: 2rem;
-      position: relative;
-      margin-bottom: 2rem;
-
-      .dateWrapper {
-        flex-direction: column;
-        > div,
-        > div:first-of-type,
-        > div:last-of-type {
-          margin: 0rem 0rem 2rem 0rem;
-        }
-
-        > div:first-of-type {
-          margin-bottom: 4rem;
-        }
-      }
-      .citiesWrapper {
-        flex-direction: column;
-      }
-    }
   }
 }
 
