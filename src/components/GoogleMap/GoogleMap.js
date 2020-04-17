@@ -1,4 +1,4 @@
-import React, { useState, useRef, createRef, useLayoutEffect, useEffect } from 'react'
+import React, { useState, useRef, createRef, useLayoutEffect } from 'react'
 import { Map, Marker } from 'google-maps-react'
 
 import DestinationInfoWindow from './DestinationInfoWindow/DestinationInfoWindow'

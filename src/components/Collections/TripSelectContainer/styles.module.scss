@@ -1,0 +1,96 @@
+@import 'scss/mixins';
+@import 'scss/keyframes';
+@import 'scss/variables';
+@import 'scss/media';
+
+.tripSelectContainer {
+  background-color: rgba(251, 251, 251, 0.8);
+  max-width: 54rem;
+  width: 100%;
+
+  z-index: 2;
+
+  @include boxShadow(4px, 4px, 4px, 0, 0.15);
+  @include animate(enterFromLeft, 400ms);
+
+  > div {
+    margin-bottom: 1.5rem;
+  }
+
+  input {
+    font-size: 1.5rem;
+    min-width: 10rem;
+  }
+
+  .dateWrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 2.5rem 1.5rem;
+    > div {
+      flex: 1;
+      &:first-of-type {
+        margin-right: 1rem;
+      }
+      &:last-of-type {
+        margin-left: 1rem;
+      }
+
+      // comment span of inputs
+      margin-bottom: 1.2rem;
+    }
+  }
+
+  .dateWrapper > div {
+    > span {
+      font-weight: normal;
+      font-family: 'Kanit';
+    }
+  }
+
+  .citiesWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    > div {
+      flex: 1;
+    }
+  }
+
+  .button {
+    height: 4.8rem;
+    font-size: 2rem;
+    min-width: 20rem;
+    max-width: 80%;
+    margin: 5rem auto;
+  }
+}
+
+@include mediaQuery(xs) {
+  margin-top: $headerHeight;
+  flex-direction: column;
+
+  .tripSelectContainer {
+    width: 90%;
+    margin: 0 auto;
+    top: 2rem;
+    position: relative;
+    margin-bottom: 2rem;
+
+    .dateWrapper {
+      flex-direction: column;
+      > div,
+      > div:first-of-type,
+      > div:last-of-type {
+        margin: 0rem 0rem 2rem 0rem;
+      }
+
+      > div:first-of-type {
+        margin-bottom: 4rem;
+      }
+    }
+    .citiesWrapper {
+      flex-direction: column;
+    }
+  }
+}
