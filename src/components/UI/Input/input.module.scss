@@ -10,6 +10,7 @@
   transition: 0.2s;
   border-radius: 4px;
   z-index: 0;
+  
   @include boxShadowMultiple(
     0 1px 5px rgba(0, 0, 0, 0.2),
     0 3px 4px rgba(0, 0, 0, 0.12),
@@ -40,6 +41,7 @@
     font-size: 2rem;
     background-color: none;
     background: none;
+    box-sizing: border-box;
 
     /* get rid of chrome's background color change of auto fill ;) */
     &:-webkit-autofill,
@@ -125,7 +127,7 @@
       transform: translateY(-0.75rem);
       font-size: 1.4rem;
       line-height: 1.4rem;
-      z-index: 1;
+      z-index: 2;
     }
   }
 

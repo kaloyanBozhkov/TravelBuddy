@@ -2,6 +2,8 @@ import {
   ADD_DESTINATION,
   SET_TRIP,
   SET_TRIP_STARTING_LOCATION,
+  SET_TRIP_END_DATE,
+  SET_TRIP_START_DATE,
   LOAD_DESTINATION,
   EDIT_DESTINATION,
   DELETE_DESTINATION,
@@ -38,6 +40,14 @@ const setTrip = (state, { startDate, endDate, destinations, startingLocation }) 
 const setTripStartingLocation = (state, startingLocation) => ({
   ...state,
   startingLocation,
+})
+const setTripStartDate = (state, startDate) => ({
+  ...state,
+  startDate,
+})
+const setTripEndDate = (state, endDate) => ({
+  ...state,
+  endDate,
 })
 
 const addDestination = (state, destination) => ({
@@ -100,6 +110,10 @@ const tripReducer = (state = initialState, action) => {
       return setTrip(state, action.payload)
     case SET_TRIP_STARTING_LOCATION:
       return setTripStartingLocation(state, action.payload)
+    case SET_TRIP_START_DATE:
+      return setTripStartDate(state, action.payload)
+    case SET_TRIP_END_DATE:
+      return setTripEndDate(state, action.payload)
     case START_FETCHING_DISTANCE_MATRIX:
       return startFetchingDistanceMatric(state)
     case FINISH_FETCHING_DISTANCE_MATRIX:

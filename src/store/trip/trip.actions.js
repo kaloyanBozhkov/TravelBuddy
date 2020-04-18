@@ -2,6 +2,8 @@ import {
   ADD_DESTINATION,
   SET_TRIP,
   SET_TRIP_STARTING_LOCATION,
+  SET_TRIP_END_DATE,
+  SET_TRIP_START_DATE,
   LOAD_DESTINATION,
   EDIT_DESTINATION,
   DELETE_DESTINATION,
@@ -39,6 +41,16 @@ export const setTrip = (startDate, endDate, destinations, startingLocation) => (
 export const setTripStartingLocation = (startingLocation) => ({
   type: SET_TRIP_STARTING_LOCATION,
   payload: startingLocation,
+})
+
+export const setTripStartDate = (startDate) => ({
+  type: SET_TRIP_START_DATE,
+  payload: startDate,
+})
+
+export const setTripEndDate = (endDate) => ({
+  type: SET_TRIP_END_DATE,
+  payload: endDate,
 })
 
 export const startFetchingDistanceMatrix = (startingLocation, destinations) => ({

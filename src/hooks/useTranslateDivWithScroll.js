@@ -5,10 +5,10 @@ import useWidnowWidth from './useWindowWidth'
  * @param  {ref} childRef -> child elem to translate Y based on scroll
  * @param  {number} margin -> any margin to add for when to stop scrollign the child in parent?
  */
-const useTranslateDivWithScroll = ({ parentRef, childRef, margin = 0 }) => {
+const useTranslateDivWithScroll = ({ parentRef, childRef, margin = 0, stopAt = 575 }) => {
   const windowWidth = useWidnowWidth()
   useEffect(() => {
-    if (windowWidth > 575) {
+    if (windowWidth > stopAt) {
       const handler = () => handleScrollPosition(parentRef, childRef, margin)
 
       window.addEventListener('scroll', handler)

@@ -5,6 +5,8 @@ import {
   deleteDestination,
   setTrip,
   setTripStartingLocation,
+  setTripStartDate,
+  setTripEndDate,
 } from '~/store/trip/trip.actions'
 
 import DestinationPicker from '~/components/Collections/DestinationPicker/DestinationPicker'
@@ -138,6 +140,14 @@ const TripSelectContainer = ({
     }
   }, [tripInfo.startingLoc, dispatch])
 
+  // on change of startDate, update store
+  useEffect(() => {
+    dispatch(setTripStartDate(tripInfo.startDate))
+  }, [tripInfo.startDate])
+
+  useEffect(() => {
+    dispatch(setTripEndDate(tripInfo.endDate))
+  }, [tripInfo.endDate])
   return (
     <section className={styles.tripSelectContainer}>
       <DroppingContainer label="Pick your travelling dates!">
