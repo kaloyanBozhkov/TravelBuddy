@@ -1,3 +1,5 @@
+// @TODO consider replacing with date-fns
+
 const dateDisplay = (passedDate) => {
   const date = new Date(passedDate)
   // if invalid date provided return null

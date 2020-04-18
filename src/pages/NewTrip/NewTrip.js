@@ -14,7 +14,9 @@ import TripSelectContainer from '~/components/Collections/TripSelectContainer/Tr
 const NewTrip = () => {
   const dispatch = useDispatch()
   const windowWidth = useWindowWidth()
-  const { destinations, activeDestination } = useSelector(({ tripReducer }) => tripReducer)
+  const { destinations, activeDestination, startDate, endDate, startingLocation } = useSelector(
+    ({ tripReducer }) => tripReducer
+  )
   const onSelectDestination = (destinationIndex) => dispatch(loadDestination(destinationIndex))
 
   // toggle if clouds can be killable by changing z-index through css, based on if anything is selected yet
@@ -29,6 +31,9 @@ const NewTrip = () => {
         destinations={destinations}
         activeDestination={activeDestination}
         dispatch={dispatch}
+        startDate={startDate}
+        endDate={endDate}
+        startingLocation={startingLocation}
       />
 
       <section className={googleMapsAreaClasses}>

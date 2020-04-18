@@ -26,7 +26,7 @@ export const loadDestination = (destinationIndex) => ({
   payload: destinationIndex,
 })
 
-export const setTrip = (startDate, endDate, destinations) => ({
+export const setTrip = (startDate, endDate, destinations, startingLocation) => ({
   type: SET_TRIP,
-  payload: { startDate, endDate, destinations },
+  payload: { startDate, endDate, destinations, startingLocation },
 })

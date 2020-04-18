@@ -10,16 +10,17 @@ const initialState = {
   startDate: null,
   endDate: null,
   destinations: [],
-
+  startingLocation: null,
   // which destinatioin is currently selected (based on index?) for edit and view on maps
   activeDestination: -1,
 }
 
-const setTrip = (state, { startDate, endDate, destinations }) => ({
+const setTrip = (state, { startDate, endDate, destinations, startingLocation }) => ({
   ...state,
   startDate,
   endDate,
   destinations,
+  startingLocation,
 })
 
 const addDestination = (state, destination) => ({
