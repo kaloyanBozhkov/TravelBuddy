@@ -1,24 +1,31 @@
 import { useEffect } from 'react'
+import useWidnowWidth from './useWindowWidth'
 /**
  * @param  {ref} parentRef -> parent ref
  * @param  {ref} childRef -> child elem to translate Y based on scroll
+ * @param  {number} margin -> any margin to add for when to stop scrollign the child in parent?
  */
-const useTranslateDivWithScroll = (parentRef, childRef) => {
+const useTranslateDivWithScroll = ({ parentRef, childRef, margin = 0 }) => {
+  const windowWidth = useWidnowWidth()
   useEffect(() => {
-    const handler = () => handleScrollPosition(parentRef, childRef)
+    if (windowWidth > 575) {
+      const handler = () => handleScrollPosition(parentRef, childRef, margin)
 
-    window.addEventListener('scroll', handler)
+      window.addEventListener('scroll', handler)
 
-    return () => window.removeEventListener('scroll', handler)
-  }, [parentRef, childRef])
+      return () => window.removeEventListener('scroll', handler)
+    } else {
+      childRef.current.style.transform = ''
+    }
+  }, [parentRef, childRef, margin, windowWidth])
 }
 
-const handleScrollPosition = (parentRef, childRef) => {
+const handleScrollPosition = (parentRef, childRef, margin) => {
   const { top, bottom, height } = parentRef.current.getBoundingClientRect()
 
-  const hasReachedBottom = parseFloat(bottom) - parseFloat(childRef.current.offsetHeight) - 20 < 50
+  const hasReachedBottom = parseFloat(bottom) - parseFloat(childRef.current.offsetHeight) < margin
   const newTop = hasReachedBottom
-    ? parseFloat(height) - parseFloat(childRef.current.offsetHeight) - 50
+    ? parseFloat(height) - parseFloat(childRef.current.offsetHeight) - margin
     : top < 0
     ? Math.floor(Math.abs(top))
     : 0

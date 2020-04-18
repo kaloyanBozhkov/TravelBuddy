@@ -41,7 +41,7 @@ const DestinationPicker = ({
   const pickerRef = useRef()
   const pickerWrapperRef = useRef()
 
-  useTransalteDivWithScroll(pickerRef, pickerWrapperRef)
+  useTransalteDivWithScroll({ parentRef: pickerRef, childRef: pickerWrapperRef, margin: 50 })
 
   const cannotAddTrip =
     !destination.location.label || !destination.location.lat || !destination.location.lng

@@ -1,20 +1,28 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { CSSTransition } from 'react-transition-group'
 
 import { loadDestination } from '~/store/trip/trip.actions'
 
 import GoogleMap from '~/components/GoogleMap/GoogleMap'
 import ScrollingClouds from '~/components/ScrollingClouds/ScrollingClouds'
 import Loading from '~/components/UI/Loading/Loading'
+import TripSelectContainer from '~/components/Collections/TripSelectContainer/TripSelectContainer'
+
+import useWindowWidth from '~/hooks/useWindowWidth'
+import useTransalteDivWithScroll from '~/hooks/useTranslateDivWithScroll'
 
 import styles from './styles.module.scss'
-import { CSSTransition } from 'react-transition-group'
-import useWindowWidth from '~/hooks/useWindowWidth'
-import TripSelectContainer from '~/components/Collections/TripSelectContainer/TripSelectContainer'
 
 const NewTrip = () => {
   const dispatch = useDispatch()
   const windowWidth = useWindowWidth()
+
+  // ref to dom elements for picker and its content wrapper, for scroll solution!
+  const googleMapsRef = useRef()
+  const googleMapsWrapperRef = useRef()
+  useTransalteDivWithScroll({ parentRef: googleMapsWrapperRef, childRef: googleMapsRef })
+
   const {
     destinations,
     activeDestination,
@@ -32,7 +40,7 @@ const NewTrip = () => {
     .trim()
 
   return (
-    <div className={styles.newTrip}>
+    <div className={styles.newTrip} ref={googleMapsWrapperRef}>
       {isCalculating && <Loading msg="Calculating optimal trip..." absolutelyPositioned />}
 
       <TripSelectContainer
@@ -45,7 +53,7 @@ const NewTrip = () => {
         startingLocation={startingLocation}
       />
 
-      <section className={googleMapsAreaClasses}>
+      <section className={googleMapsAreaClasses} ref={googleMapsRef}>
         <CSSTransition
           in={!!destinations.length}
           mountOnEnter
