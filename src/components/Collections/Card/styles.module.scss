@@ -1,0 +1,62 @@
+@import 'scss/variables';
+@import 'scss/mixins';
+@import 'scss/keyframes';
+.card {
+  min-height: 2.4rem;
+  position: relative;
+
+
+  &.isError {
+    > div:not(.closeBtn):first-of-type {
+      > h1 {
+        color: $error;
+      }
+    }
+
+    .closeBtn {
+      color: $error
+    }
+  }
+
+  .closeBtn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: $orange;
+    font-size: 2rem;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  > div:not(.closeBtn):first-of-type {
+    position: absolute;
+    top: -1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    > h1 {
+      color: $orange;
+    }
+  }
+
+  background-color: white;
+  border-radius: 3px;
+  padding: 4rem 2rem 2rem 2rem;
+  max-width: 80%;
+  margin: 0 auto;
+  @include boxShadow(0px, 0px, 4px, 0, 0.2);
+  > p {
+    text-align: left;
+  }
+
+  &.entering {
+    @include animate(jumpIn, 0.3s);
+  }
+
+  &.exiting {
+    @include animate(jumpIn, 0.3s);
+    animation-direction: reverse;
+  }
+}

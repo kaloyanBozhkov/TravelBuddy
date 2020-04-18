@@ -1,10 +1,11 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { loadDestination } from '~/store/trip/trip.action'
+import { loadDestination } from '~/store/trip/trip.actions'
 
 import GoogleMap from '~/components/GoogleMap/GoogleMap'
 import ScrollingClouds from '~/components/ScrollingClouds/ScrollingClouds'
+import Loading from '~/components/UI/Loading/Loading'
 
 import styles from './styles.module.scss'
 import { CSSTransition } from 'react-transition-group'
@@ -14,9 +15,15 @@ import TripSelectContainer from '~/components/Collections/TripSelectContainer/Tr
 const NewTrip = () => {
   const dispatch = useDispatch()
   const windowWidth = useWindowWidth()
-  const { destinations, activeDestination, startDate, endDate, startingLocation } = useSelector(
-    ({ tripReducer }) => tripReducer
-  )
+  const {
+    destinations,
+    activeDestination,
+    startDate,
+    endDate,
+    startingLocation,
+    isCalculating,
+    // optimalTrip,
+  } = useSelector(({ tripReducer }) => tripReducer)
   const onSelectDestination = (destinationIndex) => dispatch(loadDestination(destinationIndex))
 
   // toggle if clouds can be killable by changing z-index through css, based on if anything is selected yet
@@ -26,6 +33,8 @@ const NewTrip = () => {
 
   return (
     <div className={styles.newTrip}>
+      {isCalculating && <Loading msg="Calculating optimal trip..." absolutelyPositioned />}
+
       <TripSelectContainer
         onSelectDestination={onSelectDestination}
         destinations={destinations}
@@ -51,6 +60,7 @@ const NewTrip = () => {
           <GoogleMap
             destinations={destinations}
             activeDestination={activeDestination}
+            startingLocation={startingLocation}
             onCloseDestination={onSelectDestination}
             onSelectDestination={onSelectDestination}
           />

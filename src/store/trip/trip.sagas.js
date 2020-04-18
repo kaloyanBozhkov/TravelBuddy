@@ -1,4 +1,22 @@
 import { all, call, put, takeLeading } from 'redux-saga/effects'
-import { ADD_DESTINATION, SET_TRIP, LOAD_DESTINATION } from './trip.constants'
+import { SET_TRIP } from './trip.constants'
+import { startFetchingDistanceMatrix, errorFetchingDistanceMatrix } from './trip.actions'
 
-// add side effects to contorl maps on LOAD DESTINATION?
+export function* calculateOptimalTrip({ payload: trip }) {
+  try {
+    const { destinations, startingLocation } = trip
+    yield put(startFetchingDistanceMatrix({ destinations, startingLocation }))
+  } catch (err) {
+    yield put(errorFetchingDistanceMatrix(err))
+  }
+}
+
+// listener
+export function* calculateOptimalTripStart() {
+  yield takeLeading(SET_TRIP, calculateOptimalTrip)
+}
+
+// export sagas
+export function* tripSagas() {
+  yield all([call(calculateOptimalTripStart)])
+}

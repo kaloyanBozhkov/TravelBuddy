@@ -2,7 +2,7 @@ import React, { useState, useRef, createRef, useLayoutEffect } from 'react'
 import { Map, Marker } from 'google-maps-react'
 
 import DestinationInfoWindow from './DestinationInfoWindow/DestinationInfoWindow'
-
+import flag from '~/assets/flag.svg'
 import styles from './styles.module.scss'
 import fitBounds from './mapFunctions/FitBounds'
 
@@ -12,6 +12,7 @@ const defaultInitialCenter = {
 }
 
 const GoogleMap = ({
+  startingLocation,
   activeDestination = -1,
   destinations = [],
   initialCenter = defaultInitialCenter,
@@ -95,6 +96,15 @@ const GoogleMap = ({
           />
         )
       })}
+      {startingLocation &&
+        (() => {
+          return (
+            <Marker
+              icon={flag}
+              position={{ lat: startingLocation.lat, lng: startingLocation.lng }}
+            />
+          )
+        })()}
       <DestinationInfoWindow
         marker={infoWindow.marker}
         config={infoWindow.config}

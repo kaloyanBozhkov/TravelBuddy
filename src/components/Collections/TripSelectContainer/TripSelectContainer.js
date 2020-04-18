@@ -1,10 +1,11 @@
-import React, { useState, useLayoutEffect } from 'react'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
 import {
   addDestination,
   editDestination,
   deleteDestination,
   setTrip,
-} from '~/store/trip/trip.action'
+  setTripStartingLocation,
+} from '~/store/trip/trip.actions'
 
 import DestinationPicker from '~/components/Collections/DestinationPicker/DestinationPicker'
 import DestinationViewer from '~/components/Collections/DestinationViewer/DestinationViewer'
@@ -111,24 +112,31 @@ const TripSelectContainer = ({
     dispatch(editDestination(activeDestination, newDestinationData))
   const onRemoveDestination = (destinationIndex) => dispatch(deleteDestination(destinationIndex))
 
-  // make sure to trigger the update scroll of
+  // make sure to trigger the update scroll of the destination picker
   useLayoutEffect(() => {
     window.scrollBy(0, 0)
   }, [destinations])
 
   // clear error msg for not enough destinations selected
-  useLayoutEffect(() => {
-    if (destinations.length > 1 && errorMsg.length > 0) {
+  useEffect(() => {
+    if (destinations.length > 1) {
       setErrorMsg((prevErrors) => prevErrors.filter(({ field }) => field !== 'destination'))
     }
   }, [destinations])
 
-  // clear error msg for not having set starting location
-  useLayoutEffect(() => {
+  // clear error msg for not having set starting location, also update reducer with new startingLocation
+  useEffect(() => {
     if (!tripInfo.startingLoc.label || !tripInfo.startingLoc.lat || !tripInfo.startingLoc.lng) {
       setErrorMsg((prevErrors) => prevErrors.filter(({ field }) => field !== 'startingLoc'))
+
+      // if it was a full clear of text in where from input, reset value in store so maps reflects change
+      if (tripInfo.startingLoc.label === '') {
+        dispatch(setTripStartingLocation(null))
+      }
+    } else if (tripInfo.startingLoc.label && tripInfo.startingLoc.lat && tripInfo.startingLoc.lng) {
+      dispatch(setTripStartingLocation(tripInfo.startingLoc))
     }
-  }, [tripInfo.startingLoc])
+  }, [tripInfo.startingLoc, dispatch])
 
   return (
     <section className={styles.tripSelectContainer}>

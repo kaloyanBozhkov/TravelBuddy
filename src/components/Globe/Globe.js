@@ -11,12 +11,7 @@ const width = 305
 const height = 305
 const scale = 152.5
 
-const countryClicked = ({ properties: { name } }) => {
-  // on click set country in redux store to trigger trip menu etc..?
-  // console.log(data) //country data
-}
-
-const drawWorld = (div, geoGenerator) => {
+const drawWorld = (div, geoGenerator, onCountryClicked) => {
   // draws the paths from the world geoJson
   d3.select(div)
     .select('svg')
@@ -25,10 +20,10 @@ const drawWorld = (div, geoGenerator) => {
     .enter()
     .append('path')
     .attr('d', geoGenerator)
-    .on('click', countryClicked)
+    .on('click', onCountryClicked)
 }
 
-const Globe = () => {
+const Globe = ({ onCountryClicked }) => {
   const svgDiv = useRef(null)
   const [rotating, setRotating] = useState(false)
   const [hovering, setHovering] = useState(false)
@@ -55,7 +50,7 @@ const Globe = () => {
     //create svg for first time
     d3.select(svgDiv.current).append('svg').attr('width', width).attr('height', height)
 
-    //draw paths
+    // draw paths initially
     drawWorld(svgDiv.current, geoGenerator.current)
   }, [])
 
@@ -64,9 +59,9 @@ const Globe = () => {
     //clear paths and re-draw them
     d3.select(svgDiv.current).select('svg').selectAll('path').remove()
 
-    //draw paths
-    drawWorld(svgDiv.current, geoGenerator.current)
-  }, [rotation])
+    //draw paths and give them onClick handler
+    drawWorld(svgDiv.current, geoGenerator.current, onCountryClicked)
+  }, [rotation, onCountryClicked])
 
   // on rotation bool change, enable/disable auto rotating
   useEffect(() => {

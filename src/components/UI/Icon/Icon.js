@@ -31,6 +31,7 @@ import {
   FaSun,
   FaClock,
   FaCalculator,
+  FaForward,
 } from 'react-icons/fa'
 
 //import styles
@@ -103,6 +104,8 @@ const Icon = (props) => {
         return <FaClock />
       case 'calculator':
         return <FaCalculator />
+      case 'forward':
+        return <FaForward />
       default:
         return <i>Icon not found</i>
     }

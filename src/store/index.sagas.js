@@ -6,6 +6,7 @@ import { signUpSagas } from './signup/signup.saga'
 import { resetPasswordSagas } from './reset/reset.saga'
 import { logoutSagas } from './logout/logout.saga'
 import { updateUserSagas } from './updateUser/updateUser.saga'
+import { tripSagas } from './trip/trip.sagas'
 
 // channel sagas
 import { watchLoginSagas } from './login/login.channel.saga'
@@ -20,6 +21,7 @@ function* rootSaga() {
     call(watchLoginSagas),
     call(updateUserSagas),
     call(watchUserSagas),
+    call(tripSagas),
   ])
 }
 

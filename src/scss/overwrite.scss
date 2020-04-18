@@ -3,7 +3,11 @@
 @import './variables';
 
 .react-datepicker-popper {
-  @include boxShadow(0px, 0px, 4px, 2px, 0.2);
+  > div {
+    > div {
+      @include boxShadow(0px, 0px, 4px, 2px, 0.2);
+    }
+  }
 }
 
 .react-datepicker__day--keyboard-selected,

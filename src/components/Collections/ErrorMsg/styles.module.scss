@@ -4,40 +4,7 @@
 .errorMsg {
   min-height: 2.4rem;
   position: relative;
-  .closeBtn {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    color: $error;
-    font-size: 2rem;
-    cursor: pointer;
 
-    &:hover {
-      opacity: 0.8;
-    }
-  }
-  > div:not(.closeBtn) {
-    position: absolute;
-    top: -1rem;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    > h1 {
-      color: $error;
-    }
-  }
-
-  &.isCard {
-    background-color: white;
-    border-radius: 3px;
-    padding: 4rem 2rem 2rem 2rem;
-    max-width: 80%;
-    margin: 0 auto;
-    @include boxShadow(0px, 0px, 4px, 0, 0.15);
-    > p {
-      text-align: left;
-    }
-  }
   > p {
     line-height: 2.4rem;
     color: $error;
@@ -45,30 +12,18 @@
     max-width: 50rem;
     font-size: 1.6rem;
     transition: 400ms;
+    text-align: left;
   }
 
   &.entering {
-    &:not(.isCard) {
-      > p {
-        @include animate(scaleOpacityIn, 0.3s);
-      }
-    }
-
-    &.isCard {
-      @include animate(jumpIn, 0.3s);
+    > p {
+      @include animate(scaleOpacityIn, 0.3s);
     }
   }
 
   &.exiting {
-    &:not(.isCard) {
-      > p {
-        @include animate(scaleOpacityIn, 0.3s);
-        animation-direction: reverse;
-      }
-    }
-
-    &.isCard {
-      @include animate(jumpIn, 0.3s);
+    > p {
+      @include animate(scaleOpacityIn, 0.3s);
       animation-direction: reverse;
     }
   }

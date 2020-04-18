@@ -28,6 +28,7 @@
     flex-wrap: wrap;
     padding: 2.5rem 1.5rem;
     > div {
+      z-index: 4;
       flex: 1;
       &:first-of-type {
         margin-right: 1rem;
@@ -35,7 +36,6 @@
       &:last-of-type {
         margin-left: 1rem;
       }
-
       // comment span of inputs
       margin-bottom: 1.2rem;
     }

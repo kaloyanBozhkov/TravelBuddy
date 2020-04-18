@@ -1,5 +1,6 @@
-@import "scss/mixins";
-@import "scss/variables";
+@import 'scss/mixins';
+@import 'scss/variables';
+@import 'scss/media';
 
 @keyframes slideInWithOpacity {
   0% {
@@ -44,6 +45,16 @@
   }
 }
 
+@keyframes cardCustomEntrance {
+  0% {
+    transform: translateX(-50%) translateY(-50%) scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(-50%) translateY(-50%) scale(1);
+    opacity: 1;
+  }
+}
 
 .worldArea {
   position: relative;
@@ -58,6 +69,61 @@
   align-items: center;
   transition: 4s;
 
+  > div[startinglocationselector='true'] {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    transform-origin: center;
+    z-index: 10;
+
+    &[class*='enter-active'] {
+      @include animate(cardCustomEntrance, 0.3s);
+    }
+
+    &[class*='exit-active'] {
+      @include animate(cardCustomEntrance, 0.3s);
+      animation-direction: reverse;
+    }
+
+    .selectStartingLocationContent {
+      padding: 0 0.5rem;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      width: 35rem;
+      > div {
+        flex: 1;
+
+        &[class*='enter-active'] {
+          @include animate(jumpIn, 0.3s);
+        }
+
+        &[class*='exit-active'] {
+          @include animate(jumpIn, 0.3s);
+          animation-direction: reverse;
+        }
+
+        &.btnArea {
+          height: 4.2rem;
+          display: flex;
+          flex: 1;
+          align-items: stretch;
+          justify-content: stretch;
+          font-size: 2rem;
+          margin-top: 1rem;
+          > div {
+            width: 100%;
+          }
+        }
+      }
+      > div:first-of-type {
+        flex-basis: 100%;
+        margin-bottom: 3rem;
+      }
+    }
+    @include boxShadow(0px, 0px, 4px, 2px, 0.3);
+  }
 
   > .content {
     > div:last-of-type {
@@ -68,7 +134,7 @@
     > div:first-of-type {
       margin-top: 0;
       transition: 4s;
-      @include animate(expandButtonEntrance, .4s);
+      @include animate(expandButtonEntrance, 0.4s);
     }
   }
   &:not(.expanded):not(.compressed) {
@@ -102,10 +168,14 @@
 
     // cloud area
     > div:last-of-type {
-      top:0;
-      left:0;
-      right:0;
-      bottom:0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
     }
+  }
+
+  @include mediaQuery(xs) {
+    margin-top: $headerHeight;
   }
 }

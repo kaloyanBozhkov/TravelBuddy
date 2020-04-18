@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 
 import Input from '~/components/UI/Input/Input'
 import Label from '~/components/UI/Label/Label'
@@ -61,7 +61,7 @@ const DestinationPicker = ({
   const onEditDestinationHandler = () => onEditDestination(destination)
 
   // when destination to edit is set/unset, re-set inputs and vice-versa
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (destinationToEdit && destination.uid !== destinationToEdit.uid) {
       setEntireState(destinationToEdit)
     } else if (!destinationToEdit && destination.uid !== '') {
