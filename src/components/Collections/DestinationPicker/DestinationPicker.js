@@ -17,6 +17,7 @@ const newDestination = {
   stays: '',
   beHereOn: '',
   weatherPref: '',
+  uid: '',
 }
 /**
  * @param  {} {onAddToTrip
@@ -59,10 +60,12 @@ const DestinationPicker = ({
   }
   const onEditDestinationHandler = () => onEditDestination(destination)
 
-  // when destination to edit is set, re-set inputs and vice-versa
+  // when destination to edit is set/unset, re-set inputs and vice-versa
   useLayoutEffect(() => {
     if (destinationToEdit && destination.uid !== destinationToEdit.uid) {
-      setEntireState(destinationToEdit || newDestination)
+      setEntireState(destinationToEdit)
+    } else if (!destinationToEdit && destination.uid !== '') {
+      setEntireState(newDestination)
     }
   }, [destinationToEdit, destination, setEntireState])
 

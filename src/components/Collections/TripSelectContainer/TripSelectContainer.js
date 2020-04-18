@@ -14,6 +14,47 @@ import uid from '~/thirdPartyHelpers/uid'
 
 import styles from './styles.module.scss'
 
+const onCalculateOptimalTrip = (dates, destinations, setErrorMsg) => {
+  const errors = []
+
+  // check start and end date for valid values
+  if (!dates.startDate) {
+    errors.push({
+      field: 'startDate',
+      error: 'Make sure start date is set',
+    })
+  }
+
+  if (!dates.endDate) {
+    errors.push({
+      field: 'endDate',
+      error: 'Make sure end date is set',
+    })
+  }
+
+  // will implicitly convert null to 0 and compate timestamps
+  if (+dates.startDate >= +dates.endDate) {
+    errors.push({
+      field: 'endDate',
+      error: 'Make sure end date is greater than start date',
+    })
+  }
+
+  // check at least two destinations added
+  if (destinations.length <= 1) {
+    errors.push({
+      field: 'destination',
+      error: 'Make sure to have added two or more destinations',
+    })
+  }
+
+  if (errors.length) {
+    setErrorMsg(errors)
+  } else {
+    // continue
+  }
+}
+
 const TripSelectContainer = ({
   destinations,
   activeDestination,
@@ -28,55 +69,38 @@ const TripSelectContainer = ({
   const clearErrorMsg = (removeForField) =>
     setErrorMsg(errorMsg.filter(({ field }) => field !== removeForField))
 
-  const onAddToTrip = (destination) => dispatch(addDestination({ ...destination, uid: uid() }))
+  const onAddToTrip = (destination) => {
+    // check if destination is new and has not been added previously, otherwise show err
+    if (
+      destinations.filter(
+        ({ location: { lat, lng } }) =>
+          lat === destination.location.lat && lng === destination.location.lng
+      ).length
+    ) {
+      setErrorMsg((errors) => [
+        ...errors,
+        { field: ' destination', error: 'A destination can be added only once' },
+      ])
+    } else {
+      dispatch(addDestination({ ...destination, uid: uid() }))
+    }
+  }
+
   const onCancelDestination = () => onSelectDestination(-1)
   const onEditDestination = (newDestinationData) =>
     dispatch(editDestination(activeDestination, newDestinationData))
   const onRemoveDestination = (destinationIndex) => dispatch(deleteDestination(destinationIndex))
 
-  const onCalculateOptimalTrip = () => {
-    const errors = []
-
-    // check start and end date for valid values
-    if (!dates.startDate) {
-      errors.push({
-        field: 'startDate',
-        error: 'Make sure start date is set',
-      })
-    }
-
-    if (!dates.endDate) {
-      errors.push({
-        field: 'endDate',
-        error: 'Make sure end date is set',
-      })
-    }
-
-    // will implicitly convert null to 0 and compate timestamps
-    if (+dates.startDate >= +dates.endDate) {
-      errors.push({
-        field: 'endDate',
-        error: 'Make sure end date is greater than start date',
-      })
-    }
-
-    if (destinations.length <= 1) {
-      errors.push({
-        field: 'destination',
-        error: 'Make sure to have added two or more destinations',
-      })
-    }
-
-    // check at least two destinations added
-    if (errors.length) {
-      setErrorMsg(errors)
-    } else {
-    }
-  }
-
   // make sure to trigger the update scroll of
   useLayoutEffect(() => {
     window.scrollBy(0, 0)
+  }, [destinations])
+
+  // clear error msg for not enough destinations selected
+  useLayoutEffect(() => {
+    if (destinations.length > 1 && errorMsg.length > 0) {
+      setErrorMsg((prevErrors) => prevErrors.filter(({ field }) => field !== 'destination'))
+    }
   }, [destinations])
 
   return (
@@ -149,7 +173,7 @@ const TripSelectContainer = ({
         iconOnLeftSide
         modifier="filled"
         className={styles.button}
-        onClick={onCalculateOptimalTrip}
+        onClick={() => onCalculateOptimalTrip(dates, destinations, setErrorMsg)}
       />
     </section>
   )
