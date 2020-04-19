@@ -69,7 +69,7 @@
   align-items: center;
   transition: 4s;
 
-  > div[startinglocationselector='true'] {
+  div[startinglocationselector='true'] {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -84,43 +84,6 @@
     &[class*='exit-active'] {
       @include animate(cardCustomEntrance, 0.3s);
       animation-direction: reverse;
-    }
-
-    .selectStartingLocationContent {
-      padding: 0 0.5rem;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      width: 35rem;
-      > div {
-        flex: 1;
-
-        &[class*='enter-active'] {
-          @include animate(jumpIn, 0.3s);
-        }
-
-        &[class*='exit-active'] {
-          @include animate(jumpIn, 0.3s);
-          animation-direction: reverse;
-        }
-
-        &.btnArea {
-          height: 4.2rem;
-          display: flex;
-          flex: 1;
-          align-items: stretch;
-          justify-content: stretch;
-          font-size: 2rem;
-          margin-top: 1rem;
-          > div {
-            width: 100%;
-          }
-        }
-      }
-      > div:first-of-type {
-        flex-basis: 100%;
-        margin-bottom: 3rem;
-      }
     }
     @include boxShadow(0px, 0px, 4px, 2px, 0.3);
   }

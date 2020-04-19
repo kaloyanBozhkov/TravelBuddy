@@ -17,7 +17,7 @@ import Button from '~/components/UI/Button/Button'
 import ErrorMsg from '~/components/Collections/ErrorMsg/ErrorMsg'
 
 import useInputHandler from '~/hooks/useInputHandler'
-import { handleDateChange } from '~/helpers/inputHandlers'
+import { handleDateChange, handleGoogleAutocompleteChange } from '~/helpers/inputHandlers'
 import uid from '~/thirdPartyHelpers/uid'
 
 import styles from './styles.module.scss'
@@ -196,18 +196,7 @@ const TripSelectContainer = ({
             onChange={
               // whilst typing handle setting location, with invalid lat lng
               ({ target }) =>
-                onInputChangeHandler({
-                  target: {
-                    value: {
-                      label: target.value,
-                      lat: null,
-                      lng: null,
-                    },
-                    getAttribute() {
-                      return 'startingLoc'
-                    },
-                  },
-                })
+                handleGoogleAutocompleteChange(onInputChangeHandler, target.value, 'startingLoc')
             }
             errorMsgHandler={
               errorMsg.filter(({ field }) => field === 'startingLoc').length > 0 &&
@@ -217,18 +206,13 @@ const TripSelectContainer = ({
             type="googleAutocomplete"
             onPlaceSelected={(place) => {
               // once place has been selected, handle setting it in state
-              onInputChangeHandler({
-                target: {
-                  value: {
-                    label: place.formatted_address,
-                    lat: place.geometry.location.lat(),
-                    lng: place.geometry.location.lng(),
-                  },
-                  getAttribute() {
-                    return 'startingLoc'
-                  },
-                },
-              })
+              handleGoogleAutocompleteChange(
+                onInputChangeHandler,
+                place.formatted_address,
+                'startingLoc',
+                place.geometry.location.lat(),
+                place.geometry.location.lng()
+              )
             }}
           />
         </div>

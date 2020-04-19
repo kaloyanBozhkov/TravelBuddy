@@ -10,6 +10,9 @@ import {
   START_FETCHING_DISTANCE_MATRIX,
   FINISH_FETCHING_DISTANCE_MATRIX,
   ERROR_FETCHING_DISTANCE_MATRIX,
+  START_CALCULATING_OPTIMAL_TRIP,
+  FINISH_CALCULATING_OPTIMAL_TRIP,
+  ERROR_CALCULATING_OPTIMAL_TRIP,
 } from './trip.constants'
 
 const initialState = {
@@ -20,8 +23,8 @@ const initialState = {
   // which destinatioin is currently selected (based on index?) for edit and view on maps
   activeDestination: -1,
 
-  isCalculating: false,
-  calculatingError: null,
+  isCalculatingOptimalTrip: false,
+  calculatingOptimalTripError: null,
 
   isFetchingDistanceMatrix: false,
   fetchingDistanceMatrixError: null,
@@ -95,6 +98,22 @@ const errorFetchingDistanceMatric = (state, error) => ({
   errorFetchingDistanceMatric: error,
   isFetchingDistanceMatrix: false,
 })
+const startCalculatingOptimalTrip = (state) => ({
+  ...state,
+  isCalculatingOptimalTrip: true,
+})
+
+const finishCalculatingOptimalTrip = (state, optimalTrip) => ({
+  ...state,
+  isCalculatingOptimalTrip: false,
+  optimalTrip,
+})
+
+const errorCalculatingOptimalTrip = (state, error) => ({
+  ...state,
+  calculatingOptimalTripError: error,
+  isCalculatingOptimalTrip: false,
+})
 
 const tripReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -120,6 +139,12 @@ const tripReducer = (state = initialState, action) => {
       return finishFetchingDistanceMatric(state)
     case ERROR_FETCHING_DISTANCE_MATRIX:
       return errorFetchingDistanceMatric(state, action.payload)
+    case START_CALCULATING_OPTIMAL_TRIP:
+      return startCalculatingOptimalTrip(state)
+    case FINISH_CALCULATING_OPTIMAL_TRIP:
+      return finishCalculatingOptimalTrip(state, action.payload)
+    case ERROR_CALCULATING_OPTIMAL_TRIP:
+      return errorCalculatingOptimalTrip(state, action.payload)
     default:
       return state
   }

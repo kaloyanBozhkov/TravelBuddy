@@ -5,7 +5,7 @@ import Label from '~/components/UI/Label/Label'
 import Button from '~/components/UI/Button/Button'
 
 import fetchWeather from '~/helpers/fetchWeather'
-import { handleDateChange } from '~/helpers/inputHandlers'
+import { handleDateChange, handleGoogleAutocompleteChange } from '~/helpers/inputHandlers'
 
 import useInputHandler from '~/hooks/useInputHandler'
 import useTransalteDivWithScroll from '~/hooks/useTranslateDivWithScroll'
@@ -81,36 +81,24 @@ const DestinationPicker = ({
           onChange={
             // whilst typing handle setting location
             ({ target }) =>
-              onDestinationInputChangeHandler({
-                target: {
-                  value: {
-                    label: target.value,
-                    lat: null,
-                    lng: null,
-                  },
-                  getAttribute() {
-                    return 'location'
-                  },
-                },
-              })
+              handleGoogleAutocompleteChange(
+                onDestinationInputChangeHandler,
+                target.value,
+                'location'
+              )
           }
           errorMsgHandler={locationError && clearLocationError}
           value={destination.location.label}
           type="googleAutocomplete"
           onPlaceSelected={(place) => {
             // once place has been selected, handle setting it in state
-            onDestinationInputChangeHandler({
-              target: {
-                value: {
-                  label: place.formatted_address,
-                  lat: place.geometry.location.lat(),
-                  lng: place.geometry.location.lng(),
-                },
-                getAttribute() {
-                  return 'location'
-                },
-              },
-            })
+            handleGoogleAutocompleteChange(
+              onDestinationInputChangeHandler,
+              place.formatted_address,
+              'location',
+              place.geometry.location.lat(),
+              place.geometry.location.lng()
+            )
 
             const lat = place.geometry.location.lat()
             const lng = place.geometry.location.lng()

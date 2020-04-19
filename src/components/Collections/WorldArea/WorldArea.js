@@ -4,14 +4,12 @@ import { useHistory } from 'react-router-dom'
 
 import Globe from '~/components/Globe/Globe'
 import ExpandButton from '~/components/UI/ExpandButton/ExpandButton'
-import Input from '~/components/UI/Input/Input'
+import LocationPickerCard from '~/components/Collections/LocationPickerCard/LocationPickerCard'
+
+import ScrollingClouds from '~/components/ScrollingClouds/ScrollingClouds'
+import { setTripStartingLocation } from '~/store/trip/trip.actions'
 
 import styles from './worldarea.module.scss'
-import ScrollingClouds from '~/components/ScrollingClouds/ScrollingClouds'
-import Card from '../Card/Card'
-import Button from '~/components/UI/Button/Button'
-import { CSSTransition } from 'react-transition-group'
-import { setTripStartingLocation } from '~/store/trip/trip.actions'
 
 const newStartingLoc = { lat: null, lng: null, label: '' }
 
@@ -49,66 +47,13 @@ const WorldArea = () => {
   return (
     <div className={worldAreaClasses}>
       {/* If country is clicked on globe, show Google Autocomplete input for city choosing  */}
-
-      <Card
-        show={!!selectedCountry}
-        title={`Selected "${selectedCountry && selectedCountry.name}"`}
+      <LocationPickerCard
+        startingLoc={startingLoc}
+        setStartingLoc={setStartingLoc}
+        onBtnClick={onSetStartingLocation}
         onClose={onCloseStartingLocSelector}
-        mountOnEnter
-        unmountOnExit
-        startinglocationselector="true"
-        withoutDefaultAnimation
-      >
-        <div className={styles.selectStartingLocationContent}>
-          <Input
-            label="Where from?"
-            id="startingLoc"
-            name="startingLoc"
-            comment="Which city are you going to start your trip from?"
-            icon="mapMarkerAlt"
-            onChange={
-              // whilst typing handle setting location, with invalid lat lng
-              ({ target }) =>
-                setStartingLoc({
-                  label: target.value,
-                  lat: null,
-                  lng: null,
-                })
-            }
-            value={startingLoc.label}
-            type="googleAutocomplete"
-            onPlaceSelected={(place) => {
-              // once place has been selected, handle setting it in state
-              setStartingLoc({
-                label: place.formatted_address,
-                lat: place.geometry.location.lat(),
-                lng: place.geometry.location.lng(),
-              })
-            }}
-            componentRestrictions={{
-              country: selectedCountry && selectedCountry.abbrv.toLowerCase(),
-            }}
-          />
-
-          <CSSTransition
-            in={!!(startingLoc.lat && startingLoc.lng && startingLoc.label)}
-            timeout={400}
-            mountOnEnter
-            unmountOnExit
-          >
-            <div className={styles.btnArea}>
-              <Button
-                label="Set as Starting Location"
-                modifier="filled"
-                icon="forward"
-                iconOnRightSide
-                onClick={onSetStartingLocation}
-              />
-            </div>
-          </CSSTransition>
-        </div>
-      </Card>
-
+        selectedCountry={selectedCountry}
+      />
       <div className={styles.content}>
         {/* if still animating entrance (expanded === null), do now show expanded button */}
         {expanded !== null && (

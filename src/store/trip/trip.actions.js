@@ -11,6 +11,8 @@ import {
   FINISH_FETCHING_DISTANCE_MATRIX,
   START_CALCULATING_OPTIMAL_TRIP,
   ERROR_FETCHING_DISTANCE_MATRIX,
+  FINISH_CALCULATING_OPTIMAL_TRIP,
+  ERROR_CALCULATING_OPTIMAL_TRIP,
 } from './trip.constants'
 
 export const addDestination = (destination) => ({
@@ -33,6 +35,7 @@ export const loadDestination = (destinationIndex) => ({
   payload: destinationIndex,
 })
 
+// payload intercepted by the trip saga "onSetTripStartFetchDistanceMatrix", as well as used by the reducer
 export const setTrip = (startDate, endDate, destinations, startingLocation) => ({
   type: SET_TRIP,
   payload: { startDate, endDate, destinations, startingLocation },
@@ -53,14 +56,15 @@ export const setTripEndDate = (endDate) => ({
   payload: endDate,
 })
 
-export const startFetchingDistanceMatrix = (startingLocation, destinations) => ({
+export const startFetchingDistanceMatrix = (destinations, startingLocation) => ({
   type: START_FETCHING_DISTANCE_MATRIX,
   payload: { startingLocation, destinations },
 })
 
-export const finishFetchingDistanceMatrix = ({ rows }) => ({
+// payload intercepted by trip saga "onFinishFetchingDistanceMatrixStartCalculatingOptimalTrip"
+export const finishFetchingDistanceMatrix = (formattedResponse) => ({
   type: FINISH_FETCHING_DISTANCE_MATRIX,
-  payload: rows,
+  payload: formattedResponse,
 })
 
 export const errorFetchingDistanceMatrix = (error) => ({
@@ -68,12 +72,17 @@ export const errorFetchingDistanceMatrix = (error) => ({
   payload: error,
 })
 
-// export const startCalculating = () => ({
-//   type: START_CALCULATING_OPTIMAL_TRIP,
-//   payload: { startDate, endDate, destinations, startingLocation },
-// })
+export const startCalculatingOptimalTrip = (formattedResponse) => ({
+  type: START_CALCULATING_OPTIMAL_TRIP,
+  payload: formattedResponse,
+})
 
-// export const finishCalculating = () => ({
-//   type: SET_TRIP,
-//   payload: { startDate, endDate, destinations, startingLocation },
-// })
+export const finishCalculatingOptimalTrip = (optimalTrip) => ({
+  type: FINISH_CALCULATING_OPTIMAL_TRIP,
+  payload: optimalTrip,
+})
+
+export const errorCalculatingOptimalTrip = (error) => ({
+  type: ERROR_CALCULATING_OPTIMAL_TRIP,
+  payload: error,
+})

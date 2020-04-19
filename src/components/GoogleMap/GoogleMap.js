@@ -93,6 +93,7 @@ const GoogleMap = ({
       ref={mapRef}
     >
       {destinations.map(({ location: { lat, lng }, uid }, key) => {
+        // keep track of marker through persisting ref obj
         markerRefs.current[uid] = createRef()
         return (
           <Marker
@@ -107,6 +108,7 @@ const GoogleMap = ({
       })}
       {startingLocation &&
         (() => {
+          // add to markerRefs
           markerRefs.current.startingLocation = createRef()
           return (
             <Marker
@@ -127,4 +129,5 @@ const GoogleMap = ({
   )
 }
 
+// export default () => <p>repalcement to not spam API calls</p>
 export default GoogleMap

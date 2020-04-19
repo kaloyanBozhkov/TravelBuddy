@@ -8,3 +8,23 @@ export const handleDateChange = (onDateInputChangeHandler, value, name) =>
       value,
     },
   })
+
+export const handleGoogleAutocompleteChange = (
+  onInputChangeHandler,
+  value,
+  name,
+  lat = null,
+  lng = null
+) =>
+  onInputChangeHandler({
+    target: {
+      value: {
+        label: value,
+        lat,
+        lng,
+      },
+      getAttribute() {
+        return name
+      },
+    },
+  })
