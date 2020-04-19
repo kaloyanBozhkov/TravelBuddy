@@ -1,4 +1,4 @@
-import React, { useState, useRef, createRef, useLayoutEffect } from 'react'
+import React, { useState, useRef, createRef, useLayoutEffect, useEffect } from 'react'
 import { Map, Marker } from 'google-maps-react'
 
 import DestinationInfoWindow from './DestinationInfoWindow/DestinationInfoWindow'
@@ -46,14 +46,23 @@ const GoogleMap = ({
     }
   }, [destinations])
 
+  // update marker ref for startingLocation before any fitting is done on map
+  useLayoutEffect(() => {
+    if (!startingLocation && markerRefs.current.hasOwnProperty('startingLocation')) {
+      delete markerRefs.current.startingLocation
+    }
+  }, [startingLocation])
+
   // update map center location and bounds based on selected destination
   useLayoutEffect(() => {
+    // if destination selected to view, zoom on that
     if (destinations[activeDestination]) {
       fitBounds(mapRef, destinations[activeDestination].location, setLocation)
     } else {
+      // if nothing selected, make google maps zoom out until it fits all markers
       fitBounds(mapRef, markerRefs, setLocation)
     }
-  }, [activeDestination, destinations])
+  }, [activeDestination, destinations, startingLocation])
 
   // when active destiantion changes, show/hide infoWindow according to destination's marker on map
   useLayoutEffect(() => {
@@ -79,7 +88,7 @@ const GoogleMap = ({
       google={window.google}
       zoom={14}
       className={styles.googleMap}
-      centerAroundCurrentLocation={!~activeDestination}
+      centerAroundCurrentLocation={!~activeDestination && startingLocation === null}
       center={location}
       ref={mapRef}
     >
@@ -98,8 +107,10 @@ const GoogleMap = ({
       })}
       {startingLocation &&
         (() => {
+          markerRefs.current.startingLocation = createRef()
           return (
             <Marker
+              ref={markerRefs.current.startingLocation}
               icon={flag}
               position={{ lat: startingLocation.lat, lng: startingLocation.lng }}
             />
