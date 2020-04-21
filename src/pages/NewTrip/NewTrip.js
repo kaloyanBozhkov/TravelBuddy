@@ -1,8 +1,5 @@
 import React, { useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { CSSTransition } from 'react-transition-group'
-
-import { loadDestination } from '~/store/trip/trip.actions'
 
 import GoogleMap from '~/components/GoogleMap/GoogleMap'
 import ScrollingClouds from '~/components/ScrollingClouds/ScrollingClouds'
@@ -14,44 +11,54 @@ import useTransalteDivWithScroll from '~/hooks/useTranslateDivWithScroll'
 
 import styles from './styles.module.scss'
 
-const NewTrip = () => {
-  const dispatch = useDispatch()
+const NewTrip = ({
+  startDate,
+  endDate,
+  startingLocation,
+  destinations,
+  activeDestination,
+  isCalculating,
+  optimalTrip,
+  onSelectDestination,
+  ...tripSelectContainerActions
+}) => {
   const windowWidth = useWindowWidth()
 
   // ref to dom elements for picker and its content wrapper, for scroll solution!
   const googleMapsRef = useRef()
   const googleMapsWrapperRef = useRef()
+
   useTransalteDivWithScroll({ parentRef: googleMapsWrapperRef, childRef: googleMapsRef })
 
-  const {
-    destinations,
-    activeDestination,
-    startDate,
-    endDate,
-    startingLocation,
-    isCalculating,
-    // optimalTrip,
-  } = useSelector(({ tripReducer }) => tripReducer)
-  const onSelectDestination = (destinationIndex) => dispatch(loadDestination(destinationIndex))
-
   // toggle if clouds can be killable by changing z-index through css, based on if anything is selected yet
-  const googleMapsAreaClasses = [styles.googleMapsArea, destinations.length ? '' : styles.empty]
+  const googleMapsAreaClasses = [
+    styles.googleMapsArea,
+    destinations.length || optimalTrip.length ? '' : styles.empty,
+  ]
     .join(' ')
     .trim()
 
   return (
     <div className={styles.newTrip} ref={googleMapsWrapperRef}>
-      {isCalculating && <Loading msg="Calculating optimal trip..." absolutelyPositioned />}
+      <CSSTransition in={isCalculating} appear mountOnEnter unmountOnExit timeout={400}>
+        <div className={styles.calculatingOverlay}>
+          <Loading msg="Calculating optimal trip..." />
+        </div>
+      </CSSTransition>
 
-      <TripSelectContainer
-        onSelectDestination={onSelectDestination}
-        destinations={destinations}
-        activeDestination={activeDestination}
-        dispatch={dispatch}
-        startDate={startDate}
-        endDate={endDate}
-        startingLocation={startingLocation}
-      />
+      <CSSTransition in={!!optimalTrip.length} timeout={5000} mountOnEnter unmountOnExit>
+        <TripSelectContainer
+          startDate={startDate}
+          endDate={endDate}
+          startingLocation={startingLocation}
+          destinations={destinations}
+          activeDestination={activeDestination}
+          tripSelectContainerActions={{
+            onSelectDestination,
+            ...tripSelectContainerActions,
+          }}
+        />
+      </CSSTransition>
 
       <section className={googleMapsAreaClasses} ref={googleMapsRef}>
         <CSSTransition
@@ -71,12 +78,36 @@ const NewTrip = () => {
             startingLocation={startingLocation}
             onCloseDestination={onSelectDestination}
             onSelectDestination={onSelectDestination}
+            withRoute={!!optimalTrip.length}
           />
         </CSSTransition>
+        {/* {((dests, actvDest, strtLoc, optTrip) => {
+          const [startingLoc, ...optDests] = optTrip
+          const formatedDestinations =
+            optDests &&
+            optDests.map((dest) => ({
+              location: {
+                label: dest.label,
+                lat: dest.lat,
+                lng: dest.lng,
+              },
+              preferences: dest.preferences,
+              uid: dest.uid,
+              // costToHere
+            }))
+
+          const destinations = optTrip.length ? formatedDestinations : dests
+          const activeDestination = optTrip.length ? -1 : actvDest
+          const startingLocation = optTrip.length ? startingLoc : strtLoc
+
+          return (
+            
+          )
+        })(destinations, activeDestination, startingLocation, optimalTrip)} */}
       </section>
 
       <CSSTransition
-        in={!destinations.length || windowWidth < 576}
+        in={(!destinations.length && !optimalTrip.length) || windowWidth < 576}
         mountOnEnter
         unmountOnExit
         timeout={1000}

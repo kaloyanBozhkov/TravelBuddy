@@ -1,10 +1,12 @@
 import React, { useState, useRef, createRef, useLayoutEffect, useEffect } from 'react'
-import { Map, Marker } from 'google-maps-react'
+import { Map, Marker, Polyline } from 'google-maps-react'
 
 import DestinationInfoWindow from './DestinationInfoWindow/DestinationInfoWindow'
 import flag from '~/assets/flag.svg'
 import styles from './styles.module.scss'
 import fitBounds from './mapFunctions/FitBounds'
+import getRoutePath from './mapFunctions/GetRoutePath'
+import randomColor from '~/helpers/randomColor'
 
 const defaultInitialCenter = {
   lat: 1,
@@ -13,11 +15,13 @@ const defaultInitialCenter = {
 
 const GoogleMap = ({
   startingLocation,
-  activeDestination = -1,
-  destinations = [],
   initialCenter = defaultInitialCenter,
   onSelectDestination,
+  withRoute = false,
+  activeDestination = -1,
+  destinations = [],
 }) => {
+  const [paths, setPaths] = useState([])
   const [location, setLocation] = useState(initialCenter)
   const [infoWindow, setInfoWindow] = useState({
     isOpen: false,
@@ -26,6 +30,29 @@ const GoogleMap = ({
   })
   const markerRefs = useRef({})
   const mapRef = useRef()
+
+  // handle fetching paths and calculating them
+  useEffect(() => {
+    if (withRoute) {
+      const formattedPoints = [
+        {
+          lat: startingLocation.lat,
+          lng: startingLocation.lng,
+        },
+        ...destinations.map(({ location: { lat, lng } }) => ({ lat, lng })),
+      ].reduce(
+        (couples, dest, index, dests) => [
+          ...couples,
+          ...(index === dests.length - 1 ? [] : [{ start: dest, end: dests[index + 1] }]),
+        ],
+        []
+      )
+
+      formattedPoints.forEach(({ start, end }) =>
+        getRoutePath(start, end, (pathArr) => setPaths((prevPathArr) => [...prevPathArr, pathArr]))
+      )
+    }
+  }, [destinations, startingLocation, withRoute])
 
   // when destinations arr changes (destination added/removed), delete markers no longer needed
   useLayoutEffect(() => {
@@ -118,6 +145,17 @@ const GoogleMap = ({
             />
           )
         })()}
+      {withRoute &&
+        paths.length > 0 &&
+        paths.map((path) => (
+          <Polyline
+            path={path}
+            strokeColor={randomColor()}
+            strokeOpacity={0.5}
+            strokeWeight={4}
+            onMouseover={(e) => {}}
+          />
+        ))}
       <DestinationInfoWindow
         marker={infoWindow.marker}
         config={infoWindow.config}

@@ -12,6 +12,7 @@ import {
   startCalculatingOptimalTrip,
   errorCalculatingOptimalTrip,
   finishCalculatingOptimalTrip,
+  saveAndResetTrip,
 } from './trip.actions'
 import getDistnaceMatrix from '~/components/GoogleMap/mapFunctions/DistanceMatrix'
 import formatDistanceMatrixResponse from '~/store/trip/pureFunctions/formatDistanceMatrixResponse'
@@ -90,7 +91,7 @@ export function* calculateOptimalTripAsync({ payload: formattedResponse }) {
   try {
     const response = yield calculateOptimalTrip(formattedResponse)
 
-    yield put(finishCalculatingOptimalTrip(response))
+    yield all([put(finishCalculatingOptimalTrip(response)), put(saveAndResetTrip())])
   } catch (err) {
     yield put(errorCalculatingOptimalTrip(err))
   }

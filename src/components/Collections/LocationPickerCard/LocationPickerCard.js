@@ -45,12 +45,14 @@ const LocatioinPickerCard = ({
           value={startingLoc.label}
           type="googleAutocomplete"
           onPlaceSelected={(place) => {
-            // once place has been selected, handle setting it in state
-            setStartingLoc({
-              label: place.formatted_address,
-              lat: place.geometry.location.lat(),
-              lng: place.geometry.location.lng(),
-            })
+            // check if selection returned invaliv obj (pressing enter on unfinished typed text)
+            !place.hasOwnProperty('name') &&
+              // once place has been selected, handle setting it in state
+              setStartingLoc({
+                label: place.formatted_address,
+                lat: place.geometry.location.lat(),
+                lng: place.geometry.location.lng(),
+              })
           }}
           componentRestrictions={
             selectedCountry

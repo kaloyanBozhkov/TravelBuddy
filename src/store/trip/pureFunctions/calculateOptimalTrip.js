@@ -62,17 +62,20 @@ const calculateOptimalTrip = (formattedResponse) => {
   // keep track of default order for indexes to be the same with locs arr
   const defaultOrder = Object.values(distances)
 
-  const orderedDistances = costs.map((cost) => {
+  const orderedTrip = costs.map((cost) => {
     // get index of ordered cost inside of the default order costs
     const costIndex = defaultOrder.indexOf(cost)
 
     // replace formattedResponse['end'] with startingLoc, so it loops back to start point
-    const costRelatedLoc = formattedResponse[uidLocs[costIndex]] || formattedResponse.startingLoc
+    const LocRelatedToCost = formattedResponse[uidLocs[costIndex]] || formattedResponse.startingLoc
 
-    return costRelatedLoc
+    // since currently calcualting otpimal trip only on distance, the cost will be the distance. Let's keep track of this since it can be useful for user display info
+    LocRelatedToCost.costToHere = cost
+
+    return LocRelatedToCost
   })
 
-  return orderedDistances
+  return orderedTrip
 }
 
 export default calculateOptimalTrip

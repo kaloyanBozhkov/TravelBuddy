@@ -13,6 +13,7 @@ import {
   ERROR_FETCHING_DISTANCE_MATRIX,
   FINISH_CALCULATING_OPTIMAL_TRIP,
   ERROR_CALCULATING_OPTIMAL_TRIP,
+  SAVE_AND_RESET_TRIP,
 } from './trip.constants'
 
 export const addDestination = (destination) => ({
@@ -85,4 +86,17 @@ export const finishCalculatingOptimalTrip = (optimalTrip) => ({
 export const errorCalculatingOptimalTrip = (error) => ({
   type: ERROR_CALCULATING_OPTIMAL_TRIP,
   payload: error,
+})
+
+export const saveAndResetTrip = () => ({
+  type: SAVE_AND_RESET_TRIP,
+})
+
+export const setOptimalTrip = (optimalTrip) => ({
+  type: SAVE_AND_RESET_TRIP,
+  payload: optimalTrip,
+})
+
+export const unsetOptimalTrip = () => ({
+  type: SAVE_AND_RESET_TRIP,
 })

@@ -91,22 +91,16 @@ const DestinationPicker = ({
           value={destination.location.label}
           type="googleAutocomplete"
           onPlaceSelected={(place) => {
-            // once place has been selected, handle setting it in state
-            handleGoogleAutocompleteChange(
-              onDestinationInputChangeHandler,
-              place.formatted_address,
-              'location',
-              place.geometry.location.lat(),
-              place.geometry.location.lng()
-            )
-
-            const lat = place.geometry.location.lat()
-            const lng = place.geometry.location.lng()
-            const date = '2020-04-10'
-
-            console.log(lat, lng)
-
-            fetchWeather(date, lat, lng).then(console.log).catch(console.log)
+            // check if selection returned invaliv obj (pressing enter on unfinished typed text)
+            !place.hasOwnProperty('name') &&
+              // once place has been selected, handle setting it in state
+              handleGoogleAutocompleteChange(
+                onDestinationInputChangeHandler,
+                place.formatted_address,
+                'location',
+                place.geometry.location.lat(),
+                place.geometry.location.lng()
+              )
           }}
         />
 

@@ -13,6 +13,9 @@ import {
   START_CALCULATING_OPTIMAL_TRIP,
   FINISH_CALCULATING_OPTIMAL_TRIP,
   ERROR_CALCULATING_OPTIMAL_TRIP,
+  SAVE_AND_RESET_TRIP,
+  SET_OPTIMAL_TRIP,
+  UNSET_OPTIMAL_TRIP,
 } from './trip.constants'
 
 const initialState = {
@@ -30,6 +33,7 @@ const initialState = {
   fetchingDistanceMatrixError: null,
 
   optimalTrip: [],
+  pastTrips: [],
 }
 
 const setTrip = (state, { startDate, endDate, destinations, startingLocation }) => ({
@@ -115,6 +119,37 @@ const errorCalculatingOptimalTrip = (state, error) => ({
   isCalculatingOptimalTrip: false,
 })
 
+const saveTripAndReset = (state) => ({
+  ...state,
+  // reset and save
+  activeDestination: -1,
+  startDate: null,
+  endDate: null,
+  startingLocation: null,
+  destinations: [],
+  optimalTrip: [],
+  pastTrips: [
+    ...state.pastTrips,
+    {
+      startDate: state.startDate,
+      endDate: state.endDate,
+      startingLocation: state.startingLocation,
+      destinations: state.destinations,
+      optimalTrip: state.optimalTrip,
+    },
+  ],
+})
+
+const setOptimalTrip = (state, tripIndex) => ({
+  ...state,
+  optimalTrip: state.pastTrips[tripIndex],
+})
+
+const unsetOptimalTrip = (state) => ({
+  ...state,
+  optimalTrip: [],
+})
+
 const tripReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_DESTINATION:
@@ -145,6 +180,12 @@ const tripReducer = (state = initialState, action) => {
       return finishCalculatingOptimalTrip(state, action.payload)
     case ERROR_CALCULATING_OPTIMAL_TRIP:
       return errorCalculatingOptimalTrip(state, action.payload)
+    case SAVE_AND_RESET_TRIP:
+      return saveTripAndReset(state)
+    case SET_OPTIMAL_TRIP:
+      return setOptimalTrip(state, action.payload)
+    case UNSET_OPTIMAL_TRIP:
+      return unsetOptimalTrip(state)
     default:
       return state
   }

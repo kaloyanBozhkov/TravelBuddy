@@ -35,6 +35,10 @@
     }
 
     @include boxShadow(0, 0, 4px, 2px, 0.2);
+
+    @include mediaQuery(xs) {
+      margin-left: -0.25rem;
+    }
   }
 
   > section {
