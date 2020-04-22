@@ -20,8 +20,8 @@ const GoogleMap = ({
   withRoute = false,
   activeDestination = -1,
   destinations = [],
+  isCalculating = false,
 }) => {
-  const [paths, setPaths] = useState([])
   const [location, setLocation] = useState(initialCenter)
   const [infoWindow, setInfoWindow] = useState({
     isOpen: false,
@@ -30,29 +30,6 @@ const GoogleMap = ({
   })
   const markerRefs = useRef({})
   const mapRef = useRef()
-
-  // handle fetching paths and calculating them
-  useEffect(() => {
-    if (withRoute) {
-      const formattedPoints = [
-        {
-          lat: startingLocation.lat,
-          lng: startingLocation.lng,
-        },
-        ...destinations.map(({ location: { lat, lng } }) => ({ lat, lng })),
-      ].reduce(
-        (couples, dest, index, dests) => [
-          ...couples,
-          ...(index === dests.length - 1 ? [] : [{ start: dest, end: dests[index + 1] }]),
-        ],
-        []
-      )
-
-      formattedPoints.forEach(({ start, end }) =>
-        getRoutePath(start, end, (pathArr) => setPaths((prevPathArr) => [...prevPathArr, pathArr]))
-      )
-    }
-  }, [destinations, startingLocation, withRoute])
 
   // when destinations arr changes (destination added/removed), delete markers no longer needed
   useLayoutEffect(() => {
@@ -118,6 +95,7 @@ const GoogleMap = ({
       centerAroundCurrentLocation={!~activeDestination && startingLocation === null}
       center={location}
       ref={mapRef}
+      mapTypeControl={!withRoute}
     >
       {destinations.map(({ location: { lat, lng }, uid }, key) => {
         // keep track of marker through persisting ref obj
@@ -146,16 +124,20 @@ const GoogleMap = ({
           )
         })()}
       {withRoute &&
-        paths.length > 0 &&
-        paths.map((path) => (
-          <Polyline
-            path={path}
-            strokeColor={randomColor()}
-            strokeOpacity={0.5}
-            strokeWeight={4}
-            onMouseover={(e) => {}}
-          />
-        ))}
+        !isCalculating &&
+        !console.log(startingLocation, destinations, isCalculating) &&
+        [startingLocation, ...destinations].map(({ polylinePaths, uid }) =>
+          polylinePaths.length > 0 ? (
+            <Polyline
+              key={uid}
+              path={polylinePaths}
+              strokeColor={randomColor()}
+              strokeOpacity={0.5}
+              strokeWeight={4}
+              onMouseover={(e) => {}}
+            />
+          ) : null
+        )}
       <DestinationInfoWindow
         marker={infoWindow.marker}
         config={infoWindow.config}

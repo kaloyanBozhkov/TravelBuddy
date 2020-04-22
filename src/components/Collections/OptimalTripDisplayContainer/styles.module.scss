@@ -1,0 +1,106 @@
+@import 'scss/mixins';
+@import 'scss/keyframes';
+@import 'scss/variables';
+@import 'scss/media';
+
+.optimalTripDisplayContainer {
+  display: flex;
+  flex-direction: column;
+
+  background-color: rgba(251, 251, 251, 0.8);
+  height: 100%;
+  transition: 0.4s;
+  z-index: 1;
+
+  @include boxShadow(4px, 4px, 4px, 0, 0.15);
+
+  @include animate(enterFromLeft, 400ms);
+
+  @include mediaQuery(xs) {
+    z-index: 1;
+    @include animate(enterFromBottom, 400ms);
+  }
+  &[class*='appear-active'],
+  &[class*='enter-active'],
+  &[class*='exit-active'] {
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+
+  &[class*='exit-active'] {
+    opacity: 0;
+    @include animate(enterFromLeft, 400ms);
+
+    @include mediaQuery(xs) {
+      z-index: 1;
+      @include animate(enterFromBottom, 400ms);
+    }
+    animation-direction: reverse;
+  }
+  .contents {
+    flex: 1;
+    padding: 3rem;
+    padding-bottom: 5rem;
+    @include boxShadow(0px, -4px, 8px, 3px, 0.2, inset);
+    background-color: #ffd596;
+
+    .optimalTripLabel {
+      width: 70%;
+      margin: 0 auto;
+      height: 5rem;
+      > div {
+        max-width: 100%;
+        height: 100%;
+        h1 {
+          font-size: 3rem;
+        }
+        > svg {
+          height: 100%;
+        }
+      }
+    }
+
+    .stopsWrapper {
+      display: flex;
+      flex-direction: column;
+      margin-top: 4rem;
+    }
+
+
+    @include mediaQuery(xs) { 
+      padding-top: 10rem;
+    }
+  }
+}
+
+@include mediaQuery(xs) {
+  .tripSelectContainer {
+    width: 90%;
+    margin: 0 auto;
+    top: 2rem;
+    position: relative;
+    margin-bottom: 2rem;
+    header h1 {
+      font-size: 2rem;
+    }
+    .dateWrapper {
+      flex-direction: column;
+      > div,
+      > div:first-of-type,
+      > div:last-of-type {
+        margin: 0rem 0rem 2rem 0rem;
+      }
+
+      > div:first-of-type {
+        margin-bottom: 4rem;
+      }
+    }
+    .citiesWrapper {
+      flex-direction: column;
+    }
+  }
+}

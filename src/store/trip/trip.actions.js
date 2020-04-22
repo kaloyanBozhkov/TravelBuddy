@@ -13,7 +13,13 @@ import {
   ERROR_FETCHING_DISTANCE_MATRIX,
   FINISH_CALCULATING_OPTIMAL_TRIP,
   ERROR_CALCULATING_OPTIMAL_TRIP,
-  SAVE_AND_RESET_TRIP,
+  SET_OPTIMAL_TRIP,
+  UNSET_OPTIMAL_TRIP,
+  ERROR_FETCHING_ROUTE_PATHS,
+  FINISH_FETCHING_ROUTE_PATHS,
+  START_FETCHING_ROUTE_PATHS,
+  SAVE_TRIP,
+  RESET_TRIP,
 } from './trip.constants'
 
 export const addDestination = (destination) => ({
@@ -88,15 +94,34 @@ export const errorCalculatingOptimalTrip = (error) => ({
   payload: error,
 })
 
-export const saveAndResetTrip = () => ({
-  type: SAVE_AND_RESET_TRIP,
+export const startFetchingRoutePaths = (optimalTrip) => ({
+  type: START_FETCHING_ROUTE_PATHS,
+  payload: optimalTrip,
+})
+
+export const finishFetchingRoutePaths = (optimalTripWithPaths) => ({
+  type: FINISH_FETCHING_ROUTE_PATHS,
+  payload: optimalTripWithPaths,
+})
+
+export const errorFetchingRoutePaths = (error) => ({
+  type: ERROR_FETCHING_ROUTE_PATHS,
+  payload: error,
+})
+
+export const saveTrip = () => ({
+  type: SAVE_TRIP,
+})
+
+export const resetTrip = () => ({
+  type: RESET_TRIP,
 })
 
 export const setOptimalTrip = (optimalTrip) => ({
-  type: SAVE_AND_RESET_TRIP,
+  type: SET_OPTIMAL_TRIP,
   payload: optimalTrip,
 })
 
 export const unsetOptimalTrip = () => ({
-  type: SAVE_AND_RESET_TRIP,
+  type: UNSET_OPTIMAL_TRIP,
 })

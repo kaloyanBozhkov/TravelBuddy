@@ -12,8 +12,12 @@ const useTranslateDivWithScroll = ({ parentRef, childRef, margin = 0, stopAt = 5
       const handler = () => handleScrollPosition(parentRef, childRef, margin)
 
       window.addEventListener('scroll', handler)
+      window.addEventListener('load', handler)
 
-      return () => window.removeEventListener('scroll', handler)
+      return () => {
+        window.removeEventListener('scroll', handler)
+        window.removeEventListener('load', handler)
+      }
     } else {
       childRef.current.style.transform = ''
     }

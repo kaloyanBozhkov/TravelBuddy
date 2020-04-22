@@ -5,6 +5,7 @@ import GoogleMap from '~/components/GoogleMap/GoogleMap'
 import ScrollingClouds from '~/components/ScrollingClouds/ScrollingClouds'
 import Loading from '~/components/UI/Loading/Loading'
 import TripSelectContainer from '~/components/Collections/TripSelectContainer/TripSelectContainer'
+import OptimalTripDisplayContainer from '~/components/Collections/OptimalTripDisplayContainer/OptimalTripDisplayContainer'
 
 import useWindowWidth from '~/hooks/useWindowWidth'
 import useTransalteDivWithScroll from '~/hooks/useTranslateDivWithScroll'
@@ -19,6 +20,10 @@ const NewTrip = ({
   activeDestination,
   isCalculating,
   optimalTrip,
+  showOptimalTrip,
+
+  onCloseOptimalTripDisplay,
+
   onSelectDestination,
   ...tripSelectContainerActions
 }) => {
@@ -46,64 +51,53 @@ const NewTrip = ({
         </div>
       </CSSTransition>
 
-      <CSSTransition in={!!optimalTrip.length} timeout={5000} mountOnEnter unmountOnExit>
-        <TripSelectContainer
-          startDate={startDate}
-          endDate={endDate}
-          startingLocation={startingLocation}
-          destinations={destinations}
-          activeDestination={activeDestination}
-          tripSelectContainerActions={{
-            onSelectDestination,
-            ...tripSelectContainerActions,
-          }}
-        />
-      </CSSTransition>
-
-      <section className={googleMapsAreaClasses} ref={googleMapsRef}>
-        <CSSTransition
-          in={!!destinations.length}
-          mountOnEnter
-          unmountOnExit
-          timeout={2000}
-          classNames={{
-            appearActive: styles.entering,
-            enterActive: styles.entering,
-            exitActive: styles.exiting,
-          }}
-        >
-          <GoogleMap
+      <section className={styles.leftSideWrapper}>
+        <CSSTransition in={!showOptimalTrip} timeout={450} mountOnEnter unmountOnExit>
+          <TripSelectContainer
+            startDate={startDate}
+            endDate={endDate}
+            startingLocation={startingLocation}
             destinations={destinations}
             activeDestination={activeDestination}
-            startingLocation={startingLocation}
-            onCloseDestination={onSelectDestination}
-            onSelectDestination={onSelectDestination}
-            withRoute={!!optimalTrip.length}
+            tripSelectContainerActions={{
+              onSelectDestination,
+              ...tripSelectContainerActions,
+            }}
           />
         </CSSTransition>
-        {/* {((dests, actvDest, strtLoc, optTrip) => {
-          const [startingLoc, ...optDests] = optTrip
-          const formatedDestinations =
-            optDests &&
-            optDests.map((dest) => ({
-              location: {
-                label: dest.label,
-                lat: dest.lat,
-                lng: dest.lng,
-              },
-              preferences: dest.preferences,
-              uid: dest.uid,
-              // costToHere
-            }))
 
-          const destinations = optTrip.length ? formatedDestinations : dests
-          const activeDestination = optTrip.length ? -1 : actvDest
-          const startingLocation = optTrip.length ? startingLoc : strtLoc
+        <CSSTransition in={showOptimalTrip} timeout={400} appear mountOnEnter unmountOnExit>
+          <OptimalTripDisplayContainer
+            optimalTrip={optimalTrip}
+            onClose={onCloseOptimalTripDisplay}
+          />
+        </CSSTransition>
+      </section>
 
-          return (
-            
-          )
-        })(destinations, activeDestination, startingLocation, optimalTrip)} */}
+      <section className={googleMapsAreaClasses} ref={googleMapsRef}>
+        {!isCalculating && (
+          <CSSTransition
+            in={!!destinations.length || !!startingLocation}
+            mountOnEnter
+            unmountOnExit
+            timeout={2000}
+            classNames={{
+              appearActive: styles.entering,
+              enterActive: styles.entering,
+              exitActive: styles.exiting,
+            }}
+          >
+            <GoogleMap
+              destinations={destinations}
+              activeDestination={activeDestination}
+              startingLocation={startingLocation}
+              onCloseDestination={onSelectDestination}
+              onSelectDestination={onSelectDestination}
+              withRoute={showOptimalTrip}
+              isCalculating={isCalculating}
+            />
+          </CSSTransition>
+        )}
       </section>
 
       <CSSTransition

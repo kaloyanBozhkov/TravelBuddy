@@ -1,0 +1,115 @@
+@import 'scss/mixins';
+@import 'scss/keyframes';
+@import 'scss/variables';
+@import 'scss/media';
+
+.operationStatusMsg {
+  height: 22rem;
+  width: 100%;
+  position: relative;
+  background-color: darken(white, 2%);
+  padding-right: 1rem;
+  border-bottom-right-radius: 3px;
+
+  @include boxShadow(4px, 4px, 4px, 0, 0.15);
+
+  > svg,
+  h1,
+  h2 {
+    color: $orange;
+    position: absolute;
+  }
+
+  > svg {
+    top: 15%;
+    left: 5%;
+    height: 45%;
+    width: 45%;
+    transform: rotate(-15deg);
+  }
+
+  h1 {
+    font-size: 5rem;
+    left: 40%;
+    top: 45%;
+    font-weight: normal;
+  }
+
+  h2 {
+    font-size: 2.5rem;
+    bottom: 8%;
+    left: 15%;
+    font-weight: normal;
+  }
+
+  .btnArea {
+    position: absolute;
+    right: -4rem;
+    top: 0;
+    bottom: 0;
+    width: 8rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    > div {
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+      background-color: darken(white, 2%);
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: 5%;
+      height: 25%;
+      color: $orange;
+      font-size: 1.8rem;
+      @include boxShadow(4px, 0px, 4px, 0, 0.15);
+      cursor: pointer;
+      transition: 300ms;
+      &:hover {
+        transform: translateX(50%);
+        font-size: 2.5rem;
+      }
+    }
+  }
+
+  @include mediaQuery(xs) {
+    .btnArea {
+      flex-direction: row;
+      width: 100%;
+      top: unset;
+      right: 0;
+      left: 0;
+      bottom: -6rem;
+      > div {
+        width: 25%;
+        height: 8rem;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        @include boxShadow(0px, 4px, 4px, 0, 0.15);
+        &:hover {
+          transform: translateY(50%);
+        }
+      }
+    }
+
+    height: 26rem;
+    padding-left: 1rem;
+    margin-left: -1rem;
+    border-radius: 3px;
+    
+    > svg {
+      top: 5%;
+    }
+
+    h1 {
+      top: 35%;
+    }
+
+    h2 {
+      bottom: 25%;
+    }
+  }
+}

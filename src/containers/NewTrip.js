@@ -10,6 +10,7 @@ import {
   setTripStartingLocation,
   setTripStartDate,
   setTripEndDate,
+  unsetOptimalTrip,
 } from '~/store/trip/trip.actions'
 
 import Loading from '~/components/UI/Loading/Loading'
@@ -24,6 +25,7 @@ const NewTrip = ({
   startingLocation,
   isCalculating,
   optimalTrip,
+  showOptimalTrip,
 
   ...actions
 }) => {
@@ -52,6 +54,7 @@ const NewTrip = ({
         activeDestination={activeDestination}
         isCalculating={isCalculating}
         optimalTrip={optimalTrip}
+        showOptimalTrip={showOptimalTrip}
         {...actions}
       />
       <Strip />
@@ -66,8 +69,11 @@ const mapStateToProps = (state) => ({
   endDate: state.tripReducer.endDate,
   startingLocation: state.tripReducer.startingLocation,
   isCalculating:
-    state.tripReducer.isCalculatingOptimalTrip || state.tripReducer.isFetchingDistanceMatrix,
+    state.tripReducer.isCalculatingOptimalTrip ||
+    state.tripReducer.isFetchingDistanceMatrix ||
+    state.tripReducer.isFetchingRoutePaths,
   optimalTrip: state.tripReducer.optimalTrip,
+  showOptimalTrip: state.tripReducer.optimalTrip.length > 0,
 })
 const mapDispatchToProps = (dispatch) => ({
   onAddDestination: (destination) => dispatch(addDestination(destination)),
@@ -81,6 +87,7 @@ const mapDispatchToProps = (dispatch) => ({
   onSetTripStartDate: (startDate) => dispatch(setTripStartDate(startDate)),
   onSetTripEndDate: (endDate) => dispatch(setTripEndDate(endDate)),
   onSelectDestination: (destinationIndex) => dispatch(loadDestination(destinationIndex)),
+  onCloseOptimalTripDisplay: () => dispatch(unsetOptimalTrip()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewTrip)

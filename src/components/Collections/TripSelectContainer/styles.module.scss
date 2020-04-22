@@ -5,10 +5,8 @@
 
 .tripSelectContainer {
   background-color: rgba(251, 251, 251, 0.8);
-  max-width: 54rem;
-  width: 100%;
-
-  z-index: 2;
+  height: 100%;
+  transition: .4s;
 
   @include boxShadow(4px, 4px, 4px, 0, 0.15);
   
@@ -20,13 +18,14 @@
   }
 
   &[class*="exit-active"]{
-    animation-direction: reverse;
-    @include animate(enterFromLeft, 400ms);
-
+    transition-delay: .2s;
+    // @include animate(enterFromLeft, 400ms);
+    opacity:0;
     @include mediaQuery(xs) {
-      z-index: 1;
       @include animate(enterFromBottom, 400ms);
+      animation-direction: reverse;
     }
+
   }
 
 
@@ -94,11 +93,8 @@
 
 @include mediaQuery(xs) {
   .tripSelectContainer {
-    width: 90%;
-    margin: 0 auto;
-    top: 2rem;
-    position: relative;
-    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    margin-bottom: 3rem;
     header h1 {
       font-size: 2rem;
     }

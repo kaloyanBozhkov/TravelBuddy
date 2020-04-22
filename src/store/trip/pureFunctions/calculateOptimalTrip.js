@@ -50,7 +50,7 @@ const calculateOptimalTrip = (formattedResponse) => {
 
   const { distances } = dijkstra(graph, vertices.startingLoc)
 
-  // verticies have loc uid as value! uid points to dest obj in formattedRespon obj
+  // verticies have loc uid as value! uid points to dest obj in formattedResponse obj
   const uidLocs = Object.keys(distances)
 
   // costs, lowest to highest for optimal path, with Infinity being the last point to reach
@@ -67,15 +67,38 @@ const calculateOptimalTrip = (formattedResponse) => {
     const costIndex = defaultOrder.indexOf(cost)
 
     // replace formattedResponse['end'] with startingLoc, so it loops back to start point
-    const LocRelatedToCost = formattedResponse[uidLocs[costIndex]] || formattedResponse.startingLoc
+    const locRelatedToCost = {
+      ...(formattedResponse[uidLocs[costIndex]] || formattedResponse.startingLoc),
+    }
 
     // since currently calcualting otpimal trip only on distance, the cost will be the distance. Let's keep track of this since it can be useful for user display info
-    LocRelatedToCost.costToHere = cost
+    locRelatedToCost.costToHere = cost
 
-    return LocRelatedToCost
+    // also keep track of the uid for orderedTripWithMoreInfo
+    locRelatedToCost.uid = uidLocs[costIndex] === 'end' ? 'startingLoc' : uidLocs[costIndex]
+
+    return locRelatedToCost
   })
 
-  return orderedTrip
+  const orderedTripWithMoreInfo = orderedTrip.map((stop, index) => {
+    const stopWithInfo = {
+      ...stop,
+    }
+
+    // if not last item of array
+    if (index < orderedTrip.length - 1) {
+      const nextStopID = orderedTrip[index + 1].uid
+
+      // get the info obj in regards to next stop from the current stops' results arr
+      stopWithInfo.infoTripTillNextStop = stop.results.filter(
+        ({ toUID }) => toUID === nextStopID
+      )[0].info
+    }
+
+    return stopWithInfo
+  })
+
+  return orderedTripWithMoreInfo
 }
 
 export default calculateOptimalTrip

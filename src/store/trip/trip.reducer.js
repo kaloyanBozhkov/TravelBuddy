@@ -13,9 +13,13 @@ import {
   START_CALCULATING_OPTIMAL_TRIP,
   FINISH_CALCULATING_OPTIMAL_TRIP,
   ERROR_CALCULATING_OPTIMAL_TRIP,
-  SAVE_AND_RESET_TRIP,
+  SAVE_TRIP,
+  RESET_TRIP,
   SET_OPTIMAL_TRIP,
   UNSET_OPTIMAL_TRIP,
+  FINISH_FETCHING_ROUTE_PATHS,
+  ERROR_FETCHING_ROUTE_PATHS,
+  START_FETCHING_ROUTE_PATHS,
 } from './trip.constants'
 
 const initialState = {
@@ -31,6 +35,9 @@ const initialState = {
 
   isFetchingDistanceMatrix: false,
   fetchingDistanceMatrixError: null,
+
+  isFetchingRoutePaths: false,
+  fetchingRoutePathsError: null,
 
   optimalTrip: [],
   pastTrips: [],
@@ -102,15 +109,15 @@ const errorFetchingDistanceMatric = (state, error) => ({
   errorFetchingDistanceMatric: error,
   isFetchingDistanceMatrix: false,
 })
+
 const startCalculatingOptimalTrip = (state) => ({
   ...state,
   isCalculatingOptimalTrip: true,
 })
 
-const finishCalculatingOptimalTrip = (state, optimalTrip) => ({
+const finishCalculatingOptimalTrip = (state) => ({
   ...state,
   isCalculatingOptimalTrip: false,
-  optimalTrip,
 })
 
 const errorCalculatingOptimalTrip = (state, error) => ({
@@ -119,15 +126,25 @@ const errorCalculatingOptimalTrip = (state, error) => ({
   isCalculatingOptimalTrip: false,
 })
 
-const saveTripAndReset = (state) => ({
+const startFetchingRoutePaths = (state) => ({
   ...state,
-  // reset and save
-  activeDestination: -1,
-  startDate: null,
-  endDate: null,
-  startingLocation: null,
-  destinations: [],
-  optimalTrip: [],
+  isFetchingRoutePaths: true,
+})
+
+const finishFetchingRoutePaths = (state, optimalTripWithPaths) => ({
+  ...state,
+  isFetchingRoutePaths: false,
+  optimalTrip: optimalTripWithPaths,
+})
+
+const errorFetchingRoutePaths = (state, error) => ({
+  ...state,
+  fetchingRoutePathsError: error,
+  isFetchingRoutePaths: false,
+})
+
+const saveTrip = (state) => ({
+  ...state,
   pastTrips: [
     ...state.pastTrips,
     {
@@ -140,14 +157,46 @@ const saveTripAndReset = (state) => ({
   ],
 })
 
-const setOptimalTrip = (state, tripIndex) => ({
+const resetTrip = (state) => ({
   ...state,
-  optimalTrip: state.pastTrips[tripIndex],
+  activeDestination: -1,
+  startDate: null,
+  endDate: null,
+  startingLocation: null,
+  destinations: [],
+  optimalTrip: [],
 })
+
+const setOptimalTrip = (state, optimalTrip) => {
+  const [startingLocation, ...stops] = optimalTrip
+  // format destinations to be as expected on GoogleMaps component
+  const destinations = stops.map((dest) => ({
+    location: {
+      label: dest.label,
+      lat: dest.lat,
+      lng: dest.lng,
+    },
+    preferences: dest.preferences,
+    uid: dest.uid,
+
+    // costToHere, add other props for display on maps?
+
+    polylinePaths: dest.polylinePaths,
+  }))
+
+  return {
+    ...state,
+    optimalTrip,
+    startingLocation,
+    destinations,
+  }
+}
 
 const unsetOptimalTrip = (state) => ({
   ...state,
   optimalTrip: [],
+  destinations: [],
+  startingLocation: null,
 })
 
 const tripReducer = (state = initialState, action) => {
@@ -160,6 +209,7 @@ const tripReducer = (state = initialState, action) => {
       return deleteDestination(state, action.payload)
     case LOAD_DESTINATION:
       return loadDeestination(state, action.payload)
+
     case SET_TRIP:
       return setTrip(state, action.payload)
     case SET_TRIP_STARTING_LOCATION:
@@ -168,20 +218,32 @@ const tripReducer = (state = initialState, action) => {
       return setTripStartDate(state, action.payload)
     case SET_TRIP_END_DATE:
       return setTripEndDate(state, action.payload)
+
     case START_FETCHING_DISTANCE_MATRIX:
       return startFetchingDistanceMatric(state)
     case FINISH_FETCHING_DISTANCE_MATRIX:
       return finishFetchingDistanceMatric(state)
     case ERROR_FETCHING_DISTANCE_MATRIX:
       return errorFetchingDistanceMatric(state, action.payload)
+
     case START_CALCULATING_OPTIMAL_TRIP:
       return startCalculatingOptimalTrip(state)
     case FINISH_CALCULATING_OPTIMAL_TRIP:
-      return finishCalculatingOptimalTrip(state, action.payload)
+      return finishCalculatingOptimalTrip(state)
     case ERROR_CALCULATING_OPTIMAL_TRIP:
       return errorCalculatingOptimalTrip(state, action.payload)
-    case SAVE_AND_RESET_TRIP:
-      return saveTripAndReset(state)
+
+    case START_FETCHING_ROUTE_PATHS:
+      return startFetchingRoutePaths(state)
+    case FINISH_FETCHING_ROUTE_PATHS:
+      return finishFetchingRoutePaths(state, action.payload)
+    case ERROR_FETCHING_ROUTE_PATHS:
+      return errorFetchingRoutePaths(state, action.payload)
+
+    case SAVE_TRIP:
+      return saveTrip(state)
+    case RESET_TRIP:
+      return resetTrip(state)
     case SET_OPTIMAL_TRIP:
       return setOptimalTrip(state, action.payload)
     case UNSET_OPTIMAL_TRIP:

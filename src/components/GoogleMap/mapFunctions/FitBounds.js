@@ -13,9 +13,7 @@ const fitBounds = (mapRef, latlngSource, centerCallback, padding = 50) => {
     const markerRefs = latlngSource
     // passed markerRefs, obj with various refs to markers
     Object.values(markerRefs.current).forEach((singleMarkerRef) => {
-      console.log('singleMarkerRef', singleMarkerRef)
       const { lat, lng } = singleMarkerRef.current.marker.getPosition()
-      console.log({ lat, lng })
       bounds.extend({
         lat: lat(),
         lng: lng(),

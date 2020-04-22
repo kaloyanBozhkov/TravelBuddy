@@ -3,7 +3,7 @@ import {
   SET_TRIP,
   START_FETCHING_DISTANCE_MATRIX,
   START_CALCULATING_OPTIMAL_TRIP,
-  FINISH_FETCHING_DISTANCE_MATRIX,
+  START_FETCHING_ROUTE_PATHS,
 } from './trip.constants'
 import {
   startFetchingDistanceMatrix,
@@ -12,11 +12,17 @@ import {
   startCalculatingOptimalTrip,
   errorCalculatingOptimalTrip,
   finishCalculatingOptimalTrip,
-  saveAndResetTrip,
+  startFetchingRoutePaths,
+  finishFetchingRoutePaths,
+  errorFetchingRoutePaths,
+  saveTrip,
+  resetTrip,
+  setOptimalTrip,
 } from './trip.actions'
 import getDistnaceMatrix from '~/components/GoogleMap/mapFunctions/DistanceMatrix'
 import formatDistanceMatrixResponse from '~/store/trip/pureFunctions/formatDistanceMatrixResponse'
 import calculateOptimalTrip from '~/store/trip/pureFunctions/calculateOptimalTrip'
+import getRoutePath from '~/components/GoogleMap/mapFunctions/GetRoutePath'
 
 export function* startTheFetchDistanceMatrix({ payload: { destinations, startingLocation } }) {
   yield put(startFetchingDistanceMatrix(destinations, startingLocation))
@@ -25,6 +31,11 @@ export function* startTheFetchDistanceMatrix({ payload: { destinations, starting
 // listener
 export function* onSetTripStartFetchDistanceMatrix() {
   yield takeLeading(SET_TRIP, startTheFetchDistanceMatrix)
+}
+
+// listener
+export function* fetchDistnaceMtrixStart() {
+  yield takeLeading(START_FETCHING_DISTANCE_MATRIX, fetchDestinationMatrixAsync)
 }
 
 export function* fetchDestinationMatrixAsync({ payload: { destinations, startingLocation } }) {
@@ -67,39 +78,77 @@ export function* fetchDestinationMatrixAsync({ payload: { destinations, starting
     // @TODO add logic to handle more than 100 elements, the API has a limit of 100 elements (origins * destinations <= 100) per request, a loop and multiple requests may be good to add
 
     // Successfully got the distance matrix data and formatted!
-    yield put(finishFetchingDistanceMatrix(formattedResponse))
+    yield all([
+      put(finishFetchingDistanceMatrix(formattedResponse)),
+      put(startCalculatingOptimalTrip(formattedResponse)),
+    ])
   } catch (err) {
     yield put(errorFetchingDistanceMatrix(err))
   }
 }
 
 // listener
-export function* fetchDistnaceMtrixStart() {
-  yield takeLeading(START_FETCHING_DISTANCE_MATRIX, fetchDestinationMatrixAsync)
-}
-
-export function* startTheCalculatingOptimalTrip({ payload: formattedResponse }) {
-  yield put(startCalculatingOptimalTrip(formattedResponse))
-}
-
-// listener
-export function* onFinishFetchingDistanceMatrixStartCalculatingOptimalTrip() {
-  yield takeLeading(FINISH_FETCHING_DISTANCE_MATRIX, startTheCalculatingOptimalTrip)
+export function* startDijkstraAlgorithmToCalculateOptimalTrip() {
+  yield takeLeading(START_CALCULATING_OPTIMAL_TRIP, calculateOptimalTripAsync)
 }
 
 export function* calculateOptimalTripAsync({ payload: formattedResponse }) {
   try {
-    const response = yield calculateOptimalTrip(formattedResponse)
+    const optimalTrip = yield calculateOptimalTrip(formattedResponse)
 
-    yield all([put(finishCalculatingOptimalTrip(response)), put(saveAndResetTrip())])
+    yield all([
+      put(finishCalculatingOptimalTrip(optimalTrip)),
+      put(startFetchingRoutePaths(optimalTrip)),
+    ])
   } catch (err) {
     yield put(errorCalculatingOptimalTrip(err))
   }
 }
 
-// listener
-export function* startDijkstraAlgorithm() {
-  yield takeLeading(START_CALCULATING_OPTIMAL_TRIP, calculateOptimalTripAsync)
+export function* startRoutePathsFetch() {
+  yield takeLeading(START_FETCHING_ROUTE_PATHS, startFetchingRoutePathsAsync)
+}
+
+export function* startFetchingRoutePathsAsync({ payload: optimalTrip }) {
+  try {
+    const formattedPoints = optimalTrip
+      .map(({ lat, lng }) => ({ lat, lng }))
+      .reduce(
+        (couples, dest, index, dests) => [
+          ...couples,
+          ...(index === dests.length - 1 ? [] : [{ start: dest, end: dests[index + 1] }]),
+        ],
+        []
+      )
+
+    const pathsArr = yield new Promise((res, rej) => {
+      const paths = []
+      formattedPoints.forEach(({ start, end }) => {
+        getRoutePath(start, end, (path) => {
+          paths.push(path)
+
+          // if callback completes and it is the last one, complete the promise
+          if (paths.length === formattedPoints.length) {
+            res(paths)
+          }
+        })
+      })
+    })
+
+    const optimalTripWithPaths = optimalTrip.map((stop, index) => ({
+      ...stop,
+      polylinePaths: pathsArr[index] || [],
+    }))
+
+    yield all([
+      put(saveTrip()),
+      put(resetTrip()),
+      put(setOptimalTrip(optimalTripWithPaths)),
+      put(finishFetchingRoutePaths(optimalTripWithPaths)),
+    ])
+  } catch (err) {
+    yield put(errorFetchingRoutePaths(err))
+  }
 }
 
 // export sagas
@@ -107,7 +156,7 @@ export function* tripSagas() {
   yield all([
     call(onSetTripStartFetchDistanceMatrix),
     call(fetchDistnaceMtrixStart),
-    call(onFinishFetchingDistanceMatrixStartCalculatingOptimalTrip),
-    call(startDijkstraAlgorithm),
+    call(startDijkstraAlgorithmToCalculateOptimalTrip),
+    call(startRoutePathsFetch),
   ])
 }
