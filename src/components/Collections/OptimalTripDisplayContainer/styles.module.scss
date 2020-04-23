@@ -69,38 +69,23 @@
       flex-direction: column;
       margin-top: 4rem;
     }
-
-
-    @include mediaQuery(xs) { 
-      padding-top: 10rem;
-    }
   }
 }
 
 @include mediaQuery(xs) {
-  .tripSelectContainer {
-    width: 90%;
-    margin: 0 auto;
-    top: 2rem;
-    position: relative;
-    margin-bottom: 2rem;
-    header h1 {
-      font-size: 2rem;
+  .optimalTripDisplayContainer {
+    .contents {
+      padding-top: 10rem;
     }
-    .dateWrapper {
-      flex-direction: column;
-      > div,
-      > div:first-of-type,
-      > div:last-of-type {
-        margin: 0rem 0rem 2rem 0rem;
-      }
 
-      > div:first-of-type {
-        margin-bottom: 4rem;
-      }
-    }
-    .citiesWrapper {
-      flex-direction: column;
+    @include boxShadow(0px, 0px, 4px, 0, 0.15);
+
+    z-index: 1;
+    @include animate(enterFromBottom, 400ms);
+
+    &[class*='exit-active'] {
+      z-index: 1;
+      @include animate(enterFromBottom, 400ms);
     }
   }
 }

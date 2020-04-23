@@ -125,7 +125,6 @@ const GoogleMap = ({
         })()}
       {withRoute &&
         !isCalculating &&
-        !console.log(startingLocation, destinations, isCalculating) &&
         [startingLocation, ...destinations].map(({ polylinePaths, uid }) =>
           polylinePaths.length > 0 ? (
             <Polyline

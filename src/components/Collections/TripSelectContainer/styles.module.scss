@@ -6,28 +6,16 @@
 .tripSelectContainer {
   background-color: rgba(251, 251, 251, 0.8);
   height: 100%;
-  transition: .4s;
+  transition: 0.4s;
 
   @include boxShadow(4px, 4px, 4px, 0, 0.15);
-  
+
   @include animate(enterFromLeft, 400ms);
 
-  @include mediaQuery(xs) {
-    z-index: 1;
-    @include animate(enterFromBottom, 400ms);
+  &[class*='exit-active'] {
+    transition-delay: 0.2s;
+    opacity: 0;
   }
-
-  &[class*="exit-active"]{
-    transition-delay: .2s;
-    // @include animate(enterFromLeft, 400ms);
-    opacity:0;
-    @include mediaQuery(xs) {
-      @include animate(enterFromBottom, 400ms);
-      animation-direction: reverse;
-    }
-
-  }
-
 
   > div {
     margin-bottom: 1.5rem;
@@ -93,8 +81,8 @@
 
 @include mediaQuery(xs) {
   .tripSelectContainer {
+    margin-top:2rem;
     padding-bottom: 2rem;
-    margin-bottom: 3rem;
     header h1 {
       font-size: 2rem;
     }
@@ -106,12 +94,28 @@
         margin: 0rem 0rem 2rem 0rem;
       }
 
+      > div:last-of-type {
+        margin-bottom: 4rem;
+        z-index: 4;
+      }
       > div:first-of-type {
         margin-bottom: 4rem;
+        z-index: 5;
       }
     }
     .citiesWrapper {
       flex-direction: column;
+    }
+    @include mediaQuery(xs) {
+      @include boxShadow(0px, 4px, 4px, 0, 0.15);
+      z-index: 1;
+      @include animate(enterFromBottom, 400ms);
+    }
+    @include mediaQuery(xs) {
+      &[class*='exit-active'] {
+        @include animate(enterFromBottom, 400ms);
+        animation-direction: reverse;
+      }
     }
   }
 }

@@ -38,7 +38,7 @@ const NewTrip = ({
   // toggle if clouds can be killable by changing z-index through css, based on if anything is selected yet
   const googleMapsAreaClasses = [
     styles.googleMapsArea,
-    destinations.length || optimalTrip.length ? '' : styles.empty,
+    destinations.length || showOptimalTrip ? '' : styles.empty,
   ]
     .join(' ')
     .trim()
@@ -113,7 +113,12 @@ const NewTrip = ({
         }}
       >
         <div
-          className={[styles.background, windowWidth < 576 ? styles.halfSize : ''].join(' ').trim()}
+          className={[
+            styles.background,
+            windowWidth < 576 && (destinations.length || showOptimalTrip) ? styles.halfSize : '',
+          ]
+            .join(' ')
+            .trim()}
         >
           <ScrollingClouds reverseCounter />
         </div>
