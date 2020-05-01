@@ -3,9 +3,12 @@ import GraphEdge from '~/thirdPartyHelpers/js-data-structures/graph/GraphEdge'
 import Graph from '~/thirdPartyHelpers/js-data-structures/graph/Graph'
 import dijkstra from '~/thirdPartyHelpers/js-algorithms/dijkstra/dijkstra'
 
-const calculateOptimalTrip = (formattedResponse) => {
-  // create a vertex for deach destination and the startingLoc, store the destination/startingLoc info inside the vertex instead of just naming it
-  const vertices = Object.values(formattedResponse).reduce(
+/*
+ *  create a vertex for deach destination and the startingLoc, name the
+ *  vertex with the stop's unique id for quick accessing and identifying
+ */
+const createVertices = (formattedResponse) =>
+  Object.values(formattedResponse).reduce(
     (acc, loc) => ({
       ...acc,
       [loc.uid || 'startingLoc']: new GraphVertex(loc.uid || 'startingLoc'),
@@ -13,19 +16,22 @@ const calculateOptimalTrip = (formattedResponse) => {
     {}
   )
 
-  // verticies => { [uid]: loc, .. }
-
-  // create the edges between the verticies
-  const edges = Object.values(vertices).reduce((acc, { value: verticiesProp }) => {
+/*
+ *  Create edges between vertices (V * V)
+ */
+const createEdges = (vertices, formattedResponse) =>
+  Object.values(vertices).reduce((acc, { value: verticiesProp }) => {
     const fromVertex = vertices[verticiesProp]
 
     const edgesFromVortex = formattedResponse[verticiesProp].results.map((res) => {
       // get vertex for that destination
       const toVertex = vertices[res.toUID]
 
-      // @TODO res.distance.value for using distance, we could use res.duration.value for checking based on time instead? Though driving distance will always be proportional to time taken to drive it, unless other opts are added?
+      /*
+       *  calculate the weight, if Google's DistanceMatrix returned ZERO_RESULTS for that element,
+       *  then set weight to infinity so it will be picked last
+       */
 
-      // calculate the weight, if Google's DistanceMatrix returned ZERO_RESULTS for that element, then set weight to infinity so it will be picked last
       const weight = res.info !== 'ZERO_RESULTS' ? res.info.distance.value : Infinity
 
       // set the edge to be from the FROM vertex, to the toVertex
@@ -36,7 +42,8 @@ const calculateOptimalTrip = (formattedResponse) => {
     return [...acc, ...edgesFromVortex]
   }, [])
 
-  // the end vertex, no edges pointing here
+const createGraph = (edges) => {
+  // the end vertex, which will be set to starting vertex later on for trip loop
   const endVertex = new GraphVertex('end')
 
   // create the directed graph, distance is different based on direction
@@ -48,19 +55,21 @@ const calculateOptimalTrip = (formattedResponse) => {
   // add edges to graph
   edges.forEach((edge) => graph.addEdge(edge))
 
-  const { distances } = dijkstra(graph, vertices.startingLoc)
+  return graph
+}
 
+const getOrderedTrip = (orderedVertices, formattedResponse) => {
   // verticies have loc uid as value! uid points to dest obj in formattedResponse obj
-  const uidLocs = Object.keys(distances)
+  const uidLocs = Object.keys(orderedVertices)
 
   // costs, lowest to highest for optimal path, with Infinity being the last point to reach
-  const costs = Object.values(distances)
+  const costs = Object.values(orderedVertices)
 
   // sort from lowest to highest cost ASC
   costs.sort((a, b) => a - b)
 
   // keep track of default order for indexes to be the same with locs arr
-  const defaultOrder = Object.values(distances)
+  const defaultOrder = Object.values(orderedVertices)
 
   const orderedTrip = costs.map((cost) => {
     // get index of ordered cost inside of the default order costs
@@ -71,7 +80,10 @@ const calculateOptimalTrip = (formattedResponse) => {
       ...(formattedResponse[uidLocs[costIndex]] || formattedResponse.startingLoc),
     }
 
-    // since currently calcualting otpimal trip only on distance, the cost will be the distance. Let's keep track of this since it can be useful for user display info
+    /*
+     * since currently calcualting otpimal trip only on distance, the cost will be the distance.
+     * Let's keep track of this since it can be useful for user display info
+     */
     locRelatedToCost.costToHere = cost
 
     // also keep track of the uid for orderedTripWithMoreInfo
@@ -80,7 +92,16 @@ const calculateOptimalTrip = (formattedResponse) => {
     return locRelatedToCost
   })
 
-  const orderedTripWithMoreInfo = orderedTrip.map((stop, index) => {
+  return orderedTrip
+}
+
+/*
+ * each stop has a results array containing info { duration, distance } from it to all other stops
+ * take the next stop in the ordered trip, and based on its UID find which element in the results array
+ * refers to the next optimal stop, and take its info and add to the current stop
+ */
+const addTripInfoToOrderedTrip = (orderedTrip) =>
+  orderedTrip.map((stop, index) => {
     const stopWithInfo = {
       ...stop,
     }
@@ -98,6 +119,31 @@ const calculateOptimalTrip = (formattedResponse) => {
     return stopWithInfo
   })
 
+const calculateOptimalTrip = (formattedResponse) => {
+  // verticies => { [uid]: loc, .. }
+  const vertices = createVertices(formattedResponse)
+  console.log('vertices', vertices)
+
+  // create the edges between the verticies
+  const edges = createEdges(vertices, formattedResponse)
+  console.log('edges', edges)
+
+  // create a directed Graph by giving it all possible edges
+  const graph = createGraph(edges)
+  console.log('grpah', graph)
+
+  // distances => object containing vertices name and cumulative cost to that vertex
+  const { distances } = dijkstra(graph, vertices.startingLoc)
+  console.log('orderedVertices', distances)
+
+  // based on the ordered vertices, order the formatted response
+  const orderedTrip = getOrderedTrip(distances, formattedResponse)
+  console.log('orderedTrip', orderedTrip)
+
+  // add distance and duration properties for each stop
+  const orderedTripWithMoreInfo = addTripInfoToOrderedTrip(orderedTrip)
+
+  console.log('orderedTripWithMoreInfo', orderedTripWithMoreInfo)
   return orderedTripWithMoreInfo
 }
 

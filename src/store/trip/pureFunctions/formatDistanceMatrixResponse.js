@@ -1,4 +1,7 @@
-// format Google DistanceMatrix's response to be more human friendly & understandable + to contain the destinations preferences and labels based on travelBuddy's needs
+/*
+ *  format Google DistanceMatrix's response to be more human friendly & understandable
+ *  + to contain the destinations preferences and labels based on travelBuddy's needs
+ */
 const formatDistanceMatrixResponse = (response, destinations, startingLocation) =>
   response.rows.reduce(
     (acc, { elements: rowArr }, index) => ({

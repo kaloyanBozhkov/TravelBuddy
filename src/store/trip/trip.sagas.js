@@ -75,7 +75,11 @@ export function* fetchDestinationMatrixAsync({ payload: { destinations, starting
       destinations,
       startingLocation
     )
-    // @TODO add logic to handle more than 100 elements, the API has a limit of 100 elements (origins * destinations <= 100) per request, a loop and multiple requests may be good to add
+
+    /*
+     * @TODO add logic to handle more than 100 elements, the API has a limit of 100 elements
+     * (origins * destinations <= 100) per request, a loop and multiple requests may be good to add
+     */
 
     // Successfully got the distance matrix data and formatted!
     yield all([
