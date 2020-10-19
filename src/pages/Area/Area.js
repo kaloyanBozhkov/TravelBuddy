@@ -5,8 +5,11 @@ import AccountDetals from '~/components/Collections/AccountDetails/AccountDetail
 import UserBall from '~/components/UI/UserBall/UserBall'
 
 import withPageAnimation from '~/HOCs/withPageAnimation'
+import PastTrip from '~/components/Collections/PastTrip/PastTrip'
 
-const Area = ({ userData, dispatch }) => {
+const Area = ({ userData, pastTrips, dispatch }) => {
+  console.log(pastTrips)
+  
   return (
     <div className={styles.area}>
       <div className={styles.container}>
@@ -17,7 +20,9 @@ const Area = ({ userData, dispatch }) => {
             <p>{userData.email}</p>
           </div>
         </div>
-        <div className={styles.tripsContainer}></div>
+        <div className={styles.tripsContainer}>
+          {pastTrips.map((trip, i) => <PastTrip index={i + 1} {...trip} />)}
+        </div>
       </div>
       <AccountDetals dispatch={dispatch} userData={userData} />
     </div>

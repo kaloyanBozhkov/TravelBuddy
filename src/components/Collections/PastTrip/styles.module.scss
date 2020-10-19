@@ -1,0 +1,77 @@
+@import 'scss/variables';
+@import 'scss/mixins';
+
+.pastTrip {
+  display: flex;
+  flex-direction: column;
+  min-height: 20rem;
+  @include boxShadow(0, 4px, 10px, 0, 0.55);
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 6rem;
+    background-color: $orange;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    > div {
+      flex-direction: row;
+      align-items: center;
+      h1,
+      p {
+        color: white;
+      }
+    }
+  }
+
+  .summary {
+    padding: 0 1rem;
+    height: 13rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: white;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    overflow: hidden;
+
+    .infoWrapper {
+      display: flex;
+      flex-direction: column;
+      row-gap: 1rem;
+    }
+  }
+
+  .container {
+    background-color: $light-orange;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: wrap;
+    column-gap: 1rem;
+    padding-bottom: 2rem;
+    @include boxShadow(0px, 0px, 8px, 3px, 0.1, inset);
+
+    .containerHead {
+      display: flex;
+      justify-content: center;
+      flex-basis: 100%;
+      margin: 3rem 0;
+    }
+
+    .cardWrapper {
+      width: 20%;
+      margin: 1rem;
+      display: flex;
+      justify-content: stretch;
+      align-items: stretch;
+
+      h1 {
+        font-size: 1.2rem;
+      }
+    }
+  }
+}

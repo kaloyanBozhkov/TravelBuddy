@@ -10,8 +10,6 @@
   width: 100%;
   padding: 1rem;
   box-sizing: border-box;
-  margin-top: 2rem;
-
   font-weight: normal;
   font-family: kanit;
 
@@ -47,6 +45,8 @@
     p {
       font-size: 1.4rem;
       color: $primary-black;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 

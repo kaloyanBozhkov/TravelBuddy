@@ -22,6 +22,8 @@ const Account = ({ page }) => {
     isSwitching,
     path,
   }))
+
+  const { pastTrips } = useSelector(({ tripReducer }) => tripReducer)
   const isLogoutPending = useSelector(({ logoutReducer: { isPending } }) => isPending)
 
   // handles redirect at end of exiting animation for pages
@@ -39,7 +41,7 @@ const Account = ({ page }) => {
   // if user signed in, show account area. Make sure to keep account area rendered while switching pages
   if (userData && userData.emailVerified && (!isSwitching || isLogoutPending)) {
     if (page === 'area') {
-      return <Area userData={userData} {...pageConfig} />
+      return <Area userData={userData} pastTrips={pastTrips} {...pageConfig} />
     }
 
     // user is signed in

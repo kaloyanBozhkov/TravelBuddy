@@ -27,7 +27,7 @@ const DestinationCard = ({
 
   const card = (
     <div className={classes} onClick={onSelectHandler}>
-      <Icon icon="times" className={styles.closeButton} onClick={onCloseHandler} />
+      {onClose && <Icon icon="times" className={styles.closeButton} onClick={onCloseHandler} />}
 
       <div>
         <h1>Location</h1>
