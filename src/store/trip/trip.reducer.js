@@ -14,6 +14,7 @@ import {
   FINISH_CALCULATING_OPTIMAL_TRIP,
   ERROR_CALCULATING_OPTIMAL_TRIP,
   SAVE_TRIP,
+  LOAD_TRIP,
   RESET_TRIP,
   SET_OPTIMAL_TRIP,
   UNSET_OPTIMAL_TRIP,
@@ -199,6 +200,11 @@ const unsetOptimalTrip = (state) => ({
   startingLocation: null,
 })
 
+const loadTrip = (state, trip) => ({
+  ...state,
+  ...trip
+})
+
 const tripReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_DESTINATION:
@@ -218,7 +224,8 @@ const tripReducer = (state = initialState, action) => {
       return setTripStartDate(state, action.payload)
     case SET_TRIP_END_DATE:
       return setTripEndDate(state, action.payload)
-
+    case LOAD_TRIP: 
+      return loadTrip(state, action.payload)
     case START_FETCHING_DISTANCE_MATRIX:
       return startFetchingDistanceMatric(state)
     case FINISH_FETCHING_DISTANCE_MATRIX:

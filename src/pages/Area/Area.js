@@ -1,15 +1,16 @@
 import React from 'react'
+
 import styles from './styles.module.scss'
 
+import { loadTrip } from '~/store/trip/trip.actions'
+
+import PastTrip from '~/components/Collections/PastTrip/PastTrip'
 import AccountDetals from '~/components/Collections/AccountDetails/AccountDetails'
 import UserBall from '~/components/UI/UserBall/UserBall'
 
 import withPageAnimation from '~/HOCs/withPageAnimation'
-import PastTrip from '~/components/Collections/PastTrip/PastTrip'
 
-const Area = ({ userData, pastTrips, dispatch }) => {
-  console.log(pastTrips)
-  
+const Area = ({ userData, pastTrips, dispatch = (f) => f, history = (f) => f }) => {
   return (
     <div className={styles.area}>
       <div className={styles.container}>
@@ -21,7 +22,16 @@ const Area = ({ userData, pastTrips, dispatch }) => {
           </div>
         </div>
         <div className={styles.tripsContainer}>
-          {pastTrips.map((trip, i) => <PastTrip index={i + 1} {...trip} />)}
+          {pastTrips.map((trip, i) => (
+            <PastTrip
+              index={i + 1}
+              onEdit={() => {
+                dispatch(loadTrip(trip))
+                history.push('/new-trip')
+              }}
+              {...trip}
+            />
+          ))}
         </div>
       </div>
       <AccountDetals dispatch={dispatch} userData={userData} />

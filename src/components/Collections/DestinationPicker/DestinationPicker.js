@@ -4,7 +4,6 @@ import Input from '~/components/UI/Input/Input'
 import Label from '~/components/UI/Label/Label'
 import Button from '~/components/UI/Button/Button'
 
-import fetchWeather from '~/helpers/fetchWeather'
 import { handleDateChange, handleGoogleAutocompleteChange } from '~/helpers/inputHandlers'
 
 import useInputHandler from '~/hooks/useInputHandler'

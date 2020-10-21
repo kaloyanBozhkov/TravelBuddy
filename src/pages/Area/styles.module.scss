@@ -6,6 +6,7 @@
   box-sizing: border-box;
   align-items: stretch;
   flex-wrap: wrap;
+  padding-top: 5vh;
   
   // Account Detials
   > div:last-of-type {
@@ -57,5 +58,9 @@
         }
       }
     }
+  }
+
+  .tripsContainer {
+    margin-top: 3rem;
   }
 }

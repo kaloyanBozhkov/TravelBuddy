@@ -36,12 +36,18 @@ const Account = ({ page }) => {
   }
 
   const animationConfig = { isSwitching, onExitedHandler }
-  const pageConfig = { ...animationConfig, dispatch }
+  const pageConfig = { ...animationConfig, dispatch, history }
 
   // if user signed in, show account area. Make sure to keep account area rendered while switching pages
   if (userData && userData.emailVerified && (!isSwitching || isLogoutPending)) {
     if (page === 'area') {
-      return <Area userData={userData} pastTrips={pastTrips} {...pageConfig} />
+      return (
+        <Area
+          userData={userData}
+          pastTrips={pastTrips}
+          {...pageConfig}
+        />
+      )
     }
 
     // user is signed in

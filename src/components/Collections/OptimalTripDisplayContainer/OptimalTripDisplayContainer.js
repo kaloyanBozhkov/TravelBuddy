@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react'
+import React from 'react'
 
 import styles from './styles.module.scss'
 import Label from '~/components/UI/Label/Label'

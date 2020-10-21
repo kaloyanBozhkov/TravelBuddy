@@ -1,11 +1,10 @@
-import React, { useState, useRef, createRef, useLayoutEffect, useEffect } from 'react'
+import React, { useState, useRef, createRef, useLayoutEffect } from 'react'
 import { Map, Marker, Polyline } from 'google-maps-react'
 
 import DestinationInfoWindow from './DestinationInfoWindow/DestinationInfoWindow'
 import flag from '~/assets/flag.svg'
 import styles from './styles.module.scss'
 import fitBounds from './mapFunctions/FitBounds'
-import getRoutePath from './mapFunctions/GetRoutePath'
 import randomColor from '~/helpers/randomColor'
 
 const defaultInitialCenter = {

@@ -164,7 +164,7 @@ const TripSelectContainer = ({
     if (!startingLocation && startingLoc.label) {
       setStartingLoc({ lat: null, lng: null, label: '' })
     }
-  }, [startingLocation])
+  }, [startingLocation, startingLoc.label])
 
   return (
     <section className={styles.tripSelectContainer}>

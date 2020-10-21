@@ -20,6 +20,7 @@ import {
   START_FETCHING_ROUTE_PATHS,
   SAVE_TRIP,
   RESET_TRIP,
+  LOAD_TRIP,
 } from './trip.constants'
 
 export const addDestination = (destination) => ({
@@ -61,6 +62,11 @@ export const setTripStartDate = (startDate) => ({
 export const setTripEndDate = (endDate) => ({
   type: SET_TRIP_END_DATE,
   payload: endDate,
+})
+
+export const loadTrip = (trip) => ({
+  type: LOAD_TRIP,
+  payload: trip,
 })
 
 export const startFetchingDistanceMatrix = (destinations, startingLocation) => ({
