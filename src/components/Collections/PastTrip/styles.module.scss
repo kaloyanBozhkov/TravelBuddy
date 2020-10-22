@@ -1,5 +1,6 @@
 @import 'scss/variables';
 @import 'scss/mixins';
+@import 'scss/media';
 
 .pastTrip {
   display: flex;
@@ -80,6 +81,15 @@
       grid-template-columns: repeat(4, 1fr);
       column-gap: 2rem;
       row-gap: 2rem;
+
+      @include mediaQuery(xs) {
+        grid-template-columns: 1fr;
+      }
+
+      @include mediaQuery(md) {
+        grid-template-columns: 1fr 1fr;
+      }
+
       .cardWrapper {
         display: flex;
         justify-content: stretch;

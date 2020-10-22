@@ -5,12 +5,12 @@ import useWidnowWidth from './useWindowWidth'
  * @param  {ref} childRef -> child elem to translate Y based on scroll
  * @param  {number} margin -> any margin to add for when to stop scrollign the child in parent?
  */
-const useTranslateDivWithScroll = ({ parentRef, childRef, margin = 0, stopAt = 575 }) => {
+const useTranslateDivWithScroll = ({ parentRef, childRef, margin = 0, startTranslatingAt = null, stopTranslatingAt = null, stopAt = 575 }) => {
   const windowWidth = useWidnowWidth()
   useEffect(() => {
     if (windowWidth > stopAt) {
-      const handler = () => handleScrollPosition(parentRef, childRef, margin)
-
+      const handler = () => handleScrollPosition(parentRef, childRef, margin, startTranslatingAt, stopTranslatingAt)
+      
       window.addEventListener('scroll', handler)
       window.addEventListener('load', handler)
 
@@ -21,10 +21,10 @@ const useTranslateDivWithScroll = ({ parentRef, childRef, margin = 0, stopAt = 5
     } else {
       childRef.current.style.transform = ''
     }
-  }, [parentRef, childRef, margin, windowWidth, stopAt])
+  }, [parentRef, childRef, margin, windowWidth, stopAt, startTranslatingAt, stopTranslatingAt])
 }
 
-const handleScrollPosition = (parentRef, childRef, margin) => {
+const handleScrollPosition = (parentRef, childRef, margin, startTranslatingAt, stopTranslatingAt) => {
   const { top, bottom, height } = parentRef.current.getBoundingClientRect()
 
   const hasReachedBottom = parseFloat(bottom) - parseFloat(childRef.current.offsetHeight) < margin
@@ -33,7 +33,14 @@ const handleScrollPosition = (parentRef, childRef, margin) => {
     : top < 0
     ? Math.floor(Math.abs(top))
     : 0
-  childRef.current.style.transform = `translateY(${newTop}px)`
+  if (
+    (!startTranslatingAt && !stopTranslatingAt) 
+    || (startTranslatingAt && !stopTranslatingAt && window.scrollY > startTranslatingAt)
+    || (stopTranslatingAt && !startTranslatingAt && window.scrollY < stopTranslatingAt)
+    || (window.scrollY > startTranslatingAt && window.scrollY < stopTranslatingAt)
+    ) {
+    childRef.current.style.transform = `translateY(${newTop}px)`
+  }
 }
 
 export default useTranslateDivWithScroll

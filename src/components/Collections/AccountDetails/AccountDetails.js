@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { signOutPending } from '~/store/logout/logout.actions'
 
 import styles from './styles.module.scss'
 import Button from '~/components/UI/Button/Button'
 import dateDisplay from '~/helpers/date'
 import SingleDetail from '~/components/Collections/SingleDetail/SingleDetail'
+import useTranslateDivWithScroll from '~/hooks/useTranslateDivWithScroll'
 
 const AccountDetails = ({
   dispatch,
@@ -18,6 +19,11 @@ const AccountDetails = ({
     emailVerified,
   },
 }) => {
+  const parentRef = useRef()
+  const childRef = useRef()
+
+  useTranslateDivWithScroll({ parentRef, childRef, margin: 30, stopAt: 899, startTranslatingAt: 300 })
+
   const signOutHandler = () => dispatch(signOutPending())
   const singleDetails = [
     { label: 'Name', value: displayName },
@@ -34,21 +40,23 @@ const AccountDetails = ({
     },
   ]
   return (
-    <div className={styles.accountDetails}>
-      <h1>Account Area</h1>
-      <section className={styles.personalDetails}>
-        {singleDetails.map((item, key) => (
-          <SingleDetail key={key} {...item} />
-        ))}
-      </section>
-      <Button
-        label="Sign Out"
-        modifier="filled"
-        className={styles.buttons}
-        icon="signout"
-        iconOnLeftSide
-        onClick={signOutHandler}
-      />
+    <div ref={parentRef} className={styles.accountDetails}>
+      <div ref={childRef}>
+        <h1>Account Area</h1>
+        <section className={styles.personalDetails}>
+          {singleDetails.map((item, key) => (
+            <SingleDetail key={key} {...item} />
+          ))}
+        </section>
+        <Button
+          label="Sign Out"
+          modifier="filled"
+          className={styles.buttons}
+          icon="signout"
+          iconOnLeftSide
+          onClick={signOutHandler}
+        />
+      </div>
     </div>
   )
 }

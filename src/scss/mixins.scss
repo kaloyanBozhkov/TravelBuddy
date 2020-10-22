@@ -56,38 +56,44 @@
     content: '';
     background-color: $orange;
     width: 120%;
-    height: 20%;
+    height: 22vw;
     position: absolute;
     transform: rotate(5deg);
-    bottom: 90%;
+    @include mediaQuery(xs) {
+      height: 32vw;
+    }
+    // bottom: 90%;
   }
   &::before {
     content: '';
     background-color: lighten($orange, 15%);
     width: 120%;
-    height: 20%;
+    height: 18vw;
     position: absolute;
     transform: rotate(7deg);
-    bottom: 87%;
+    @include mediaQuery(xs) {
+      height: 30vw;
+    }
+    // bottom: 87%;
   }
 
   @if ($withAnimation == true) {
     &::before,
     &::after {
-      bottom: 80%;
+      top: -5vw;
       animation-fill-mode: forwards;
       animation-duration: 0.5s;
     }
     &::before {
       animation-name: fallIn;
       animation-delay: 0.2s;
-      transform: translateY(-150%) rotate(7deg);
+      transform: translateY(-100%) rotate(7deg);
     }
 
     &::after {
       animation-name: fallIn2;
       animation-delay: 0.3s;
-      transform: translateY(-150%) rotate(5deg);
+      transform: translateY(-100%) rotate(5deg);
     }
   }
 }

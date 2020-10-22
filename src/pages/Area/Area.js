@@ -34,7 +34,7 @@ const Area = ({ userData, pastTrips, dispatch = (f) => f, history = (f) => f }) 
           ))}
         </div>
       </div>
-      <AccountDetals dispatch={dispatch} userData={userData} />
+      <AccountDetals dispatch={dispatch} userData={userData}/>
     </div>
   )
 }

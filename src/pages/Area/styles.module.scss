@@ -34,7 +34,7 @@
     }
 
     @include breakpoint(tablet-landscape) {
-      margin-top: 15rem;
+      margin-top: 10rem;
     }
 
     .header {
@@ -62,5 +62,8 @@
 
   .tripsContainer {
     margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 4rem;
   }
 }
