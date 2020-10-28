@@ -43,7 +43,7 @@ const NewTrip = ({
     .join(' ')
     .trim()
 
-  return (
+    return (
     <div className={styles.newTrip} ref={googleMapsWrapperRef}>
       <CSSTransition in={isCalculating} appear mountOnEnter unmountOnExit timeout={400}>
         <div className={styles.calculatingOverlay}>
@@ -89,6 +89,7 @@ const NewTrip = ({
           >
             <GoogleMap
               destinations={destinations}
+              optimalTrip={optimalTrip}
               activeDestination={activeDestination}
               startingLocation={startingLocation}
               onCloseDestination={onSelectDestination}

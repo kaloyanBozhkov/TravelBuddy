@@ -20,6 +20,7 @@ const GoogleMap = ({
   activeDestination = -1,
   destinations = [],
   isCalculating = false,
+  optimalTrip = []
 }) => {
   const [location, setLocation] = useState(initialCenter)
   const [infoWindow, setInfoWindow] = useState({
@@ -124,8 +125,8 @@ const GoogleMap = ({
         })()}
       {withRoute &&
         !isCalculating &&
-        [startingLocation, ...destinations].map(({ polylinePaths, uid }) =>
-          polylinePaths.length > 0 ? (
+        ((optimalTrip.length > 0 && optimalTrip) || [startingLocation, ...destinations]).map(({ polylinePaths, uid }) =>
+          polylinePaths.length && polylinePaths.length > 0 ? (
             <Polyline
               key={uid}
               path={polylinePaths}

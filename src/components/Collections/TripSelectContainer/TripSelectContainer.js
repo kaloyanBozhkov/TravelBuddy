@@ -105,18 +105,18 @@ const TripSelectContainer = ({
     onSelectDestination,
   },
 }) => {
-
   const [inputs, onSetInputsHandler, setDefaultInputs] = useInputHandler({
     startingLoc: startingLocation || { lat: null, lng: null, label: '' },
-    errorMsg: []
+    errorMsg: [],
   })
 
-  const setErrorMsg =  useCallback(() => {
-    return (errorMsg) => setDefaultInputs({
-      ...inputs,
-      errorMsg
-    })
-  }, [inputs, setDefaultInputs]) 
+  const setErrorMsg = useCallback(() => {
+    return (errorMsg) =>
+      setDefaultInputs({
+        ...inputs,
+        errorMsg,
+      })
+  }, [inputs, setDefaultInputs])
 
   const clearErrorMsg = (removeForField) =>
     setErrorMsg(inputs.errorMsg.filter(({ field }) => field !== removeForField))
@@ -171,7 +171,7 @@ const TripSelectContainer = ({
       onSetTripStartingLocation(inputs.startingLoc)
     }
   }, [inputs.startingLoc, inputs.errorMsg, onSetTripStartingLocation, setErrorMsg])
- 
+
   return (
     <section className={styles.tripSelectContainer}>
       <DroppingContainer label="Pick your travelling dates!">
@@ -220,11 +220,7 @@ const TripSelectContainer = ({
             onChange={
               // whilst typing handle setting location
               ({ target }) =>
-                handleGoogleAutocompleteChange(
-                  onSetInputsHandler,
-                  target.value,
-                  'startingLoc'
-                )
+                handleGoogleAutocompleteChange(onSetInputsHandler, target.value, 'startingLoc')
             }
             errorMsgHandler={
               inputs.errorMsg.filter(({ field }) => field === 'startingLoc').length > 0 &&
@@ -242,7 +238,7 @@ const TripSelectContainer = ({
                     label: place.formatted_address,
                     lat: place.geometry.location.lat(),
                     lng: place.geometry.location.lng(),
-                  }
+                  },
                 })
             }}
           />
