@@ -46,7 +46,7 @@ const animateCloud = (setClouds, requestAnimRef) => {
   )
 }
 const addCloud = (setClouds, activeTimeouts, requestAnimRef) => {
-  // add 3 clouds each second
+  // add 3 clouds every 2 seconds
 
   const id = setTimeout(() => {
     setClouds((pastClouds) => [...pastClouds, cloudGenerator(), cloudGenerator(), cloudGenerator()])
@@ -56,7 +56,7 @@ const addCloud = (setClouds, activeTimeouts, requestAnimRef) => {
     requestAnimRef.current = window.requestAnimationFrame(() =>
       addCloud(setClouds, activeTimeouts, requestAnimRef)
     )
-  }, 1000)
+  }, 2000)
 
   activeTimeouts.current.push(id)
 }
