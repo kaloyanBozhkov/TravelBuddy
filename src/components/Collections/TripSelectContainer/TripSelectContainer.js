@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect } from 'react'
 
 import DestinationPicker from '~/components/Collections/DestinationPicker/DestinationPicker'
 import DestinationViewer from '~/components/Collections/DestinationViewer/DestinationViewer'
@@ -6,6 +6,9 @@ import DroppingContainer from '~/components/DroppingContainer/DroppingContainer'
 import Input from '~/components/UI/Input/Input'
 import Button from '~/components/UI/Button/Button'
 import ErrorMsg from '~/components/Collections/ErrorMsg/ErrorMsg'
+
+import { handleGoogleAutocompleteChange } from '~/helpers/inputHandlers'
+import useInputHandler from '~/hooks/useInputHandler'
 
 import uid from '~/thirdPartyHelpers/uid'
 
@@ -102,12 +105,21 @@ const TripSelectContainer = ({
     onSelectDestination,
   },
 }) => {
-  const [startingLoc, setStartingLoc] = useState(
-    startingLocation || { lat: null, lng: null, label: '' }
-  )
-  const [errorMsg, setErrorMsg] = useState([])
+
+  const [inputs, onSetInputsHandler, setDefaultInputs] = useInputHandler({
+    startingLoc: startingLocation || { lat: null, lng: null, label: '' },
+    errorMsg: []
+  })
+
+  const setErrorMsg =  useCallback(() => {
+    return (errorMsg) => setDefaultInputs({
+      ...inputs,
+      errorMsg
+    })
+  }, [inputs, setDefaultInputs]) 
+
   const clearErrorMsg = (removeForField) =>
-    setErrorMsg(errorMsg.filter(({ field }) => field !== removeForField))
+    setErrorMsg(inputs.errorMsg.filter(({ field }) => field !== removeForField))
 
   const onAddToTrip = (destination) => {
     if (
@@ -141,31 +153,25 @@ const TripSelectContainer = ({
   // clear error msg for not enough destinations selected
   useEffect(() => {
     if (destinations.length > 1) {
-      setErrorMsg((prevErrors) => prevErrors.filter(({ field }) => field !== 'destination'))
+      setErrorMsg(inputs.errorMsg.filter(({ field }) => field !== 'destination'))
     }
-  }, [destinations])
+  }, [destinations, inputs.errorMsg, setErrorMsg])
 
   // clear error msg for not having set starting location, also update reducer with new startingLocation if destinations do not include the same coords
   useEffect(() => {
-    if (!startingLoc.label || !startingLoc.lat || !startingLoc.lng) {
+    if (!inputs.startingLoc.label || !inputs.startingLoc.lat || !inputs.startingLoc.lng) {
       // if an update happened to startingLoc but lat and lng still are not set it means still typing in, still have not selected an autocomplete value
 
       // clear error msg if it is set!
-      setErrorMsg((prevErrors) => prevErrors.filter(({ field }) => field !== 'startingLoc'))
-    } else if (startingLoc.label === '') {
+      setErrorMsg(inputs.errorMsg.filter(({ field }) => field !== 'startingLoc'))
+    } else if (inputs.startingLoc.label === '') {
       // if it was a full clear of text in where from input, reset value in store so maps reflects change
       onSetTripStartingLocation(null)
     } else {
-      onSetTripStartingLocation(startingLoc)
+      onSetTripStartingLocation(inputs.startingLoc)
     }
-  }, [startingLoc, onSetTripStartingLocation])
-
-  useEffect(() => {
-    if (!startingLocation && startingLoc.label) {
-      setStartingLoc({ lat: null, lng: null, label: '' })
-    }
-  }, [startingLocation, startingLoc.label])
-
+  }, [inputs.startingLoc, inputs.errorMsg, onSetTripStartingLocation, setErrorMsg])
+ 
   return (
     <section className={styles.tripSelectContainer}>
       <DroppingContainer label="Pick your travelling dates!">
@@ -178,7 +184,7 @@ const TripSelectContainer = ({
             icon="calendar"
             onChange={(value) => onSetTripStartDate(value)}
             errorMsgHandler={
-              errorMsg.filter(({ field }) => field === 'startDate').length > 0 &&
+              inputs.errorMsg.filter(({ field }) => field === 'startDate').length > 0 &&
               (() => clearErrorMsg('startDate'))
             }
             selected={startDate && new Date(startDate)}
@@ -193,7 +199,7 @@ const TripSelectContainer = ({
             icon="calendar"
             onChange={(value) => onSetTripEndDate(value)}
             errorMsgHandler={
-              errorMsg.filter(({ field }) => field === 'endDate').length > 0 &&
+              inputs.errorMsg.filter(({ field }) => field === 'endDate').length > 0 &&
               (() => clearErrorMsg('endDate'))
             }
             selected={endDate && new Date(endDate)}
@@ -212,23 +218,31 @@ const TripSelectContainer = ({
             comment="Which city are you going to start your trip from?"
             icon="mapMarkerAlt"
             onChange={
-              // whilst typing handle setting location, with invalid lat lng
-              ({ target }) => setStartingLoc({ label: target.value, lat: null, lng: null })
+              // whilst typing handle setting location
+              ({ target }) =>
+                handleGoogleAutocompleteChange(
+                  onSetInputsHandler,
+                  target.value,
+                  'startingLoc'
+                )
             }
             errorMsgHandler={
-              errorMsg.filter(({ field }) => field === 'startingLoc').length > 0 &&
+              inputs.errorMsg.filter(({ field }) => field === 'startingLoc').length > 0 &&
               (() => clearErrorMsg('startingLoc'))
             }
-            value={startingLoc.label}
+            value={inputs.startingLoc.label}
             type="googleAutocomplete"
             onPlaceSelected={(place) => {
               // check if selection returned invaliv obj (pressing enter on unfinished typed text)
               !place.hasOwnProperty('name') &&
                 // once place has been selected, handle setting it in state
-                setStartingLoc({
-                  label: place.formatted_address,
-                  lat: place.geometry.location.lat(),
-                  lng: place.geometry.location.lng(),
+                setDefaultInputs({
+                  ...inputs,
+                  startingLoc: {
+                    label: place.formatted_address,
+                    lat: place.geometry.location.lat(),
+                    lng: place.geometry.location.lng(),
+                  }
                 })
             }}
           />
@@ -254,8 +268,8 @@ const TripSelectContainer = ({
 
       <section className={styles.errorMsgArea}>
         <ErrorMsg
-          show={errorMsg.length > 0}
-          errorMsg={errorMsg}
+          show={inputs.errorMsg.length > 0}
+          errorMsg={inputs.errorMsg}
           isCard
           title="Oops! Cannot continue.."
           onClose={() => setErrorMsg([])}
@@ -274,7 +288,7 @@ const TripSelectContainer = ({
           onCalculateOptimalTrip(
             startDate,
             endDate,
-            startingLoc,
+            inputs.startingLoc,
             destinations,
             setErrorMsg,
             onSetTrip
