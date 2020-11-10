@@ -5,15 +5,16 @@ import { ReactComponent as Cloud2 } from '~/assets/cloud2.svg'
 import uid from '~/thirdPartyHelpers/uid'
 
 const cloudGenerator = () => {
-  const isFlipped = Math.floor(Math.random() * 2)
+  const r = Math.random()
+  const isFlipped = Math.floor(r * 2)
 
   const cloudConfig = {
     cloudId: uid(),
-    cloudType: Math.floor(Math.random() * 2) + 1, // 1 or 2
+    cloudType: Math.floor(r * 2) + 1, // 1 or 2
     right: '0%',
-    top: `${Math.floor(Math.random() * 90) + 5}%`, // 5 to 95
-    opacity: (Math.floor(Math.random() * 7) + 3) / 10,
-    transform: `scale(${(Math.floor(Math.random() * 6) + 10) / 10})${
+    top: `${Math.floor(r * 90) + 5}%`, // 5 to 95
+    opacity: (Math.floor(r * 7) + 3) / 10,
+    transform: `scale(${(Math.floor(r * 6) + 10) / 10})${
       isFlipped ? ' rotateY(180deg)' : ''
     } translateX(${isFlipped ? '-' : ''}100%)`,
     exiting: false,
@@ -46,9 +47,10 @@ const animateCloud = (setClouds, requestAnimRef) => {
   )
 }
 const addCloud = (setClouds, activeTimeouts, requestAnimRef) => {
-  // add 3 clouds every 2 seconds
+  // add 3 clouds every 2.5 seconds
 
   const id = setTimeout(() => {
+
     setClouds((pastClouds) => [...pastClouds, cloudGenerator(), cloudGenerator(), cloudGenerator()])
 
     // after runing callback, clear timeout id from the tracker variable
@@ -56,7 +58,7 @@ const addCloud = (setClouds, activeTimeouts, requestAnimRef) => {
     requestAnimRef.current = window.requestAnimationFrame(() =>
       addCloud(setClouds, activeTimeouts, requestAnimRef)
     )
-  }, 4000)
+  }, 2500)
 
   activeTimeouts.current.push(id)
 }
