@@ -70,16 +70,13 @@ const addDestination = (state, destination) => ({
   destinations: [...state.destinations, destination],
 })
 
-const editDestination = (state, { destinationIndex, newDestinationData }) => {
-  const copy = [...state.destinations]
-
-  copy[destinationIndex] = newDestinationData
-
-  return {
-    ...state,
-    destinations: copy,
-  }
-}
+const editDestination = (state, newDestinationData) => ({
+  ...state,
+  destinations: state.destinations.map((d) => {
+    if (d.uid !== newDestinationData.uid) return d
+    return newDestinationData
+  }),
+})
 
 const deleteDestination = (state, destinationIndex) => ({
   ...state,

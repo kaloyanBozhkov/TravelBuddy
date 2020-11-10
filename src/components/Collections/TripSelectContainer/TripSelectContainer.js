@@ -32,11 +32,11 @@ const onCalculateOptimalTrip = (
   // will implicitly convert null to 0 and compate timestamps
   if (+startDate >= +endDate) errors['endDate2'] = 'Make sure end date is greater than start date'
 
-  // invalid start location chosen, either not set at all or not properly selected from google autocomplete
-  if (!startingLoc.label || !startingLoc.lat || !startingLoc.lng) errors['startingLoc1'] = 'Must have provided a valid starting location'
-
   // check at least two destinations added
   if (destinations.length <= 1) errors['destination1'] = 'Make sure to have added two or more destinations'
+
+  // invalid start location chosen, either not set at all or not properly selected from google autocomplete
+  if (!startingLoc.label || !startingLoc.lat || !startingLoc.lng) errors['startingLoc1'] = 'Must have provided a valid starting location'
 
   // are starting loc's coords in the destinations arr already?
   if (

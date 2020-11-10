@@ -28,9 +28,9 @@ export const addDestination = (destination) => ({
   payload: destination,
 })
 
-export const editDestination = (destinationIndex, newDestinationData) => ({
+export const editDestination = (newDestinationData) => ({
   type: EDIT_DESTINATION,
-  payload: { destinationIndex, newDestinationData },
+  payload: newDestinationData,
 })
 
 export const deleteDestination = (destinationIndex) => ({
