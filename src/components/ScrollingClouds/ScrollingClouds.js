@@ -56,7 +56,7 @@ const addCloud = (setClouds, activeTimeouts, requestAnimRef) => {
     requestAnimRef.current = window.requestAnimationFrame(() =>
       addCloud(setClouds, activeTimeouts, requestAnimRef)
     )
-  }, 2000)
+  }, 4000)
 
   activeTimeouts.current.push(id)
 }

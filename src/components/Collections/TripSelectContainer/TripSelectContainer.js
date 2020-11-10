@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect } from 'react'
+import React, { useEffect, useState, useLayoutEffect } from 'react'
 
 import DestinationPicker from '~/components/Collections/DestinationPicker/DestinationPicker'
 import DestinationViewer from '~/components/Collections/DestinationViewer/DestinationViewer'
@@ -22,46 +22,21 @@ const onCalculateOptimalTrip = (
   setErrorMsg,
   onSetTrip
 ) => {
-  const errors = []
+  const errors = {}
 
   // check start and end date for valid values
-  if (!startDate) {
-    errors.push({
-      field: 'startDate',
-      error: 'Make sure start date is set',
-    })
-  }
+  if (!startDate) errors['startDate'] = 'Make sure start date is set'
 
-  if (!endDate) {
-    errors.push({
-      field: 'endDate',
-      error: 'Make sure end date is set',
-    })
-  }
+  if (!endDate) errors['endDate1'] = 'Make sure end date is set'
 
   // will implicitly convert null to 0 and compate timestamps
-  if (+startDate >= +endDate) {
-    errors.push({
-      field: 'endDate',
-      error: 'Make sure end date is greater than start date',
-    })
-  }
+  if (+startDate >= +endDate) errors['endDate2'] = 'Make sure end date is greater than start date'
 
   // invalid start location chosen, either not set at all or not properly selected from google autocomplete
-  if (!startingLoc.label || !startingLoc.lat || !startingLoc.lng) {
-    errors.push({
-      field: 'startingLoc',
-      error: 'Must have provided a valid starting location',
-    })
-  }
+  if (!startingLoc.label || !startingLoc.lat || !startingLoc.lng) errors['startingLoc1'] = 'Must have provided a valid starting location'
 
   // check at least two destinations added
-  if (destinations.length <= 1) {
-    errors.push({
-      field: 'destination',
-      error: 'Make sure to have added two or more destinations',
-    })
-  }
+  if (destinations.length <= 1) errors['destination1'] = 'Make sure to have added two or more destinations'
 
   // are starting loc's coords in the destinations arr already?
   if (
@@ -71,21 +46,29 @@ const onCalculateOptimalTrip = (
     destinations.filter(
       ({ location: { lat, lng } }) => startingLoc.lat === lat && startingLoc.lng === lng
     ).length
-  ) {
-    // starting loc is in destinations, will not be set!
-    errors.push({
-      field: 'startingLoc',
-      error:
-        'Starting location cannot also be a destination! Must either change the starting location or remove the destination',
-    })
-  }
+  ) errors['startingLoc2'] = 'Starting location cannot also be a destination! Must either change the starting location or remove the destination'
 
-  if (errors.length) {
+  if (Object.values(errors).length) {
     setErrorMsg(errors)
   } else {
     onSetTrip(startDate, endDate, destinations, startingLoc)
   }
 }
+
+// remove specified prop from given obj
+const removePropFromObj = (removeForField, obj) => {
+  const newObj = {}
+  for (let key in obj) {
+    // if key is not same or not almost same (destinatio1, destination2 but key is destination)
+    if (key !== removeForField && key.indexOf(removeForField) !== 0) {
+      newObj[key] = obj[key]
+    } 
+  }
+  return newObj
+}
+
+// find a key with matching substr
+const objHasSubstrProp = (prop, obj) => !!Object.keys(obj).find((property) => property.indexOf(prop) === 0)
 
 const TripSelectContainer = ({
   startDate,
@@ -107,19 +90,9 @@ const TripSelectContainer = ({
 }) => {
   const [inputs, onSetInputsHandler, setDefaultInputs] = useInputHandler({
     startingLoc: startingLocation || { lat: null, lng: null, label: '' },
-    errorMsg: [],
   })
 
-  const setErrorMsg = useCallback(() => {
-    return (errorMsg) =>
-      setDefaultInputs({
-        ...inputs,
-        errorMsg,
-      })
-  }, [inputs, setDefaultInputs])
-
-  const clearErrorMsg = (removeForField) =>
-    setErrorMsg(inputs.errorMsg.filter(({ field }) => field !== removeForField))
+  const [errorMsg, setErrorMsg] = useState({})
 
   const onAddToTrip = (destination) => {
     if (
@@ -132,14 +105,10 @@ const TripSelectContainer = ({
             startingLocation.lng === destination.location.lng)
       ).length
     ) {
-      setErrorMsg((errors) => [
-        ...errors,
-        {
-          field: ' destination',
-          error:
-            'A destination can be added only once! Make sure to not have duplicate destinations, or that the starting location is not also in the list of destinations',
-        },
-      ])
+      setErrorMsg(({
+        ...errorMsg,
+        destination3: 'A destination can be added only once! Make sure to not have duplicate destinations, or that the starting location is not also in the list of destinations'
+      }))
     } else {
       onAddDestination({ ...destination, uid: uid() })
     }
@@ -152,25 +121,22 @@ const TripSelectContainer = ({
 
   // clear error msg for not enough destinations selected
   useEffect(() => {
-    if (destinations.length > 1) {
-      setErrorMsg(inputs.errorMsg.filter(({ field }) => field !== 'destination'))
+    if (destinations.length > 1 && objHasSubstrProp('destination', errorMsg)) {
+      setErrorMsg(removePropFromObj('destination', errorMsg))
     }
-  }, [destinations, inputs.errorMsg, setErrorMsg])
+  }, [destinations, inputs, setDefaultInputs, errorMsg])
 
   // clear error msg for not having set starting location, also update reducer with new startingLocation if destinations do not include the same coords
   useEffect(() => {
+    // if an update happened to startingLoc but lat and lng still are not set it means still typing in, still have not selected an autocomplete value
     if (!inputs.startingLoc.label || !inputs.startingLoc.lat || !inputs.startingLoc.lng) {
-      // if an update happened to startingLoc but lat and lng still are not set it means still typing in, still have not selected an autocomplete value
 
-      // clear error msg if it is set!
-      setErrorMsg(inputs.errorMsg.filter(({ field }) => field !== 'startingLoc'))
-    } else if (inputs.startingLoc.label === '') {
       // if it was a full clear of text in where from input, reset value in store so maps reflects change
       onSetTripStartingLocation(null)
     } else {
       onSetTripStartingLocation(inputs.startingLoc)
     }
-  }, [inputs.startingLoc, inputs.errorMsg, onSetTripStartingLocation, setErrorMsg])
+  }, [onSetTripStartingLocation, inputs, setDefaultInputs, errorMsg])
 
   return (
     <section className={styles.tripSelectContainer}>
@@ -184,8 +150,8 @@ const TripSelectContainer = ({
             icon="calendar"
             onChange={(value) => onSetTripStartDate(value)}
             errorMsgHandler={
-              inputs.errorMsg.filter(({ field }) => field === 'startDate').length > 0 &&
-              (() => clearErrorMsg('startDate'))
+              objHasSubstrProp('startDate', errorMsg) &&
+              (() => setErrorMsg(removePropFromObj('startDate', errorMsg)))
             }
             selected={startDate && new Date(startDate)}
             type="date"
@@ -199,8 +165,8 @@ const TripSelectContainer = ({
             icon="calendar"
             onChange={(value) => onSetTripEndDate(value)}
             errorMsgHandler={
-              inputs.errorMsg.filter(({ field }) => field === 'endDate').length > 0 &&
-              (() => clearErrorMsg('endDate'))
+              objHasSubstrProp('endDate', errorMsg) &&
+              (() => setErrorMsg(removePropFromObj('endDate', errorMsg)))
             }
             selected={endDate && new Date(endDate)}
             type="date"
@@ -223,8 +189,8 @@ const TripSelectContainer = ({
                 handleGoogleAutocompleteChange(onSetInputsHandler, target.value, 'startingLoc')
             }
             errorMsgHandler={
-              inputs.errorMsg.filter(({ field }) => field === 'startingLoc').length > 0 &&
-              (() => clearErrorMsg('startingLoc'))
+              objHasSubstrProp('startingLoc', errorMsg) &&
+              (() => setErrorMsg(removePropFromObj('startingLoc', errorMsg)))
             }
             value={inputs.startingLoc.label}
             type="googleAutocomplete"
@@ -233,7 +199,6 @@ const TripSelectContainer = ({
               !place.hasOwnProperty('name') &&
                 // once place has been selected, handle setting it in state
                 setDefaultInputs({
-                  ...inputs,
                   startingLoc: {
                     label: place.formatted_address,
                     lat: place.geometry.location.lat(),
@@ -264,11 +229,11 @@ const TripSelectContainer = ({
 
       <section className={styles.errorMsgArea}>
         <ErrorMsg
-          show={inputs.errorMsg.length > 0}
-          errorMsg={inputs.errorMsg}
+          show={Object.values(errorMsg).length > 0}
+          errorMsg={Object.values(errorMsg)}
           isCard
           title="Oops! Cannot continue.."
-          onClose={() => setErrorMsg([])}
+          onClose={() => setErrorMsg({})}
           unmountOnExit
           mountOnEnter
         />
@@ -286,7 +251,7 @@ const TripSelectContainer = ({
             endDate,
             inputs.startingLoc,
             destinations,
-            setErrorMsg,
+            (errors) => setErrorMsg({ ...errorMsg, ...errors }),
             onSetTrip
           )
         }
