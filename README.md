@@ -1,8 +1,8 @@
 ## TravelBuddy
 
 Travel application, work in progress.
-Live demo of progress:
-https://travel-buddy-app-project.herokuapp.com/home
+Live:
+http://kaloyanbozhkov.com/travelbuddy
 
-Demo of current version (as of writing this):
-https://youtu.be/eCG5_6DTAk8
+Demo:
+https://www.youtube.com/watch?v=k4oj9H-HHP0
