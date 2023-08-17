@@ -1,7 +1,7 @@
-@import 'scss/mixins';
-@import 'scss/variables';
-@import 'scss/media';
-@import 'scss/keyframes';
+@import "scss/mixins";
+@import "scss/variables";
+@import "scss/media";
+@import "scss/keyframes";
 .accountDetails {
   display: flex;
   flex-direction: column;
@@ -35,7 +35,9 @@
   .buttons {
     height: 4.5rem;
     width: 60%;
+    min-width: fit-content;
     font-size: 2rem;
+    padding: 0 15px;
     margin: 0 auto;
   }
 
@@ -53,7 +55,7 @@
       justify-content: flex-start;
       margin: 2rem 0 2rem 0;
     }
-    
+
     > div {
       margin-bottom: 1rem;
       transition: 0.4s;

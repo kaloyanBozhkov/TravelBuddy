@@ -32,9 +32,14 @@ const Area = ({ userData, pastTrips, dispatch = (f) => f, history = (f) => f }) 
               {...trip}
             />
           ))}
+          {!pastTrips.length && (
+            <div style={{ marginLeft: '40px' }}>
+              <h1>No trips created yet. Go plan some and they will appear here!</h1>
+            </div>
+          )}
         </div>
       </div>
-      <AccountDetals dispatch={dispatch} userData={userData}/>
+      <AccountDetals dispatch={dispatch} userData={userData} />
     </div>
   )
 }
