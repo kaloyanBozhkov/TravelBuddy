@@ -12,9 +12,10 @@ const WelcomeArea = () => {
     <div className={styles.welcomeArea}>
       <div className={styles.container}>
         <p>
-          For norland produce age wishing. To figure on it spring season up. Her provision acuteness
-          had excellent two why intention. As called mr needed praise at. Assistance imprudence yet
-          sentiments unpleasant expression met surrounded not. Be at talked ye though secure nearer.
+          Whether you're a wanderlust enthusiast or a seasoned explorer, let Travel Buddy pave the
+          way for efficient, unforgettable journeys. Your next adventure starts here! Seamlessly
+          plan new trips and optimize your routes, all while enjoying the convenience of managing
+          your account effortlessly.
         </p>
         <Link to="/new-trip" modifier="filled">
           <Button label="Plan a New Trip!" modifier="filled" />
