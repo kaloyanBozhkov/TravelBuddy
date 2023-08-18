@@ -1,10 +1,10 @@
-@import 'scss/mixins';
-@import 'scss/variables';
-@import 'scss/keyframes';
-@import 'scss/media';
+@import "scss/mixins";
+@import "scss/variables";
+@import "scss/keyframes";
+@import "scss/media";
 
 .informationSection {
-  font-family: 'Kanit';
+  font-family: "Kanit";
 
   display: flex;
   flex-direction: column;
@@ -47,6 +47,7 @@
       font-weight: 100;
       font-size: 1.6rem;
       text-align: justify;
+      min-height: 193px;
     }
   }
 
