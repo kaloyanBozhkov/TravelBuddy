@@ -15,25 +15,22 @@ import reactLogo from '~/assets/reactLogo.png'
 const infoSections = [
   {
     title: 'Complete Travel Solution',
-    text:
-      'Unpacked now declared put you confined daughter improved. Celebrated imprudence few interested especially reasonable off one. Wonder bed elinor family secure met. It want gave west into high no in. Depend repair met before man admire see and. An he observe be it covered delight hastily message. Margaret no ladyship endeavor ye to settling. ',
+    text: `Through the power of the Google Maps API, we transform complex road trip planning into a breeze. Our system analyzes all possible routes, leveraging Google's technology to select the absolute best path for your adventure. Say goodbye to uncertainty – with Travel Buddy, every mile is maximized for an unforgettable journey.`,
     image: cube,
     imageAlt: 'Cube',
     imgFirst: true,
   },
   {
     title: 'All You Need - 1 Place',
-    text:
-      'Unpacked now declared put you confined daughter improved. Celebrated imprudence few interested especially reasonable off one. Wonder bed elinor family secure met. It want gave west into high no in. Depend repair met before man admire see and. An he observe be it covered delight hastily message. Margaret no ladyship endeavor ye to settling. ',
+    text: `Plan a trip while signed in, and we'll store it securely in your Account. Effortlessly track, access, and relive your adventures, complete with start and end dates, checkpoints, and optimized routes. Travel smart, with all your trips in one place.`,
     image: allInOnePlace,
     imageAlt: 'All you need, from one source',
     imgFirst: false,
     imageWhiteBackground: true,
   },
   {
-    title: 'Secure Sources - Rest Assured!',
-    text:
-      'Unpacked now declared put you confined daughter improved. Celebrated imprudence few interested especially reasonable off one. Wonder bed elinor family secure met. It want gave west into high no in. Depend repair met before man admire see and. An he observe be it covered delight hastily message. Margaret no ladyship endeavor ye to settling. ',
+    title: 'Reliable Data, Optimal Routes!',
+    text: `Travel Buddy guarantees accuracy by using the trusted Google Maps API for city distances. Our secret to finding the best routes? The OSPF algorithm. Your journeys are secured with dependable data and the smartest paths, all in one package.`,
     image: socialSecurity,
     imageAlt: 'Social Security',
     imgFirst: true,
@@ -41,8 +38,7 @@ const infoSections = [
   },
   {
     title: 'Safe Travel',
-    text:
-      'Unpacked now declared put you confined daughter improved. Celebrated imprudence few interested especially reasonable off one. Wonder bed elinor family secure met. It want gave west into high no in. Depend repair met before man admire see and. An he observe be it covered delight hastily message. Margaret no ladyship endeavor ye to settling. ',
+    text: `While Travel Buddy provides optimal routes for your journeys, safety remains paramount. We're here to enhance your experience, but remember, road conditions and unexpected events can arise. Always prioritize safety when making travel decisions. Our routes are guides, not absolutes. Your well-being comes first on every adventure.`,
     image: airplaneImg,
     imageAlt: 'Airplane',
     imgFirst: false,
